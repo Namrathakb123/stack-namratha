@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.out/
+.vercel/
+
+# generated files
+*.pdf
+
+# caches
+.playwright/
+playwright/.cache/
+.vite/
+.cache/
+
+# environment
+.env
+.env.*
+!.env.example
+.vercel
+.env*.local

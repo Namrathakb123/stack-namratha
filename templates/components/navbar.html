@@ -1,0 +1,47 @@
+<nav class="glass-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+        <!-- Text-Only Brand -->
+        <a href="/"
+            class="text-white text-xl font-bold font-display tracking-tight hover:opacity-80 transition-opacity">
+            stackeducation
+        </a>
+
+        <!-- Navigation Items (Desktop) -->
+        <div class="hidden md:flex items-center gap-10">
+            <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors"
+                href="/#ecosystem">Ecosystem</a>
+            <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors"
+                href="/stackup">StackUp</a>
+            <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors"
+                href="/stacklabs">StackLabs</a>
+            <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors"
+                href="/stackbuild">StackBuild</a>
+            <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors"
+                href="/pixelcraft">PixelCraft</a>
+            <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors"
+                href="/#community">Community</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-white p-2" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+            <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+    </div>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu"
+        class="hidden md:hidden bg-[#0a0a0c]/95 backdrop-blur-xl border-b border-white/5 absolute top-20 left-0 right-0 p-6 flex flex-col gap-6 shadow-2xl transition-all">
+        <a class="text-lg font-medium text-white hover:text-primary transition-colors"
+            href="/#ecosystem" onclick="toggleMobileMenu()">Ecosystem</a>
+        <a class="text-lg font-medium text-white hover:text-primary transition-colors"
+            href="/stackup" onclick="toggleMobileMenu()">StackUp</a>
+        <a class="text-lg font-medium text-white hover:text-primary transition-colors"
+            href="/stacklabs" onclick="toggleMobileMenu()">StackLabs</a>
+        <a class="text-lg font-medium text-white hover:text-primary transition-colors"
+            href="/stackbuild" onclick="toggleMobileMenu()">StackBuild</a>
+        <a class="text-lg font-medium text-white hover:text-primary transition-colors"
+            href="/pixelcraft" onclick="toggleMobileMenu()">PixelCraft</a>
+        <a class="text-lg font-medium text-white hover:text-primary transition-colors"
+            href="/#community" onclick="toggleMobileMenu()">Community</a>
+    </div>
+</nav>

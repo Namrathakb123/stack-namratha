@@ -1,0 +1,1121 @@
+{% extends "base.html" %}
+{% block title %}PixelCraft Studio — Video Editing & Digital Media Marketing{% endblock %}
+
+{% block content %}
+<style>
+  /* ─── Variables ─── */
+  :root {
+    --pc-purple: #8b5cf6;
+    --pc-pink: #d946ef;
+    --pc-dark: #0a0a0c;
+    --pc-card: rgba(255, 255, 255, 0.04);
+  }
+
+  /* ─── Utilities ─── */
+  .pc-grad-text {
+    background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #f0abfc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 99px;
+    padding: 5px 14px;
+  }
+
+  .pc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .2s;
+  }
+
+  .pc-btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, var(--pc-purple), var(--pc-pink));
+    box-shadow: 0 0 28px rgba(139, 92, 246, 0.4);
+  }
+
+  .pc-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 44px rgba(139, 92, 246, 0.6);
+  }
+
+  .pc-btn-outline {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .pc-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(139, 92, 246, 0.5);
+  }
+
+  .pc-card {
+    background: var(--pc-card);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+  }
+
+  .pc-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.35);
+    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.12);
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Hero ─── */
+  #pc-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--pc-dark);
+  }
+
+  #pc-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%238b5cf6' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Ticker ─── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: #080809;
+  }
+
+  .ticker {
+    display: flex;
+    animation: ticker 30s linear infinite;
+    width: max-content;
+  }
+
+  .ticker:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 28px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+
+  .ticker-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--pc-purple);
+    flex-shrink: 0;
+  }
+
+  /* ─── Portfolio / Reels ─── */
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 24px;
+  }
+
+  .ig-wrap {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+
+  .ig-wrap:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+
+  .ig-wrap .instagram-media {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    min-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .ig-placeholder {
+    position: relative;
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 36px 20px;
+    overflow: hidden;
+  }
+
+  .ig-orb {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+  }
+
+  .ig-play {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+    transition: transform .2s;
+    z-index: 2;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .ig-play:hover {
+    transform: scale(1.1);
+  }
+
+  .ig-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    z-index: 2;
+    margin: 0;
+    text-align: center;
+  }
+
+  .ig-link {
+    color: #c4b5fd;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 2;
+  }
+
+  .ig-link:hover {
+    color: #fff;
+  }
+
+  .ig-hint {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 11px;
+    z-index: 2;
+    margin: 0;
+    text-align: center;
+  }
+
+  .ig-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* ─── Pricing ─── */
+  .pc-popular {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(217, 70, 239, 0.07));
+    border-color: rgba(139, 92, 246, 0.4) !important;
+    position: relative;
+  }
+
+  .pc-popular::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--pc-purple), var(--pc-pink));
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    padding: 4px 16px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+
+  .pc-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .pc-stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 50px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  /* ─── FAQ ─── */
+  .faq-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .faq-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    gap: 16px;
+    text-align: left;
+  }
+
+  .faq-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform .3s, background .3s;
+    font-size: 18px;
+    color: #c4b5fd;
+    line-height: 1;
+  }
+
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    background: rgba(139, 92, 246, 0.4);
+  }
+
+  .faq-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .faq-item.open .faq-body {
+    max-height: 300px;
+    padding-bottom: 20px;
+  }
+
+  /* ─── Form ─── */
+  .pc-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .pc-input:focus {
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  }
+
+  .pc-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .pc-input option {
+    background: #1a1a1f;
+  }
+
+  @media(max-width:640px) {
+    .pc-price {
+      font-size: 36px;
+    }
+
+    .pc-stat-num {
+      font-size: 36px;
+    }
+
+    .ig-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section id="pc-hero" class="pt-20">
+  <div class="orb" style="width:580px;height:580px;background:rgba(139,92,246,0.18);top:-200px;right:-140px;"></div>
+  <div class="orb" style="width:380px;height:380px;background:rgba(217,70,239,0.12);bottom:-80px;left:-80px;"></div>
+  <div class="orb" style="width:280px;height:280px;background:rgba(59,130,246,0.1);top:35%;left:42%;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10 py-16 lg:py-24">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+
+      <!-- Copy -->
+      <div data-aos="fade-right" data-aos-duration="700">
+        <span class="pc-tag mb-4 inline-flex">Digital Media Studio</span>
+        <h1 class="text-4xl lg:text-6xl font-black font-display leading-[1.1] mb-5">
+          <span class="pc-grad-text">PixelCraft</span><br>
+          <span class="text-white">Studio</span>
+        </h1>
+        <p class="text-gray-400 text-base lg:text-lg leading-relaxed mb-8 max-w-lg">
+          Cinematic video editing, Reels that stop the scroll, brand films that convert — crafted for the digital-first
+          world. Your vision, our frames.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#pc-contact" class="pc-btn pc-btn-primary py-3 px-6 text-sm">
+            Start a Project
+          </a>
+          <a href="#pc-portfolio" class="pc-btn pc-btn-outline py-3 px-6 text-sm">
+            View Portfolio
+          </a>
+        </div>
+        <!-- Mini stats -->
+        <div class="flex gap-8 mt-10 pt-8 border-t border-white/10">
+          <div>
+            <div class="text-white text-2xl font-black font-display">200+</div>
+            <div class="text-gray-500 text-xs mt-0.5">Videos Edited</div>
+          </div>
+          <div>
+            <div class="text-white text-2xl font-black font-display">50+</div>
+            <div class="text-gray-500 text-xs mt-0.5">Happy Clients</div>
+          </div>
+          <div>
+            <div class="text-white text-2xl font-black font-display">3M+</div>
+            <div class="text-gray-500 text-xs mt-0.5">Views Generated</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero reel card -->
+      <div data-aos="fade-left" data-aos-duration="800" class="flex justify-center lg:justify-end">
+        <div class="relative w-full max-w-[420px]">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/20 rounded-3xl blur-2xl"></div>
+          <div class="relative pc-card p-3 rounded-3xl flex flex-col gap-3">
+            
+            <!-- Custom Instagram Profile Mockup -->
+            <div class="bg-white rounded-[20px] overflow-hidden shadow-inner">
+              <!-- Header -->
+              <div class="flex items-center gap-4 p-4 border-b border-gray-100">
+                <div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 p-1 flex-shrink-0">
+                  <!-- Simulated Profile Pic -->
+                  <div class="w-full h-full rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-400">GMU</div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-1">
+                    <h3 class="text-black font-bold text-sm">sa.gmu</h3>
+                    <span class="text-blue-500 material-symbols-outlined text-[14px]">verified</span>
+                  </div>
+                  <p class="text-gray-500 text-xs font-medium">Student Affairs | GM University</p>
+                  <p class="text-gray-400 text-[10px] mt-0.5">1,199 followers · 246 posts</p>
+                </div>
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center p-[2px]">
+                    <div class="w-full h-full bg-white rounded flex items-center justify-center"><div class="w-2 h-2 rounded-full border-2 border-black"></div></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Image Grid 3x2 -->
+              <div class="grid grid-cols-3 gap-0.5 bg-gray-100">
+                <!-- Reel 1 -->
+                <div class="aspect-square bg-gray-200 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                  <div class="absolute top-1 right-1 text-white"><span class="material-symbols-outlined text-[16px] drop-shadow-md">play_arrow</span></div>
+                </div>
+                <!-- Reel 2 -->
+                <div class="aspect-square bg-gray-300 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1523580494112-071d16940864?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                  <div class="absolute top-1 right-1 text-white"><span class="material-symbols-outlined text-[16px] drop-shadow-md">play_arrow</span></div>
+                </div>
+                <!-- Reel 3 -->
+                <div class="aspect-square bg-gray-200 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                  <div class="absolute top-1 right-1 text-white"><span class="material-symbols-outlined text-[16px] drop-shadow-md">play_arrow</span></div>
+                </div>
+                <!-- Reel 4 -->
+                <div class="aspect-square bg-gray-300 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                  <div class="absolute top-1 right-1 text-white"><span class="material-symbols-outlined text-[16px] drop-shadow-md">layers</span></div>
+                </div>
+                <!-- Reel 5 -->
+                <div class="aspect-square bg-gray-200 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                  <div class="absolute top-1 right-1 text-white"><span class="material-symbols-outlined text-[16px] drop-shadow-md">play_arrow</span></div>
+                </div>
+                <!-- Reel 6 -->
+                <div class="aspect-square bg-gray-300 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                  <div class="absolute top-1 right-1 text-white"><span class="material-symbols-outlined text-[16px] drop-shadow-md">layers</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Footer (Studio Status) -->
+            <div class="flex items-center gap-3 px-2 py-1">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs flex-shrink-0 shadow-lg">PC</div>
+              <div>
+                <p class="text-white font-semibold text-xs tracking-wide">PixelCraft Studio</p>
+                <p class="text-gray-500 text-[10px]">Video Editing · Motion · Reels</p>
+              </div>
+              <div class="ml-auto flex items-center gap-1.5 bg-green-500/10 px-2 py-1 rounded-full border border-green-500/20">
+                <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+                <span class="text-green-400 text-[10px] font-bold uppercase tracking-wider">Available</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TICKER ════════════════════════ -->
+<div class="ticker-wrap py-5 border-y border-white/[0.06]">
+  <div class="ticker">
+    {% set skills=['Video Editing','Instagram Reels','Brand Films','Motion Graphics','Color Grading','YouTube
+    Shorts','Ad Creatives','Cinematic Cuts','Podcast Editing','Social Media Content','Thumbnail Design','Corporate
+    Videos','Event Highlights','Product Videos'] %}
+    {% for s in skills %}<span class="ticker-item"><span class="ticker-dot"></span>{{ s }}</span>{% endfor %}
+    {% for s in skills %}<span class="ticker-item"><span class="ticker-dot"></span>{{ s }}</span>{% endfor %}
+  </div>
+</div>
+
+<!-- ════════════════════════ SERVICES ════════════════════════ -->
+<section id="pc-services" class="py-28 relative overflow-hidden">
+  <div class="orb" style="width:480px;height:480px;background:rgba(139,92,246,0.07);top:-120px;left:-180px;"></div>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <span class="pc-tag mb-4">What We Do</span>
+      <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4 mb-4">Services That <span
+          class="pc-grad-text">Drive Results</span></h2>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">From raw footage to scroll-stopping content — every frame
+        handled with precision.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% set svcs=[
+      ('from-purple-500/20 to-purple-900/10','Cinematic Video Editing','Professional cuts, transitions & pacing.
+      Premiere Pro & DaVinci Resolve.','Premiere Pro','DaVinci','After Effects'),
+      ('from-pink-500/20 to-pink-900/10','Instagram Reels & Shorts','Hook-first, algorithm-optimized vertical content.
+      Trending transitions & captions.','Reels','Shorts','TikTok'),
+      ('from-blue-500/20 to-blue-900/10','Motion Graphics & VFX','Animated logos, kinetic typography, lower thirds &
+      custom overlays.','After Effects','Motion','VFX'),
+      ('from-amber-500/20 to-amber-900/10','Color Grading','Cinema-quality color science. LUT creation & skin-tone
+      perfection.','LUTs','DaVinci','Colorist'),
+      ('from-green-500/20 to-green-900/10','Ad & Performance Creatives','High-converting video ads for Meta, YouTube &
+      Google. Hook → Benefit → CTA.','Meta Ads','YouTube Ads','UGC'),
+      ('from-red-500/20 to-red-900/10','Podcast & Long-form','Multi-cam editing, audio sync, chapter markers & branded
+      thumbnails.','Podcast','Long-form','YouTube'),
+      ] %}
+      {% for grad,title,desc,t1,t2,t3 in svcs %}
+      <div class="pc-card p-6" data-aos="fade-up" data-aos-delay="{{ loop.index0*80 }}">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br {{ grad }} flex items-center justify-center text-3xl mb-4">
+        </div>
+        <h3 class="text-white font-bold text-base mb-2">{{ title }}</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">{{ desc }}</p>
+        <div class="flex flex-wrap gap-2">
+          {% for t in [t1,t2,t3] %}<span
+            class="text-xs px-3 py-1 rounded-full bg-white/5 text-gray-300 border border-white/10">{{ t }}</span>{%
+          endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ STATS ════════════════════════ -->
+<section class="py-20 bg-gradient-to-r from-[#0d0b18] via-[#120f1e] to-[#0d0b18] border-y border-white/[0.05]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 text-center">
+      {% for num,label in [('200+','Videos Edited'),('50+','Happy Clients'),('3M+','Total Views'),('4.9','Avg Rating')]
+      %}
+      <div data-aos="zoom-in" data-aos-delay="{{ loop.index0*100 }}">
+        <div class="pc-stat-num">{{ num }}</div>
+        <div class="text-gray-500 text-sm mt-1">{{ label }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PORTFOLIO / REELS ════════════════════════ -->
+<section id="pc-portfolio" class="py-28 relative overflow-hidden">
+  <div class="orb" style="width:420px;height:420px;background:rgba(217,70,239,0.08);bottom:-100px;right:-80px;"></div>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-12" data-aos="fade-up">
+      <span class="pc-tag mb-4">Our Work</span>
+      <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4 mb-4">Client Portfolio & Showcase</h2>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-2">Featuring edited works for our principal client <a
+          href="https://www.instagram.com/sa.gmu/" target="_blank"
+          class="text-purple-400 hover:text-white transition-colors">@sa.gmu</a> alongside custom production samples.
+      </p>
+      <span class="text-xs text-gray-500 bg-white/5 border border-white/10 px-3 py-1 rounded-full">Accepting new clients
+        & creative briefs globally</span>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="flex flex-wrap justify-center gap-3 mb-12" id="pc-tabs">
+      {% for tab in ['All','Reels','Brand Films','Ads','Motion'] %}
+      <button onclick="pcFilter('{{ tab }}')" data-tab="{{ tab }}"
+        class="pc-tab-btn px-5 py-2 rounded-full text-sm font-semibold border transition-all
+               {% if loop.first %}bg-purple-600 text-white border-purple-600{% else %}bg-white/5 text-gray-300 border-white/10 hover:border-purple-500/50{% endif %}">
+        {{ tab }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <div class="ig-grid" id="pc-grid">
+
+      <!-- Reel 1 (@sa.gmu Client Work) -->
+      <div data-cat="Reels" data-aos="fade-up">
+        <div class="ig-wrap">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/sa.gmu/"
+            data-instgrm-version="14"
+            style="background:#1a1025;border:0;border-radius:0;box-shadow:none;margin:0;min-width:100%;padding:0;width:100%;">
+            <div class="ig-placeholder">
+              <div class="ig-orb" style="background:rgba(139,92,246,0.25);top:20px;left:10px;"></div>
+              <div class="ig-play" style="background:linear-gradient(135deg,#8b5cf6,#d946ef);">
+                <span class="material-symbols-outlined text-white"
+                  style="font-size:30px;margin-left:3px;">play_arrow</span>
+              </div>
+              <p class="ig-title">Client Work · @sa.gmu</p>
+              <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="ig-link">Open on Instagram ↗</a>
+              <p class="ig-hint">Reel 1 Production</p>
+            </div>
+          </blockquote>
+          <div class="ig-label">Instagram Reel · @sa.gmu</div>
+        </div>
+      </div>
+
+      <!-- Reel 2 (@sa.gmu Client Work) -->
+      <div data-cat="Reels" data-aos="fade-up" data-aos-delay="80">
+        <div class="ig-wrap">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/sa.gmu/"
+            data-instgrm-version="14"
+            style="background:#0f1a1f;border:0;border-radius:0;box-shadow:none;margin:0;min-width:100%;padding:0;width:100%;">
+            <div class="ig-placeholder">
+              <div class="ig-orb" style="background:rgba(59,130,246,0.25);bottom:20px;right:10px;"></div>
+              <div class="ig-play" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);">
+                <span class="material-symbols-outlined text-white"
+                  style="font-size:30px;margin-left:3px;">play_arrow</span>
+              </div>
+              <p class="ig-title">Client Work · @sa.gmu</p>
+              <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="ig-link">Open on Instagram ↗</a>
+              <p class="ig-hint">Reel 2 Production</p>
+            </div>
+          </blockquote>
+          <div class="ig-label">Instagram Reel · @sa.gmu</div>
+        </div>
+      </div>
+
+      <!-- Reel 3 (@sa.gmu Client Work) -->
+      <div data-cat="Brand Films" data-aos="fade-up" data-aos-delay="160">
+        <div class="ig-wrap">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/sa.gmu/"
+            data-instgrm-version="14"
+            style="background:#1f0f1a;border:0;border-radius:0;box-shadow:none;margin:0;min-width:100%;padding:0;width:100%;">
+            <div class="ig-placeholder">
+              <div class="ig-orb" style="background:rgba(217,70,239,0.25);top:30px;right:15px;"></div>
+              <div class="ig-play" style="background:linear-gradient(135deg,#ec4899,#f43f5e);">
+                <span class="material-symbols-outlined text-white"
+                  style="font-size:30px;margin-left:3px;">play_arrow</span>
+              </div>
+              <p class="ig-title">Client Work · @sa.gmu</p>
+              <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="ig-link">Open on Instagram ↗</a>
+              <p class="ig-hint">Reel 3 Production</p>
+            </div>
+          </blockquote>
+          <div class="ig-label">Brand Film · @sa.gmu</div>
+        </div>
+      </div>
+
+      <!-- Reel 4 (Demo Showcase Work) -->
+      <div data-cat="Motion" data-aos="fade-up">
+        <div class="ig-wrap">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/sa.gmu/"
+            data-instgrm-version="14"
+            style="background:#1a1800;border:0;border-radius:0;box-shadow:none;margin:0;min-width:100%;padding:0;width:100%;">
+            <div class="ig-placeholder">
+              <div class="ig-orb" style="background:rgba(245,158,11,0.25);bottom:30px;left:15px;"></div>
+              <div class="ig-play" style="background:linear-gradient(135deg,#f59e0b,#f97316);">
+                <span class="material-symbols-outlined text-white"
+                  style="font-size:30px;margin-left:3px;">play_arrow</span>
+              </div>
+              <p class="ig-title">Showcase · Motion Design</p>
+              <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="ig-link">Open Portfolio Item ↗</a>
+              <p class="ig-hint">Creative Sample</p>
+            </div>
+          </blockquote>
+          <div class="ig-label">Motion Graphics Sample</div>
+        </div>
+      </div>
+
+      <!-- Reel 5 (Demo Showcase Work) -->
+      <div data-cat="Ads" data-aos="fade-up" data-aos-delay="80">
+        <div class="ig-wrap">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/sa.gmu/"
+            data-instgrm-version="14"
+            style="background:#001a15;border:0;border-radius:0;box-shadow:none;margin:0;min-width:100%;padding:0;width:100%;">
+            <div class="ig-placeholder">
+              <div class="ig-orb" style="background:rgba(34,197,94,0.2);top:40px;right:10px;"></div>
+              <div class="ig-play" style="background:linear-gradient(135deg,#22c55e,#14b8a6);">
+                <span class="material-symbols-outlined text-white"
+                  style="font-size:30px;margin-left:3px;">play_arrow</span>
+              </div>
+              <p class="ig-title">Showcase · Ad Performance</p>
+              <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="ig-link">Open Portfolio Item ↗</a>
+              <p class="ig-hint">Creative Sample</p>
+            </div>
+          </blockquote>
+          <div class="ig-label">Performance Ad Sample</div>
+        </div>
+      </div>
+
+      <!-- Reel 6 (Demo Showcase Work) -->
+      <div data-cat="Reels" data-aos="fade-up" data-aos-delay="160">
+        <div class="ig-wrap">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/sa.gmu/"
+            data-instgrm-version="14"
+            style="background:#1a0a00;border:0;border-radius:0;box-shadow:none;margin:0;min-width:100%;padding:0;width:100%;">
+            <div class="ig-placeholder">
+              <div class="ig-orb" style="background:rgba(239,68,68,0.2);bottom:20px;right:10px;"></div>
+              <div class="ig-play" style="background:linear-gradient(135deg,#ef4444,#f97316);">
+                <span class="material-symbols-outlined text-white"
+                  style="font-size:30px;margin-left:3px;">play_arrow</span>
+              </div>
+              <p class="ig-title">Showcase · Vertical Pacing</p>
+              <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="ig-link">Open Portfolio Item ↗</a>
+              <p class="ig-hint">Creative Sample</p>
+            </div>
+          </blockquote>
+          <div class="ig-label">Vertical Pacing Sample</div>
+        </div>
+      </div>
+
+    </div><!-- /ig-grid -->
+
+    <div class="mt-12 text-center" data-aos="fade-up">
+      <a href="https://www.instagram.com/sa.gmu/" target="_blank" class="pc-btn pc-btn-outline inline-flex">
+        View All Work — @sa.gmu
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Instagram embed.js -->
+<script async src="//www.instagram.com/embed.js"></script>
+
+<!-- ════════════════════════ PROCESS ════════════════════════ -->
+<section id="pc-process" class="py-28 bg-[#070709]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14" data-aos="fade-up">
+      <span class="pc-tag mb-4">How It Works</span>
+      <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4">From Brief to Viral</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      {% for num,title,desc in [
+      ('01','Brief & Discovery','Share your vision, brand kit, raw footage & goals. We align on style references.'),
+      ('02','Edit & Craft','We cut, color grade, add motion graphics & sync audio. First draft in 48–72 hrs.'),
+      ('03','Review & Revise','Review via private link and request changes. Unlimited revisions in scope.'),
+      ('04','Deliver & Publish','Final exports ready for Instagram, YouTube, and Meta Ads in all formats.')
+      ] %}
+      <div class="relative" data-aos="fade-up" data-aos-delay="{{ loop.index0*120 }}">
+        {% if not loop.last %}<div
+          class="hidden md:block absolute top-7 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px bg-gradient-to-r from-purple-500/50 to-transparent">
+        </div>{% endif %}
+        <div class="pc-card p-6 text-center z-10 relative">
+          <div
+            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-500/20 flex items-center justify-center text-2xl mx-auto mb-4">
+          </div>
+          <div class="text-xs font-bold text-purple-400 mb-2 tracking-widest">STEP {{ num }}</div>
+          <h3 class="text-white font-bold text-base mb-2">{{ title }}</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TOOLS ════════════════════════ -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-12" data-aos="fade-up">
+      <span class="pc-tag mb-4">Our Stack</span>
+      <h2 class="text-3xl lg:text-4xl font-black font-display text-white mt-4">Tools We Master</h2>
+    </div>
+    <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up">
+      {% for name in ['Adobe Premiere Pro','After Effects','DaVinci Resolve','Lightroom','Photoshop','Audition','CapCut
+      Pro','Figma','Meta Ads Manager','YouTube Studio'] %}
+      <div class="pc-card px-5 py-3 flex items-center gap-3">
+        <span class="text-gray-200 text-sm font-semibold">{{ name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TESTIMONIALS ════════════════════════ -->
+<section id="pc-testimonials" class="py-28 bg-[#070709] relative overflow-hidden">
+  <div class="orb" style="width:380px;height:380px;background:rgba(139,92,246,0.07);top:-80px;right:-80px;"></div>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14" data-aos="fade-up">
+      <span class="pc-tag mb-4">Social Proof</span>
+      <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4">What Clients Say</h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for name,role,grad,text in [
+      ('Priya Sharma','Fashion Brand Owner','from-purple-500 to-pink-500','Our Reels went from 200 views to 50K+ after
+      PixelCraft. Edits are crisp, trendy, and exactly what our brand needed!'),
+      ('Rohan Mehta','Tech Startup Founder','from-blue-500 to-cyan-500','We needed a product launch film. Cinematic
+      quality delivered in 4 days flat. Would 100% recommend.'),
+      ('Ananya Nair','Content Creator','from-pink-500 to-rose-500','My YouTube Shorts finally got traction after
+      PixelCraft revamped my editing style. The hook structure is gold.'),
+      ('Karan Patel','Restaurant Owner','from-amber-500 to-orange-500','Every food video makes you hungry just watching!
+      Our Instagram following doubled in 3 months.'),
+      ('Sneha Reddy','Digital Marketer','from-green-500 to-teal-500','The Meta ad creatives brought our CPM down 40%.
+      They understand the algorithm, not just the edit.'),
+      ('Arjun Kapoor','Fitness Coach','from-red-500 to-orange-500','Fast turnaround, unlimited revisions (they mean
+      it!), and premium edits. Best investment for my brand.'),
+      ] %}
+      <div class="pc-card p-6" data-aos="fade-up" data-aos-delay="{{ loop.index0*80 }}">
+        <p class="text-gray-300 text-sm leading-relaxed mb-6 italic">"{{ text }}"</p>
+        <div class="flex items-center gap-3">
+          <div
+            class="w-11 h-11 rounded-full bg-gradient-to-br {{ grad }} flex items-center justify-center text-xl flex-shrink-0">
+          </div>
+          <div>
+            <p class="text-white font-bold text-sm">{{ name }}</p>
+            <p class="text-gray-500 text-xs">{{ role }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PRICING ════════════════════════ -->
+<section id="pc-pricing" class="py-28 relative overflow-hidden">
+  <div class="orb"
+    style="width:480px;height:480px;background:rgba(139,92,246,0.07);top:50%;left:50%;transform:translate(-50%,-50%);">
+  </div>
+  <div class="max-w-5xl mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14" data-aos="fade-up">
+      <span class="pc-tag mb-4">Pricing</span>
+      <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4 mb-3">Simple, Transparent Plans</h2>
+      <p class="text-gray-400">No hidden costs. Pay for what you need.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8 items-start">
+
+      <div class="pc-card p-8" data-aos="fade-up">
+        <p class="text-gray-400 text-sm font-semibold mb-3">Starter</p>
+        <div class="pc-price text-white mb-1">₹4,999<span class="text-lg font-normal text-gray-500">/mo</span></div>
+        <p class="text-gray-500 text-sm mb-8">For solopreneurs & creators.</p>
+        <ul class="space-y-3 mb-10 text-sm text-gray-300">
+          {% for f in ['4 Short-form Videos/month','Basic color grading','Captions & subtitles','1 revision per
+          video','3-day turnaround','MP4 delivery'] %}<li class="flex gap-3"><span class="text-green-400">✓</span>{{ f
+            }}</li>{% endfor %}
+        </ul>
+        <a href="#pc-contact" class="pc-btn pc-btn-outline w-full justify-center">Get Started</a>
+      </div>
+
+      <div class="pc-card pc-popular p-8 md:-mt-4" data-aos="zoom-in">
+        <p class="text-purple-300 text-sm font-semibold mb-3">Pro</p>
+        <div class="pc-price text-white mb-1">₹12,999<span class="text-lg font-normal text-gray-400">/mo</span></div>
+        <p class="text-gray-400 text-sm mb-8">For brands serious about growth.</p>
+        <ul class="space-y-3 mb-10 text-sm text-gray-200">
+          {% for f in ['12 Videos/month (short + long)','Advanced color grading + LUTs','Motion graphics &
+          transitions','Unlimited revisions','48hr turnaround','All formats (Reels, YT, MP4)','Monthly strategy call']
+          %}<li class="flex gap-3"><span class="text-purple-400">✦</span>{{ f }}</li>{% endfor %}
+        </ul>
+        <a href="#pc-contact" class="pc-btn pc-btn-primary w-full justify-center">Start Free Trial</a>
+      </div>
+
+      <div class="pc-card p-8" data-aos="fade-up" data-aos-delay="100">
+        <p class="text-gray-400 text-sm font-semibold mb-3">Agency</p>
+        <div class="pc-price text-white mb-1">Custom</div>
+        <p class="text-gray-500 text-sm mb-8">White-label for agencies & enterprises.</p>
+        <ul class="space-y-3 mb-10 text-sm text-gray-300">
+          {% for f in ['Unlimited videos','Dedicated editor assigned','VFX & 3D motion','Brand style guide
+          creation','24hr turnaround','Priority support & SLA'] %}<li class="flex gap-3"><span
+              class="text-pink-400">✓</span>{{ f }}</li>{% endfor %}
+        </ul>
+        <a href="#pc-contact" class="pc-btn pc-btn-outline w-full justify-center">Contact Us</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FAQ ════════════════════════ -->
+<section id="pc-faq" class="py-28 bg-[#070709] border-y border-white/[0.04]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-12 gap-12 items-start">
+
+      <!-- Left side heading -->
+      <div class="lg:col-span-5" data-aos="fade-right">
+        <span class="pc-tag mb-4">FAQ</span>
+        <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4 mb-6">
+          Got a Quick<br>
+          <span class="pc-grad-text">Question?</span>
+        </h2>
+        <p class="text-gray-400 text-base max-w-sm leading-relaxed">
+          Everything you need to know about our editing workflow, turnaround cycles, and platform support.
+        </p>
+      </div>
+
+      <!-- Right side accordion -->
+      <div class="lg:col-span-7 space-y-4" data-aos="fade-left">
+        {% for q, a in [
+        ('What formats do you deliver in?', 'We deliver high-fidelity MP4 (H.264/H.265), MOV, and platform-optimized
+        formats — 9:16 for vertical Reels/Shorts, 16:9 for YouTube widescreen, and 1:1 square styles.'),
+        ('How do I share raw footage?', 'You can upload and share assets via Google Drive, Dropbox, WeTransfer, or
+        Frame.io links. Just share the access link and our team will ingest the assets directly.'),
+        ('Do you add subtitles and custom captions?', 'Yes. All packages include synchronized open-captions (burned-in
+        video styles) or separate SRT/VTT file exports with manual spelling/slang corrections.'),
+        ('Do you specialize in Instagram Reels?', 'Reels and TikTok structures are our core specialty. We optimize hook
+        framing (first 3 seconds), sound-effect styling, dynamic zooms, and visual pacing designed to retain audience
+        watch-time.'),
+        ('What if my raw footage is low quality?', 'We frequently elevate phone-shot footage by color correction,
+        dynamic camera zooms, custom sound design, and contextual premium B-roll overlays.'),
+        ('How do I track active video editing progress?', 'We provide a shared project tracking board (Notion or Trello)
+        showing the real-time status of each video from raw intake to final review and export.')
+        ] %}
+        <div
+          class="deccan-faq-item border border-white/5 rounded-2xl bg-white/[0.02] hover:border-white/10 transition-all">
+          <button
+            class="w-full flex items-center justify-between p-6 text-left text-white font-semibold text-[15px] focus:outline-none"
+            onclick="toggleDeccanFaq(this)">
+            <span>{{ q }}</span>
+            <div
+              class="deccan-faq-toggle w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 transition-transform">
+              <span class="material-symbols-outlined text-[18px] text-gray-300 pointer-events-none">add</span>
+            </div>
+          </button>
+          <div class="deccan-faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-6">
+            <p class="text-gray-400 text-sm leading-relaxed pb-6">{{ a }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleDeccanFaq(btn) {
+    const item = btn.closest('.deccan-faq-item');
+    const content = item.querySelector('.deccan-faq-content');
+    const toggleIcon = item.querySelector('.deccan-faq-toggle span');
+    const isOpen = item.classList.contains('open');
+
+    // Close all open items
+    document.querySelectorAll('.deccan-faq-item.open').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.deccan-faq-content').style.maxHeight = '0px';
+      el.querySelector('.deccan-faq-toggle span').textContent = 'add';
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+      toggleIcon.textContent = 'remove';
+    }
+  }
+</script>
+
+
+<!-- ════════════════════════ CONTACT ════════════════════════ -->
+<section id="pc-contact" class="py-28 relative"
+  style="background:linear-gradient(135deg,#0a0a0c 0%,#12091a 50%,#0a0a0c 100%);">
+  <div class="orb"
+    style="width:560px;height:560px;background:rgba(139,92,246,0.1);top:50%;left:50%;transform:translate(-50%,-50%);">
+  </div>
+  <div class="max-w-5xl mx-auto px-6 lg:px-10 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Left info -->
+      <div data-aos="fade-right">
+        <span class="pc-tag mb-6 inline-flex">Let's Create</span>
+        <h2 class="text-4xl lg:text-5xl font-black font-display text-white mt-4 mb-6">Ready to Go Viral?</h2>
+        <p class="text-gray-400 text-lg leading-relaxed mb-10">Tell us about your project — we'll reply within 4 hours
+          with a free creative brief and quote.</p>
+        <div class="space-y-4">
+          {% for label,val,href in
+          [('Email','stack.abhiram@gmail.com','mailto:stack.abhiram@gmail.com'),('WhatsApp','+91 63639
+          62653','https://wa.me/916363962653'),('Instagram','@sa.gmu','https://www.instagram.com/sa.gmu/')] %}
+          <a href="{{ href }}" target="_blank"
+            class="flex items-center gap-4 pc-card p-4 rounded-xl hover:border-purple-500/40 transition-all">
+            <div>
+              <p class="text-gray-500 text-xs">{{ label }}</p>
+              <p class="text-white font-semibold text-sm">{{ val }}</p>
+            </div>
+            <span class="ml-auto material-symbols-outlined text-gray-500 text-lg">arrow_forward</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Right form -->
+      <div data-aos="fade-left">
+        <form action="/api/contact" method="POST" id="pc-form" class="pc-card p-8 space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Your Name</label>
+              <input type="text" name="name" placeholder="Rohan Mehta" class="pc-input" required>
+            </div>
+            <div>
+              <label class="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Phone</label>
+              <input type="tel" name="phone" placeholder="+91 98765 43210" class="pc-input">
+            </div>
+          </div>
+          <div>
+            <label class="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Email</label>
+            <input type="email" name="email" placeholder="you@brand.com" class="pc-input" required>
+          </div>
+          <div>
+            <label class="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Service Needed</label>
+            <select name="message" class="pc-input">
+              <option value="">Select a service...</option>
+              <option>Instagram Reels / Shorts</option>
+              <option>Brand Film / Corporate Video</option>
+              <option>Ad Creatives (Meta / YouTube)</option>
+              <option>Motion Graphics & VFX</option>
+              <option>Podcast Editing</option>
+              <option>Monthly Retainer Package</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Tell Us About Your
+              Project</label>
+            <textarea name="message" rows="4" placeholder="Goals, style references, deadlines..."
+              class="pc-input resize-none" required></textarea>
+          </div>
+          <button type="submit" id="pc-submit" class="pc-btn pc-btn-primary w-full justify-center">
+            Send My Brief
+          </button>
+          <p class="text-center text-gray-500 text-xs">We respond within 4 hours. Zero spam.</p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ SCRIPTS ════════════════════════ -->
+<script>
+  // AOS
+  document.addEventListener('DOMContentLoaded', () => { if (typeof AOS !== 'undefined') AOS.init({ once: true, offset: 60 }); });
+
+  // Portfolio filter
+  function pcFilter(cat) {
+    document.querySelectorAll('#pc-grid > div[data-cat]').forEach(c => {
+      c.style.display = (cat === 'All' || c.dataset.cat === cat) ? '' : 'none';
+    });
+    document.querySelectorAll('.pc-tab-btn').forEach(b => {
+      const active = b.dataset.tab === cat;
+      b.classList.toggle('bg-purple-600', active);
+      b.classList.toggle('text-white', active);
+      b.classList.toggle('border-purple-600', active);
+      b.classList.toggle('bg-white/5', !active);
+      b.classList.toggle('text-gray-300', !active);
+      b.classList.toggle('border-white/10', !active);
+    });
+  }
+
+  // FAQ
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!open) item.classList.add('open');
+  }
+
+  // Contact form
+  document.getElementById('pc-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('pc-submit');
+    const orig = btn.innerHTML;
+    btn.innerHTML = 'Sending...';
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/contact', { method: 'POST', body: new FormData(this) });
+      await res.json();
+      btn.innerHTML = 'Sent! We\'ll reply soon.';
+      btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+      this.reset();
+    } catch (err) {
+      btn.innerHTML = orig;
+      btn.disabled = false;
+      alert('Something went wrong. Email us directly!');
+    }
+  });
+</script>
+
+{% endblock %}

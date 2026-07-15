@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}StackBuild - Professional Software Product Development Services{% endblock %}
+
+{% block content %}
+<section class="min-h-screen pt-32 pb-20 flex items-center justify-center hero-bg relative overflow-hidden">
+    <!-- Background Elements -->
+    <div
+        class="absolute top-[20%] left-[20%] w-[300px] h-[300px] bg-primary/20 rounded-full blur-[100px] animate-pulse">
+    </div>
+    <div class="absolute bottom-[20%] right-[20%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px]"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <div data-aos="fade-right">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+                For Companies & Founders
+            </div>
+            <h1 class="text-5xl lg:text-7xl font-black font-display mb-6 tracking-tight text-white">StackBuild</h1>
+            <h2 class="text-2xl font-bold text-gray-300 mb-6">Build with us.</h2>
+            <p class="text-xl text-gray-400 leading-relaxed mb-10">
+                Turn your idea into a production-ready product.
+                Our ecosystem of builders, guided by industry experts, will build your solution.
+            </p>
+
+            <div class="space-y-4 mb-10">
+                <div class="flex items-center gap-4 text-gray-400">
+                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                    <span>Web & Mobile Applications</span>
+                </div>
+                <div class="flex items-center gap-4 text-gray-400">
+                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                    <span>MVP Development</span>
+                </div>
+                <div class="flex items-center gap-4 text-gray-400">
+                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                    <span>Modern Tech Stack</span>
+                </div>
+            </div>
+
+            <a href="/"
+                class="text-white hover:text-primary transition-colors font-medium flex items-center gap-2">
+                <span class="material-symbols-outlined">arrow_back</span> Back to Home
+            </a>
+        </div>
+
+        <!-- Embedded Form Container -->
+        <div class="bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md h-[600px] relative overflow-hidden shadow-2xl shadow-primary/10" data-aos="fade-left">
+            <iframe data-tally-src="https://tally.so/r/eqN7z0?transparentBackground=1" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="StackBuild Application"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Tally Embed Script -->
+<script async src="https://tally.so/widgets/embed.js"></script>
+{% endblock %}

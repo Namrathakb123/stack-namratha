@@ -1,0 +1,28 @@
+.light-beam {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.light-beam::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 480px;
+  height: 240vh;
+  transform: translate(-50%, -50%) rotate(-100deg);
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(255, 113, 31) 30%,
+    rgb(255, 255, 255) 50%,
+    rgb(6, 155, 255) 70%,
+    transparent 100%
+  );
+
+  filter: blur(80px);
+  opacity: 0.4;
+}

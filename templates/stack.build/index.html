@@ -1,0 +1,505 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackBuild â€” Production-Grade Software Development</title>
+    <meta name="description"
+        content="StackBuild ships production-grade websites, SaaS platforms, ERP systems, mobile apps, and custom tech solutions. From idea to deployment. Trusted by builders.">
+    <meta name="keywords" content="software development company, AI solutions for startups, build a SaaS platform, custom ERP development, mobile app developers in India, scalable tech infrastructure, StackBuild, stack education">
+    <meta name="author" content="StackBuild">
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:title" content="StackBuild â€” Production-Grade Software Development">
+    <meta property="og:description" content="India's leading tech solution ecosystem for startups and businesses. We build what you imagine.">
+    <meta property="og:type" content="website">
+
+    <!-- Schema Markup for better search precision -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "StackBuild Software Solutions",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "description": "Custom AI solutions, SaaS platforms, ERP systems, websites, and mobile apps for startups and enterprises.",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackBuild"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "StackBuild Tech Agency",
+      "description": "Are you looking to build a tech product? My startup needs an app, a website, or an AI tool. We provide end-to-end software development.",
+      "url": "https://stackeducation.in/stackbuild"
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('favicon') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ url_for('static', filename='favicon-48.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon-512.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <meta name="theme-color" content="#8b5cf6">
+
+    <!-- Tailwind for Chatbot & Components -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#8b5cf6",
+                        "background-dark": "#050508",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='stackbuild/style.css') }}">
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tech-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--purple-light);
+            background: rgba(139, 92, 246, 0.1);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            margin-bottom: 24px;
+        }
+        .seo-hidden-text {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        .services-grid-large {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .premium-tagline {
+            text-align: center;
+            margin: 40px auto;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--purple-light);
+            letter-spacing: -0.01em;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 700px;
+        }
+        .stat-grid {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SEO Hidden Text -->
+    <div class="seo-hidden-text">
+        Looking for a tech partner? "My startup needs an MVP," "Looking for someone to build a SaaS platform," "Need an AI integration for my business," "Custom ERP developers in India," "Freelance developers for mobile app," "Build a college management system." StackBuild handles all of this.
+    </div>
+
+    <!-- ====== NAVBAR ====== -->
+    <nav class="navbar" id="navbar">
+        <a href="/" class="nav-logo">
+            <span class="logo-bracket">&lt;</span>StackBuild<span class="logo-bracket">/&gt;</span>
+        </a>
+        <div class="nav-links">
+            <a href="/stackbuild" class="nav-link active">Home</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#process" class="nav-link">Process</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="/stackbuild/clients" class="nav-link">Clients</a>
+            <a href="/stackbuild/resume" class="nav-link">Resume Builder</a>
+            <a href="#contact" class="btn btn-nav">Talk to Our Team</a>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-mobile" id="nav-mobile">
+            <a href="/stackbuild" class="nav-link active">Home</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#process" class="nav-link">Process</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="/stackbuild/clients" class="nav-link">Clients</a>
+            <a href="/stackbuild/resume" class="nav-link">Resume Builder</a>
+            <a href="#contact" class="btn btn-nav-mobile">Talk to Our Team</a>
+        </div>
+    </nav>
+
+    <!-- ====== HERO ====== -->
+    <section class="hero" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+        <div class="hero-particles" id="hero-particles"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Shipping Products Since 2024
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-line">We Build</span>
+                <span class="hero-line">What You</span>
+                <span class="hero-line hero-gradient">Imagine.</span>
+            </h1>
+            <p class="hero-subtitle">
+                From SaaS platforms to mobile apps, ERP systems to custom websites â€”
+                we turn your vision into production-ready software that scales.
+            </p>
+            
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary btn-glow btn-lg" id="hero-cta">
+                    Build Your Product
+                    <span class="material-icons-outlined">rocket_launch</span>
+                </a>
+                <a href="#contact" class="btn btn-ghost btn-lg" id="hero-services">
+                    Talk to Our Team
+                    <span class="material-icons-outlined">chat</span>
+                </a>
+            </div>
+            
+            <div style="margin-top: 40px; font-size: 0.85rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;">
+                Trusted by startups, student innovators, institutions, and growing businesses.
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ====== SERVICES ====== -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <span class="section-tag">What We Build</span>
+            <h2 class="section-title text-gradient">End-to-End Tech Solutions</h2>
+            <p class="section-desc">Turning Ideas Into Scalable Products. We don't just write code. We architect, design, build, and ship complete products that solve real business problems.</p>
+        </div>
+
+        <div class="services-grid-large">
+            <!-- 1. AI Applications -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-cyan"><span class="material-icons-outlined">psychology</span></div></div>
+                <h3>AI Applications</h3>
+                <p>AI-powered tools, LLM integrations, chatbots, and advanced automation workflows customized for your business needs.</p>
+            </div>
+
+            <!-- 2. SaaS Platforms -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-purple"><span class="material-icons-outlined">cloud</span></div></div>
+                <h3>SaaS Platforms</h3>
+                <p>Full-featured web apps with auth, billing, multi-tenancy, and rich dashboards ready for market deployment.</p>
+            </div>
+
+            <!-- 3. ERP Systems -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-emerald"><span class="material-icons-outlined">account_tree</span></div></div>
+                <h3>ERP Systems</h3>
+                <p>Custom Enterprise Resource Planning tools linking HR, inventory, CRM, and accounting into one unified system.</p>
+            </div>
+
+            <!-- 4. Cloud Solutions -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-blue"><span class="material-icons-outlined">cloud_done</span></div></div>
+                <h3>Cloud Solutions</h3>
+                <p>Scalable cloud infrastructure (AWS/GCP), containerization, microservices architecture, and API design.</p>
+            </div>
+
+            <!-- 5. Mobile Applications -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-rose"><span class="material-icons-outlined">phone_iphone</span></div></div>
+                <h3>Mobile Applications</h3>
+                <p>High-performance native and cross-platform mobile apps for iOS and Android built with Flutter or React Native.</p>
+            </div>
+
+            <!-- 6. Websites & Portals -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-amber"><span class="material-icons-outlined">web</span></div></div>
+                <h3>Websites & Portals</h3>
+                <p>High-converting landing pages, portfolio sites, and complex multi-page platforms optimized for SEO.</p>
+            </div>
+
+            <!-- 7. E-Commerce Platforms -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-emerald"><span class="material-icons-outlined">shopping_cart</span></div></div>
+                <h3>E-Commerce Platforms</h3>
+                <p>Custom online stores, secure payment gateways, inventory management, and fast checkout experiences.</p>
+            </div>
+
+            <!-- 8. Automation Systems -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-cyan"><span class="material-icons-outlined">smart_toy</span></div></div>
+                <h3>Automation Systems</h3>
+                <p>Streamline operations with n8n, Zapier, and custom scripts to eliminate repetitive tasks and errors.</p>
+            </div>
+
+            <!-- 9. College Management Systems -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-blue"><span class="material-icons-outlined">school</span></div></div>
+                <h3>College Management Systems</h3>
+                <p>Comprehensive portals for institutions to handle admissions, grades, attendance, and student resources.</p>
+            </div>
+
+            <!-- 10. Custom Software Solutions -->
+            <div class="service-card">
+                <div class="service-icon-wrap"><div class="service-icon si-purple"><span class="material-icons-outlined">developer_board</span></div></div>
+                <h3>Custom Software Solutions</h3>
+                <p>If you can imagine it, we can build it. Bespoke software architectures tailored strictly to your specific vision.</p>
+            </div>
+        </div>
+
+        <div class="premium-tagline animate-in">
+            Design. Develop. Scale.
+        </div>
+    </section>
+
+    <!-- ====== PROCESS ====== -->
+    <section class="process" id="process">
+        <div class="section-header">
+            <span class="section-tag">How We Work</span>
+            <h2 class="section-title">From Idea to Launch in 4 Steps</h2>
+            <p class="section-desc">A battle-tested process that ensures we deliver on time, on budget, and beyond expectations.</p>
+        </div>
+
+        <div class="process-timeline">
+            <div class="process-step" id="step-1">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Discovery & Planning</h3>
+                    <p>We dive deep into your vision. Understand your users, map out features, define the tech stack, and create a detailed roadmap.</p>
+                </div>
+                <div class="step-visual"><span class="material-icons-outlined">search</span></div>
+            </div>
+            <div class="process-step" id="step-2">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Design & Prototyping</h3>
+                    <p>Wireframes, high-fidelity UI/UX designs, interactive prototypes â€” you see and feel the product before code is written.</p>
+                </div>
+                <div class="step-visual"><span class="material-icons-outlined">palette</span></div>
+            </div>
+            <div class="process-step" id="step-3">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Agile Development</h3>
+                    <p>Sprint-based development with weekly demos, constant feedback loops, and transparent progress tracking.</p>
+                </div>
+                <div class="step-visual"><span class="material-icons-outlined">code</span></div>
+            </div>
+            <div class="process-step" id="step-4">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>Launch & Support</h3>
+                    <p>Production deployment with CI/CD, monitoring, performance optimization, and ongoing maintenance.</p>
+                </div>
+                <div class="step-visual"><span class="material-icons-outlined">rocket_launch</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== TECH STACK ====== -->
+    <section class="tech-stack" id="tech">
+        <div class="section-header">
+            <span class="section-tag">Our Arsenal</span>
+            <h2 class="section-title">Technologies We Master</h2>
+        </div>
+        <div class="tech-marquee">
+            <div class="tech-track">
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Python</span>
+                <span class="tech-chip">Flutter</span>
+                <span class="tech-chip">React Native</span>
+                <span class="tech-chip">TypeScript</span>
+                <span class="tech-chip">PostgreSQL</span>
+                <span class="tech-chip">MongoDB</span>
+                <span class="tech-chip">AWS</span>
+                <span class="tech-chip">Docker</span>
+                <span class="tech-chip">Supabase</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">GraphQL</span>
+                <span class="tech-chip">OpenAI</span>
+                
+                <!-- Duplicate for seamless loop -->
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Python</span>
+                <span class="tech-chip">Flutter</span>
+                <span class="tech-chip">React Native</span>
+                <span class="tech-chip">TypeScript</span>
+                <span class="tech-chip">PostgreSQL</span>
+                <span class="tech-chip">MongoDB</span>
+                <span class="tech-chip">AWS</span>
+                <span class="tech-chip">Docker</span>
+                <span class="tech-chip">Supabase</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">GraphQL</span>
+                <span class="tech-chip">OpenAI</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== WHY US ====== -->
+    <section class="why-us" id="why">
+        <div class="section-header">
+            <span class="section-tag">Why StackBuild</span>
+            <h2 class="section-title">What Sets Us Apart</h2>
+        </div>
+        <div class="why-grid">
+            <div class="why-card">
+                <span class="material-icons-outlined why-icon">bolt</span>
+                <h4>Rapid Delivery</h4>
+                <p>MVPs in 2â€“4 weeks. Full products in 2â€“3 months. We move fast without cutting corners.</p>
+            </div>
+            <div class="why-card">
+                <span class="material-icons-outlined why-icon">architecture</span>
+                <h4>Built to Scale</h4>
+                <p>Clean architecture, tested code, and infrastructure designed to handle growth from day one.</p>
+            </div>
+            <div class="why-card">
+                <span class="material-icons-outlined why-icon">handshake</span>
+                <h4>Transparent Process</h4>
+                <p>Weekly demos, open communication on Slack/Discord, and full access to your project repository.</p>
+            </div>
+            <div class="why-card">
+                <span class="material-icons-outlined why-icon">support_agent</span>
+                <h4>Post-Launch Care</h4>
+                <p>Bug fixes, feature additions, monitoring â€” we stick around to make sure your product thrives.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CTA / CONTACT ====== -->
+    <section class="contact-cta" id="contact">
+        <div class="cta-glow"></div>
+        <div class="cta-content glass-panel" style="padding: 60px; max-width: 800px;">
+            <h2 class="cta-title text-gradient">Ready to Build Something Great?</h2>
+            <p class="cta-desc">Tell us about your project. Whether it's a landing page, mobile app, or a full enterprise AI platform â€” we've got you covered.</p>
+            
+            <form action="mailto:stack.abhiram@gmail.com" method="post" enctype="text/plain" class="mt-8 text-left" style="display:flex; flex-direction:column; gap:16px;">
+                <input type="text" placeholder="Your Name" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors">
+                <input type="email" placeholder="Your Email" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors">
+                <textarea placeholder="Tell us about your project..." rows="4" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"></textarea>
+                <button type="submit" class="btn btn-primary btn-glow btn-lg w-full justify-center mt-2">
+                    Submit Inquiry
+                </button>
+            </form>
+
+            <div class="mt-10 pt-6 border-t border-white/10 text-sm text-gray-400">
+                Or reach out directly:<br>
+                <div class="flex gap-4 justify-center mt-4 flex-wrap">
+                    <a href="mailto:stack.abhiram@gmail.com" class="text-purple-400 hover:text-purple-300">stack.abhiram@gmail.com</a>
+                    <a href="tel:6363962653" class="text-purple-400 hover:text-purple-300">+91 6363962653</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer" id="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="/stackbuild" class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>StackBuild<span class="logo-bracket">/&gt;</span>
+                </a>
+                <p class="footer-tagline">We build what you imagine. Production-grade software from concept to deployment.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Services</h5>
+                <ul>
+                    <li><a href="#services">SaaS Platforms</a></li>
+                    <li><a href="#services">AI Applications</a></li>
+                    <li><a href="#services">Mobile Apps</a></li>
+                    <li><a href="#services">ERP Systems</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="#process">Our Process</a></li>
+                    <li><a href="/stackbuild/clients">Our Clients</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Connect</h5>
+                <ul>
+                    <li><a href="mailto:stack.abhiram@gmail.com">stack.abhiram@gmail.com</a></li>
+                    <li><a href="mailto:stack.rahulrgadgimata@gmail.com">stack.rahulrgadgimata@gmail.com</a></li>
+                    <li><a href="tel:6363962653">+91 6363962653</a></li>
+                    <li><a href="https://discord.gg/zPtP3Qyy" target="_blank" rel="noopener">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 StackBuild. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='stackbuild/script.js') }}"></script>
+    {% include 'components/chatbot.html' %}
+</body>
+</html>

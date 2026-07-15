@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Clients — StackBuild Success Stories</title>
+    <meta name="description"
+        content="Trusted by startups, agencies, and enterprises. See the companies and creators who build with StackBuild. Production-grade software results.">
+    <meta name="keywords" content="clients, portfolio, software projects, StackBuild case studies, tech startups">
+    <meta name="author" content="StackBuild">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('favicon') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ url_for('static', filename='favicon-48.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon-512.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <meta name="theme-color" content="#8b5cf6">
+
+    <!-- Tailwind for Chatbot & Components -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#8b5cf6",
+                        "background-dark": "#050508",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='stackbuild/style.css') }}">">
+</head>
+
+<body>
+    <!-- ====== NAVBAR ====== -->
+    <nav class="navbar" id="navbar">
+        <a href="/" class="nav-logo">
+            <span class="logo-bracket">&lt;</span>StackBuild<span class="logo-bracket">/&gt;</span>
+        </a>
+        <div class="nav-links">
+            <a href="/stackbuild" class="nav-link">Home</a>
+            <a href="/stackbuild#services" class="nav-link">Services</a>
+            <a href="/stackbuild#process" class="nav-link">Process</a>
+            <a href="/stackbuild/clients" class="nav-link active">Clients</a>
+            <a href="/stackbuild#contact" class="btn btn-nav">Let's Talk</a>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-mobile" id="nav-mobile">
+            <a href="/stackbuild" class="nav-link">Home</a>
+            <a href="/stackbuild#services" class="nav-link">Services</a>
+            <a href="/stackbuild#process" class="nav-link">Process</a>
+            <a href="/stackbuild/clients" class="nav-link active">Clients</a>
+            <a href="/stackbuild#contact" class="btn btn-nav-mobile">Let's Talk</a>
+        </div>
+    </nav>
+
+    <!-- ====== CLIENTS HERO ====== -->
+    <section class="clients-hero">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="clients-hero-content">
+            <span class="section-tag">Our Clients</span>
+            <h1 class="clients-hero-title">Trusted by Builders,<br>Loved by Brands.</h1>
+            <p class="clients-hero-desc">From ambitious startups to established enterprises — we've helped businesses
+                across industries ship products that users love.</p>
+        </div>
+    </section>
+
+    <!-- ====== CLIENT LOGOS MARQUEE ====== -->
+    <section class="clients-logos-section">
+        <div class="logos-marquee">
+            <div class="logos-track">
+                <div class="logo-item"><span class="logo-text">TechVista</span></div>
+                <div class="logo-item"><span class="logo-text">NexGen Labs</span></div>
+                <div class="logo-item"><span class="logo-text">CloudPeak</span></div>
+                <div class="logo-item"><span class="logo-text">UrbanStack</span></div>
+                <div class="logo-item"><span class="logo-text">DataForge</span></div>
+                <div class="logo-item"><span class="logo-text">SwiftShip</span></div>
+                <div class="logo-item"><span class="logo-text">BrightEdge</span></div>
+                <div class="logo-item"><span class="logo-text">Innovatech</span></div>
+                <!-- duplicate for loop -->
+                <div class="logo-item"><span class="logo-text">TechVista</span></div>
+                <div class="logo-item"><span class="logo-text">NexGen Labs</span></div>
+                <div class="logo-item"><span class="logo-text">CloudPeak</span></div>
+                <div class="logo-item"><span class="logo-text">UrbanStack</span></div>
+                <div class="logo-item"><span class="logo-text">DataForge</span></div>
+                <div class="logo-item"><span class="logo-text">SwiftShip</span></div>
+                <div class="logo-item"><span class="logo-text">BrightEdge</span></div>
+                <div class="logo-item"><span class="logo-text">Innovatech</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FEATURED PROJECTS ====== -->
+    <section class="projects-section" id="projects">
+        <div class="section-header">
+            <span class="section-tag">Case Studies</span>
+            <h2 class="section-title">Projects We've Shipped</h2>
+            <p class="section-desc">A look at some of the impactful products we've built for our clients.</p>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card project-card-large" id="proj-1">
+                <div class="project-preview">
+                    <div class="project-mockup mockup-saas">
+                        <div class="mockup-bar">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mock-sidebar"></div>
+                            <div class="mock-main">
+                                <div class="mock-chart"></div>
+                                <div class="mock-cards">
+                                    <div class="mock-card-sm"></div>
+                                    <div class="mock-card-sm"></div>
+                                    <div class="mock-card-sm"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-type">SaaS Platform</span>
+                    <h3>CloudPeak Analytics Dashboard</h3>
+                    <p>A full-featured analytics SaaS with real-time data visualization, team collaboration, custom
+                        reports, and Stripe-powered billing. Built with Next.js, PostgreSQL, and Redis.</p>
+                    <div class="project-tech">
+                        <span>Next.js</span><span>PostgreSQL</span><span>Redis</span><span>Stripe</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" id="proj-2">
+                <div class="project-preview">
+                    <div class="project-mockup mockup-mobile">
+                        <div class="phone-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="phone-header-bar"></div>
+                                <div class="phone-card-1"></div>
+                                <div class="phone-card-2"></div>
+                                <div class="phone-nav-bar">
+                                    <span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-type">Mobile App</span>
+                    <h3>SwiftShip Delivery</h3>
+                    <p>Cross-platform delivery tracking app with real-time GPS, push notifications, and driver
+                        management. iOS & Android.</p>
+                    <div class="project-tech">
+                        <span>Flutter</span><span>Firebase</span><span>Maps API</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" id="proj-3">
+                <div class="project-preview">
+                    <div class="project-mockup mockup-erp">
+                        <div class="mockup-bar">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mock-table">
+                                <div class="mock-row mock-row-header"></div>
+                                <div class="mock-row"></div>
+                                <div class="mock-row"></div>
+                                <div class="mock-row"></div>
+                                <div class="mock-row"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-type">ERP System</span>
+                    <h3>UrbanStack Inventory</h3>
+                    <p>Custom ERP for warehouse management — inventory tracking, purchase orders, vendor management, and
+                        automated reporting.</p>
+                    <div class="project-tech">
+                        <span>React</span><span>Node.js</span><span>MongoDB</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" id="proj-4">
+                <div class="project-preview">
+                    <div class="project-mockup mockup-web">
+                        <div class="mockup-bar">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mock-hero-block"></div>
+                            <div class="mock-grid-3">
+                                <div class="mock-card-tall"></div>
+                                <div class="mock-card-tall"></div>
+                                <div class="mock-card-tall"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-type">Website</span>
+                    <h3>BrightEdge Marketing</h3>
+                    <p>High-converting marketing website with CMS, blog, lead capture forms, and A/B testing
+                        integration.</p>
+                    <div class="project-tech">
+                        <span>Next.js</span><span>Contentful</span><span>Vercel</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" id="proj-5">
+                <div class="project-preview">
+                    <div class="project-mockup mockup-mobile">
+                        <div class="phone-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="phone-chat-1"></div>
+                                <div class="phone-chat-2"></div>
+                                <div class="phone-chat-1"></div>
+                                <div class="phone-input-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-type">AI Chatbot</span>
+                    <h3>Innovatech Support Bot</h3>
+                    <p>AI-powered customer support chatbot with NLP, knowledge base integration, and seamless handoff to
+                        human agents.</p>
+                    <div class="project-tech">
+                        <span>Python</span><span>OpenAI</span><span>FastAPI</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" id="proj-6">
+                <div class="project-preview">
+                    <div class="project-mockup mockup-saas">
+                        <div class="mockup-bar">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mock-sidebar"></div>
+                            <div class="mock-main">
+                                <div class="mock-kanban">
+                                    <div class="mock-column"></div>
+                                    <div class="mock-column"></div>
+                                    <div class="mock-column"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-type">SaaS Platform</span>
+                    <h3>DataForge Project Hub</h3>
+                    <p>Project management platform with Kanban boards, time tracking, invoicing, and client portals for
+                        agencies.</p>
+                    <div class="project-tech">
+                        <span>React</span><span>Supabase</span><span>Stripe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== TESTIMONIALS ====== -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <span class="section-tag">Client Stories</span>
+            <h2 class="section-title">What Our Clients Say</h2>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"StackBuild took our vague idea and turned it into a polished SaaS platform
+                    in just 8 weeks. The team's attention to detail and communication was exceptional."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar av-1">RP</div>
+                    <div>
+                        <strong>Rajesh P.</strong>
+                        <span>CEO, CloudPeak Analytics</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Our delivery app needed to handle 10,000+ orders daily. StackBuild
+                    delivered a rock-solid Flutter app that hasn't had a single critical issue in 6 months."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar av-2">AM</div>
+                    <div>
+                        <strong>Ananya M.</strong>
+                        <span>CTO, SwiftShip</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"They built our entire ERP system from scratch — inventory, HR, and
+                    accounting modules. It replaced 4 different tools we were using. Incredible value."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar av-3">VK</div>
+                    <div>
+                        <strong>Vikram K.</strong>
+                        <span>Founder, UrbanStack</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CTA ====== -->
+    <section class="contact-cta" id="contact-clients">
+        <div class="cta-glow"></div>
+        <div class="cta-content">
+            <h2 class="cta-title">Want to Be Our Next Success Story?</h2>
+            <p class="cta-desc">Let's discuss your project and see how StackBuild can bring your vision to life.</p>
+            <div class="cta-actions" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <a href="mailto:stack.abhiram@gmail.com" class="btn btn-primary btn-glow btn-lg" id="clients-cta-email">
+                        <span class="material-icons-outlined">mail</span>
+                        stack.abhiram@gmail.com
+                    </a>
+                    <a href="mailto:stack.rahulrgadgimata@gmail.com" class="btn btn-primary btn-glow btn-lg" id="clients-cta-email-2">
+                        <span class="material-icons-outlined">mail</span>
+                        stack.rahulrgadgimata@gmail.com
+                    </a>
+                </div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <a href="/" class="btn btn-ghost btn-lg" id="clients-cta-home">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer" id="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="/stackbuild" class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>StackBuild<span class="logo-bracket">/&gt;</span>
+                </a>
+                <p class="footer-tagline">We build what you imagine. Production-grade software from concept to
+                    deployment.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Services</h5>
+                <ul>
+                    <li><a href="/stackbuild#services">Websites</a></li>
+                    <li><a href="/stackbuild#services">SaaS Platforms</a></li>
+                    <li><a href="/stackbuild#services">Mobile Apps</a></li>
+                    <li><a href="/stackbuild#services">ERP Systems</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="/stackbuild#process">Our Process</a></li>
+                    <li><a href="/stackbuild/clients">Our Clients</a></li>
+                    <li><a href="/stackbuild#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Connect</h5>
+                <ul>
+                    <li><a href="mailto:stack.abhiram@gmail.com">stack.abhiram@gmail.com</a></li>
+                    <li><a href="mailto:stack.rahulrgadgimata@gmail.com">stack.rahulrgadgimata@gmail.com</a></li>
+                    <li><a href="tel:6363962653">+91 6363962653</a></li>
+                    <li><a href="tel:7019670142">+91 7019670142</a></li>
+                    <li><a href="https://discord.gg/zPtP3Qyy" target="_blank" rel="noopener">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 StackBuild. All rights reserved.</p>
+
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='stackbuild/script.js') }}"></script>
+    {% include 'components/chatbot.html' %}
+</body>
+
+</html>

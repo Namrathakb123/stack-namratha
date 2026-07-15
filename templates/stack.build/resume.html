@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackBuild Resume — ATS Resume Builder</title>
+    <meta name="description" content="Build a professional ATS-friendly resume with StackBuild's Resume Builder. Clean, export-ready, designed to get past applicant tracking systems.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('favicon') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192.png') }}">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stackbuild/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stackbuild/resume.css') }}">
+    <style>
+        .editor-tab-ai {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(217, 70, 239, 0.18));
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .ai-keyword-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #c4b5fd;
+        }
+
+        .ai-keyword-chip.missing {
+            background: rgba(244, 63, 94, 0.12);
+            border-color: rgba(244, 63, 94, 0.4);
+            color: #fda4af;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinner-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .editor-selector {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #fff;
+            border-radius: var(--radius-sm);
+            padding: 4px 24px 4px 10px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            font-family: var(--font), sans-serif;
+            outline: none;
+            cursor: pointer;
+            transition: all var(--fast) var(--ease);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23a78bfa' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+        }
+
+        .editor-selector:hover, .editor-selector:focus {
+            border-color: var(--purple-light);
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+        }
+
+        .editor-selector option {
+            background: #0d0d15;
+            color: #fff;
+        }
+
+        /* Premium Custom Dropdown styling to support purple/white hover states */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            font-family: var(--font), sans-serif;
+            user-select: none;
+            z-index: 50;
+        }
+
+        .custom-dropdown-trigger {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #fff;
+            border-radius: var(--radius-sm);
+            padding: 4px 28px 4px 10px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+            transition: all var(--fast) var(--ease);
+        }
+
+        .custom-dropdown-trigger:hover {
+            border-color: var(--purple-light);
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+        }
+
+        .custom-dropdown-trigger .trigger-arrow {
+            font-size: 1rem;
+            color: var(--purple-light);
+            transition: transform var(--fast) var(--ease);
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .custom-dropdown.open .custom-dropdown-trigger .trigger-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .custom-dropdown-options {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            min-width: 140px;
+            background: rgba(13, 13, 21, 0.96);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 92, 246, 0.15);
+            z-index: 99999 !important;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all var(--fast) var(--ease);
+            padding: 4px;
+        }
+
+        .custom-dropdown.open .custom-dropdown-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-dropdown-option {
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all var(--fast) var(--ease);
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .custom-dropdown-option:hover {
+            background: var(--purple) !important;
+            color: #fff !important;
+        }
+
+        .custom-dropdown-option.active {
+            background: var(--purple-subtle);
+            color: var(--purple-light);
+            font-weight: 600;
+        }
+    </style>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+    <!-- Navbar removed as requested -->
+
+    <!-- ====== PAYMENT GATE ====== -->
+    <section id="payment-gate" class="{% if unlocked %}hidden{% endif %}">
+        <div class="gate-bg">
+            <div class="hero-grid-bg"></div>
+            <div class="hero-orb gate-orb-1"></div>
+            <div class="hero-orb gate-orb-2"></div>
+        </div>
+
+        <div class="gate-container">
+            <!-- Hero Text -->
+            <div class="gate-hero">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    ATS-Optimised Resume Builder
+                </div>
+                <h1 class="gate-title">
+                    <span>Build Your</span>
+                    <span class="hero-gradient">Dream Resume</span>
+                    <span>in Minutes</span>
+                </h1>
+                <p class="gate-subtitle">
+                    Professional, ATS-friendly resumes that get you noticed. Live preview, PDF export, 
+                    and a clean editor — built by StackBuild.
+                </p>
+
+                <!-- Feature Pills -->
+                <div class="gate-pills">
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>ATS-First Format</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>Live Preview</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>PDF Export</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>Import / Export JSON</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>All Sections Covered</span>
+                </div>
+            </div>
+
+            <!-- Payment Card -->
+            <div class="gate-card">
+                <div class="gate-card-lock">
+                    <div class="lock-icon">
+                        <span class="material-icons-outlined">lock</span>
+                    </div>
+                </div>
+
+                <div class="gate-card-header">
+                    <h2>Unlock Full Access</h2>
+                    <p>One-time payment. Lifetime access on this device.</p>
+                </div>
+
+                <div class="gate-price">
+                    <span class="price-currency">₹</span>
+                    <span class="price-amount">99</span>
+                    <span class="price-label">one-time</span>
+                </div>
+
+                <div class="gate-features-list">
+                    <div class="gate-feature-item">
+                        <span class="material-icons-outlined gate-feature-icon">description</span>
+                        <span>Full ATS Resume Editor with all sections</span>
+                    </div>
+                    <div class="gate-feature-item">
+                        <span class="material-icons-outlined gate-feature-icon">preview</span>
+                        <span>Real-time live preview</span>
+                    </div>
+                    <div class="gate-feature-item">
+                        <span class="material-icons-outlined gate-feature-icon">picture_as_pdf</span>
+                        <span>PDF & JSON export</span>
+                    </div>
+                    <div class="gate-feature-item">
+                        <span class="material-icons-outlined gate-feature-icon">devices</span>
+                        <span>Works on desktop & mobile</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Pay -->
+                <div id="step-pay" class="gate-step active">
+                    <button id="pay-btn" class="btn btn-purple btn-glow btn-full gate-pay-btn" onclick="onPayClick()">
+                        <span class="material-icons-outlined">payment</span>
+                        Pay ₹99 &amp; Continue
+                    </button>
+                    <div id="pay-error" class="verify-error hidden" style="margin-top:12px; margin-bottom:12px;">
+                        <span class="material-icons-outlined">error_outline</span>
+                        <span id="pay-error-msg"></span>
+                    </div>
+                    <p class="gate-powered">
+                        <span class="material-icons-outlined" style="font-size:0.9rem;vertical-align:middle;opacity:0.5;">lock</span>
+                        Secured by Razorpay · 100% Safe
+                    </p>
+                </div>
+                
+                <!-- Admin Access Toggle -->
+                <div id="admin-toggle-container" style="text-align: center; margin-top: 16px;">
+                    <a href="#" onclick="toggleAdmin(true); return false;" style="color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: underline; transition: color 0.2s;">Admin Access</a>
+                </div>
+
+                <!-- Admin Login Step -->
+                <div id="step-admin" class="gate-step hidden" style="margin-top: 16px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="password" id="admin-pwd" class="form-input" placeholder="Admin Password" style="flex: 1;" onkeydown="if(event.key === 'Enter') submitAdminLogin()">
+                        <button class="btn btn-purple" onclick="submitAdminLogin()">Login</button>
+                    </div>
+                    <div style="text-align: center; margin-top: 12px;">
+                        <a href="#" onclick="toggleAdmin(false); return false;" style="color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: underline;">Cancel</a>
+                    </div>
+                </div>
+
+                <!-- Step 3: Loading -->
+                <div id="step-loading" class="gate-step hidden">
+                    <div class="verify-loading">
+                        <div class="spinner"></div>
+                        <p id="loading-msg">Initializing payment...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== RESUME EDITOR ====== -->
+    <section id="resume-editor" class="{% if not unlocked %}hidden{% endif %}">
+        <!-- Editor Header -->
+        <header class="editor-header">
+            <div class="editor-header-inner">
+                <div class="editor-brand">
+                    <a href="/stackbuild" class="nav-logo" style="font-size:1rem;">
+                        <span class="logo-bracket">&lt;</span>StackBuild<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <span class="editor-divider">/</span>
+                    <span class="editor-title-text">Resume Builder</span>
+                </div>
+                <div class="editor-toolbar">
+                    <button class="editor-btn" onclick="importJson()" title="Import JSON">
+                        <span class="material-icons-outlined">upload_file</span>
+                        <span class="editor-btn-label">Import</span>
+                    </button>
+                    <button class="editor-btn" onclick="exportJson()" title="Export JSON">
+                        <span class="material-icons-outlined">download</span>
+                        <span class="editor-btn-label">Export JSON</span>
+                    </button>
+                    <button class="editor-btn" onclick="loadExample()" title="Load Example">
+                        <span class="material-icons-outlined">auto_awesome</span>
+                        <span class="editor-btn-label">Example</span>
+                    </button>
+                    <button class="editor-btn editor-btn-pdf" onclick="exportPdf()" title="Export PDF">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        <span class="editor-btn-label">Export PDF</span>
+                    </button>
+                    <button class="editor-btn editor-btn-danger" onclick="confirmClear()" title="Clear All">
+                        <span class="material-icons-outlined">delete_sweep</span>
+                        <span class="editor-btn-label">Clear</span>
+                    </button>
+                </div>
+                <button class="nav-hamburger editor-mobile-menu" id="editor-hamburger" onclick="toggleEditorMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+            <!-- Mobile toolbar -->
+            <div class="editor-mobile-toolbar hidden" id="editor-mobile-toolbar">
+                <button class="editor-btn" onclick="importJson()"><span class="material-icons-outlined">upload_file</span> Import JSON</button>
+                <button class="editor-btn" onclick="exportJson()"><span class="material-icons-outlined">download</span> Export JSON</button>
+                <button class="editor-btn" onclick="loadExample()"><span class="material-icons-outlined">auto_awesome</span> Load Example</button>
+                <button class="editor-btn editor-btn-pdf" onclick="exportPdf()"><span class="material-icons-outlined">picture_as_pdf</span> Export PDF</button>
+                <button class="editor-btn editor-btn-danger" onclick="confirmClear()"><span class="material-icons-outlined">delete_sweep</span> Clear All</button>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="editor-tabs-bar">
+            <div class="editor-tabs" id="editor-tabs">
+                <button class="editor-tab editor-tab-ai" data-tab="ai" onclick="switchTab('ai')">✨ AI Tailor</button>
+                <button class="editor-tab editor-tab-ai" data-tab="recheck" onclick="switchTab('recheck')">✔ Re-check &amp; Re-optimize</button>
+                <button class="editor-tab active" data-tab="personal" onclick="switchTab('personal')">Personal</button>
+                <button class="editor-tab" data-tab="summary" onclick="switchTab('summary')">Summary</button>
+                <button class="editor-tab" data-tab="skills" onclick="switchTab('skills')">Skills</button>
+                <button class="editor-tab" data-tab="experience" onclick="switchTab('experience')">Experience</button>
+                <button class="editor-tab" data-tab="projects" onclick="switchTab('projects')">Projects</button>
+                <button class="editor-tab" data-tab="education" onclick="switchTab('education')">Education</button>
+                <button class="editor-tab" data-tab="languages" onclick="switchTab('languages')">Languages</button>
+                <button class="editor-tab" data-tab="headings" onclick="switchTab('headings')">Headings</button>
+            </div>
+        </div>
+
+        <!-- Split Pane -->
+        <div class="editor-split">
+            <!-- Left: Form Panel -->
+            <div class="editor-form-panel" id="editor-form-panel">
+
+                <!-- AI TAILOR TAB -->
+                <div class="tab-content hidden" id="tab-ai">
+                    <div class="form-section">
+                        <h3 class="form-section-title">✨ AI Tailor — ATS Resume from a Job Description</h3>
+                        <p class="form-hint" style="margin-bottom:16px;">
+                            Paste your existing resume and the job description you're applying for.
+                            AI rewrites your resume to be ATS-friendly and keyword-matched for that exact job —
+                            your real experience is kept, nothing is invented. The result loads straight into the
+                            editor so you can fine-tune every field.
+                        </p>
+
+                        <div class="form-group">
+                            <label class="form-label">Your Current Resume — paste text or upload a file</label>
+                            <textarea id="ai-old-resume" class="form-textarea" rows="9"
+                                placeholder="Paste your existing resume text here — or upload your old resume file below…"></textarea>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+                                <button class="btn-add" onclick="document.getElementById('resume-file-input').click()">
+                                    <span class="material-icons-outlined">upload_file</span> Upload old resume (PDF / DOCX / TXT)
+                                </button>
+                                <button class="btn-add" onclick="useCurrentResume()">
+                                    <span class="material-icons-outlined">sync</span> Use data already in the builder
+                                </button>
+                            </div>
+                            <input type="file" id="resume-file-input" accept=".pdf,.docx,.txt" class="hidden"
+                                onchange="handleResumeFile(event)">
+                        </div>
+
+                        <div class="form-group" style="margin-top:16px;">
+                            <label class="form-label">Target Job Description</label>
+                            <textarea id="ai-jd" class="form-textarea" rows="9"
+                                placeholder="Paste the full job description here…"
+                                oninput="syncJd(this.value)"></textarea>
+                        </div>
+
+                        <div class="form-grid-2" style="margin-top:16px; overflow:visible !important;">
+                            <div class="form-group" style="display:flex; flex-direction:column; position:relative; overflow:visible !important;">
+                                <label class="form-label">Optimization Mode</label>
+                                <select id="ai-opt-mode" style="display:none !important;">
+                                    <option value="rewrite" selected>Full Smart Rewrite (Best Match)</option>
+                                    <option value="preserve">Strict Wording Preservation</option>
+                                </select>
+                                <div class="custom-dropdown" id="custom-ai-opt-mode" style="width:100%;">
+                                    <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown('custom-ai-opt-mode')" style="height:38px; font-size:0.82rem; padding:6px 12px;">
+                                        <span class="trigger-text">Full Smart Rewrite (Best Match)</span>
+                                        <span class="material-icons-outlined trigger-arrow">expand_more</span>
+                                    </div>
+                                    <div class="custom-dropdown-options" style="width:100%; right:0; left:0;">
+                                        <div class="custom-dropdown-option active" data-value="rewrite" onclick="selectCustomOption('custom-ai-opt-mode', 'ai-opt-mode', 'rewrite', 'Full Smart Rewrite (Best Match)')">Full Smart Rewrite (Best Match)</div>
+                                        <div class="custom-dropdown-option" data-value="preserve" onclick="selectCustomOption('custom-ai-opt-mode', 'ai-opt-mode', 'preserve', 'Strict Wording Preservation')">Strict Wording Preservation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:flex; flex-direction:column;">
+                                <label class="form-label">Custom Focus / Guidelines (Optional)</label>
+                                <input type="text" id="ai-custom-inst" class="form-input" placeholder="e.g. 'Emphasize cloud', 'Keep bullets short'" style="height:38px; font-size: 0.82rem; padding: 6px 12px; font-family: var(--font), sans-serif;">
+                            </div>
+                        </div>
+
+                        <div id="ai-error" class="verify-error hidden" style="margin:12px 0;">
+                            <span class="material-icons-outlined">error_outline</span>
+                            <span id="ai-error-msg"></span>
+                        </div>
+
+                        <button id="ai-generate-btn" class="btn btn-purple btn-glow" style="margin-top:12px;" onclick="aiTailor()">
+                            <span class="material-icons-outlined">auto_awesome</span>
+                            <span id="ai-generate-label">Generate ATS Resume</span>
+                        </button>
+
+                        <div id="ai-results" class="hidden" style="margin-top:24px;">
+                            <div id="ai-score" class="hidden" style="margin-bottom:18px;"></div>
+                            <h3 class="form-section-title">Keywords Matched to the Job</h3>
+                            <div id="ai-keywords" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
+                            <div id="ai-missing-wrap" class="hidden">
+                                <h3 class="form-section-title">Keywords Still Missing</h3>
+                                <div id="ai-missing" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
+                            </div>
+                            <h3 class="form-section-title">ATS Tips for You</h3>
+                            <ul id="ai-tips" style="padding-left:18px;line-height:1.8;opacity:0.85;"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RE-CHECK & RE-OPTIMIZE TAB -->
+                <div class="tab-content hidden" id="tab-recheck">
+                    <div class="form-section">
+                        <h3 class="form-section-title">✔ Re-check &amp; Re-optimize</h3>
+                        <p class="form-hint" style="margin-bottom:16px;">
+                            Finished editing your resume in the other tabs? Run a fresh check against the job
+                            description — as many times as you like.
+                        </p>
+
+                        <div class="gate-features-list" style="margin-bottom:20px;">
+                            <div class="gate-feature-item">
+                                <span class="material-icons-outlined gate-feature-icon">lock_person</span>
+                                <span><strong>Your information is never changed</strong> — every company, role, date and metric stays exactly as you wrote it</span>
+                            </div>
+                            <div class="gate-feature-item">
+                                <span class="material-icons-outlined gate-feature-icon">manage_search</span>
+                                <span><strong>Keyword re-matching</strong> — the job description's exact terms are woven into your existing wording</span>
+                            </div>
+                            <div class="gate-feature-item">
+                                <span class="material-icons-outlined gate-feature-icon">speed</span>
+                                <span><strong>Fresh ATS score out of 100</strong> — see instantly how well your edited resume matches</span>
+                            </div>
+                            <div class="gate-feature-item">
+                                <span class="material-icons-outlined gate-feature-icon">report</span>
+                                <span><strong>Honest gap report</strong> — keywords you're still missing are flagged, never faked into your resume</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Target Job Description</label>
+                            <textarea id="rc-jd" class="form-textarea" rows="7"
+                                placeholder="Paste the job description here (shared with the AI Tailor tab)…"
+                                oninput="syncJd(this.value)"></textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-top:12px;">
+                            <label class="form-label">Custom Focus / Guidelines (Optional)</label>
+                            <input type="text" id="rc-custom-inst" class="form-input" placeholder="e.g. 'Focus on leadership', 'Make it highly technical'" style="font-size: 0.85rem; padding: 6px 10px;">
+                        </div>
+
+                        <div id="rc-error" class="verify-error hidden" style="margin:12px 0;">
+                            <span class="material-icons-outlined">error_outline</span>
+                            <span id="rc-error-msg"></span>
+                        </div>
+
+                        <button id="ai-reopt-btn" class="btn btn-purple btn-glow" style="margin-top:12px;" onclick="reoptimizeResume()">
+                            <span class="material-icons-outlined">fact_check</span>
+                            <span id="ai-reopt-label">Re-optimize &amp; Score My Resume</span>
+                        </button>
+
+                        <div id="rc-results" class="hidden" style="margin-top:24px;">
+                            <div id="rc-score" class="hidden" style="margin-bottom:18px;"></div>
+                            <h3 class="form-section-title">Keywords Matched to the Job</h3>
+                            <div id="rc-keywords" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
+                            <div id="rc-missing-wrap" class="hidden">
+                                <h3 class="form-section-title">Keywords Still Missing</h3>
+                                <div id="rc-missing" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
+                            </div>
+                            <h3 class="form-section-title">ATS Tips for You</h3>
+                            <ul id="rc-tips" style="padding-left:18px;line-height:1.8;opacity:0.85;"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PERSONAL TAB -->
+                <div class="tab-content active" id="tab-personal">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Personal Information</h3>
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" id="f-name" placeholder="John Doe" oninput="updateField('name', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Title / Headline</label>
+                                <input type="text" class="form-input" id="f-title" placeholder="Full Stack Developer" oninput="updateField('title', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="f-email" placeholder="john@example.com" oninput="updateField('email', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-input" id="f-location" placeholder="Remote / City, Country" oninput="updateField('location', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone (Display)</label>
+                                <input type="text" class="form-input" id="f-phone_display" placeholder="+91 98765 43210" oninput="updateField('phone_display', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone (E.164)</label>
+                                <input type="text" class="form-input" id="f-phone_e164" placeholder="+919876543210" oninput="updateField('phone_e164', this.value)">
+                            </div>
+                        </div>
+                        <h3 class="form-section-title" style="margin-top:24px;">Online Profiles</h3>
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label class="form-label">LinkedIn URL</label>
+                                <input type="url" class="form-input" id="f-linkedin_url" placeholder="https://linkedin.com/in/…" oninput="updateField('linkedin_url', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">GitHub URL</label>
+                                <input type="url" class="form-input" id="f-github_url" placeholder="https://github.com/…" oninput="updateField('github_url', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Website URL</label>
+                                <input type="url" class="form-input" id="f-website_url" placeholder="https://yoursite.com" oninput="updateField('website_url', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUMMARY TAB -->
+                <div class="tab-content hidden" id="tab-summary">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Professional Summary</h3>
+                        <textarea class="form-textarea" id="f-summary" rows="7" placeholder="A brief summary of your professional background, key skills, and career goals…" oninput="updateField('summary', this.value)"></textarea>
+                        <p class="form-hint">Keep it 3–5 sentences. Highlight your top skills and value proposition.</p>
+                    </div>
+                </div>
+
+                <!-- SKILLS TAB -->
+                <div class="tab-content hidden" id="tab-skills">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Skills</h3>
+                            <button class="btn-add" onclick="addSkillGroup()">
+                                <span class="material-icons-outlined">add</span> Add Group
+                            </button>
+                        </div>
+                        <div id="skills-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="skills-empty">No skill groups yet. Click "Add Group" to get started.</p>
+                    </div>
+                </div>
+
+                <!-- EXPERIENCE TAB -->
+                <div class="tab-content hidden" id="tab-experience">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Work Experience</h3>
+                            <button class="btn-add" onclick="addExperience()">
+                                <span class="material-icons-outlined">add</span> Add Position
+                            </button>
+                        </div>
+                        <div id="experience-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="exp-empty">No experience added yet.</p>
+                    </div>
+                </div>
+
+                <!-- PROJECTS TAB -->
+                <div class="tab-content hidden" id="tab-projects">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Projects</h3>
+                            <button class="btn-add" onclick="addProject()">
+                                <span class="material-icons-outlined">add</span> Add Project
+                            </button>
+                        </div>
+                        <div id="projects-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="proj-empty">No projects added yet.</p>
+                    </div>
+                </div>
+
+                <!-- EDUCATION TAB -->
+                <div class="tab-content hidden" id="tab-education">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Education</h3>
+                            <button class="btn-add" onclick="addEducation()">
+                                <span class="material-icons-outlined">add</span> Add Education
+                            </button>
+                        </div>
+                        <div id="education-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="edu-empty">No education entries added yet.</p>
+                    </div>
+                </div>
+
+                <!-- LANGUAGES TAB -->
+                <div class="tab-content hidden" id="tab-languages">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Languages</h3>
+                            <button class="btn-add" onclick="addLanguage()">
+                                <span class="material-icons-outlined">add</span> Add Language
+                            </button>
+                        </div>
+                        <div id="languages-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="lang-empty">No languages added yet.</p>
+                    </div>
+                </div>
+
+                <!-- HEADINGS TAB -->
+                <div class="tab-content hidden" id="tab-headings">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Customize Section Labels</h3>
+                        <p class="form-hint" style="margin-bottom:16px;">Rename any section heading in your resume to fit your language or style.</p>
+                        <div class="form-grid-2" id="headings-grid">
+                            <!-- filled by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right: Preview Panel -->
+            <div class="editor-preview-panel" id="editor-preview-panel">
+                <div class="preview-header" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-bottom:1px solid var(--border); background:rgba(5,5,8,0.8); flex-shrink:0; overflow:visible !important;">
+                    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0; white-space:nowrap;">
+                        <span class="material-icons-outlined" style="font-size:0.9rem;opacity:0.5;">visibility</span>
+                        <span style="font-family:var(--mono), monospace; font-size:0.75rem; font-weight:600; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;">Preview</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:nowrap; overflow:visible !important;">
+                        <div style="display:flex; align-items:center; gap:4px; flex-shrink:0; white-space:nowrap; position:relative; overflow:visible !important;">
+                            <span style="font-family: var(--mono), monospace; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; white-space:nowrap;">Layout:</span>
+                            <select id="template-selector" onchange="changeTemplate(this.value)" style="display:none !important;">
+                                <option value="classic">Classic</option>
+                                <option value="classic_left">Classic Left</option>
+                                <option value="modern" selected>Modern</option>
+                                <option value="executive">Executive</option>
+                            </select>
+                            <div class="custom-dropdown" id="custom-template-selector">
+                                <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown('custom-template-selector')">
+                                    <span class="trigger-text">Modern</span>
+                                    <span class="material-icons-outlined trigger-arrow">expand_more</span>
+                                </div>
+                                <div class="custom-dropdown-options">
+                                    <div class="custom-dropdown-option" data-value="classic" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic', 'Classic')">Classic</div>
+                                    <div class="custom-dropdown-option" data-value="classic_left" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic_left', 'Classic Left')">Classic Left</div>
+                                    <div class="custom-dropdown-option active" data-value="modern" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'modern', 'Modern')">Modern</div>
+                                    <div class="custom-dropdown-option" data-value="executive" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'executive', 'Executive')">Executive</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:4px; flex-shrink:0; white-space:nowrap; position:relative; overflow:visible !important;">
+                            <span style="font-family: var(--mono), monospace; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; white-space:nowrap;">Font:</span>
+                            <select id="font-selector" onchange="changeFont(this.value)" style="display:none !important;">
+                                <option value="default" selected>Default</option>
+                                <option value="inter">Inter</option>
+                                <option value="arial">Arial</option>
+                                <option value="lora">Lora</option>
+                                <option value="garamond">Garamond</option>
+                                <option value="georgia">Georgia</option>
+                                <option value="times">Times New Roman</option>
+                            </select>
+                            <div class="custom-dropdown" id="custom-font-selector">
+                                <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown('custom-font-selector')">
+                                    <span class="trigger-text">Default</span>
+                                    <span class="material-icons-outlined trigger-arrow">expand_more</span>
+                                </div>
+                                <div class="custom-dropdown-options" style="max-height:220px; overflow-y:auto; scrollbar-width:thin;">
+                                    <div class="custom-dropdown-option active" data-value="default" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'default', 'Default')">Default</div>
+                                    <div class="custom-dropdown-option" data-value="inter" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'inter', 'Inter')">Inter</div>
+                                    <div class="custom-dropdown-option" data-value="arial" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'arial', 'Arial')">Arial</div>
+                                    <div class="custom-dropdown-option" data-value="lora" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'lora', 'Lora')">Lora</div>
+                                    <div class="custom-dropdown-option" data-value="garamond" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'garamond', 'Garamond')">Garamond</div>
+                                    <div class="custom-dropdown-option" data-value="georgia" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'georgia', 'Georgia')">Georgia</div>
+                                    <div class="custom-dropdown-option" data-value="times" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'times', 'Times New Roman')">Times New Roman</div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="preview-badge" id="page-badge" style="margin-left:0; flex-shrink:0; white-space:nowrap; padding: 2px 6px; font-size: 0.65rem;">A4</span>
+                    </div>
+                </div>
+                <iframe id="preview-frame" title="Resume Preview" sandbox="allow-same-origin" class="preview-iframe"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hidden file input for JSON import -->
+    <input type="file" id="json-file-input" accept=".json" class="hidden" onchange="handleJsonImport(event)">
+
+    <!-- Clear Confirm Modal -->
+    <div id="clear-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-icon"><span class="material-icons-outlined">warning_amber</span></div>
+            <h3>Clear All Data?</h3>
+            <p>This will erase everything you've entered. This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeClearModal()">Cancel</button>
+                <button class="btn btn-danger" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast hidden">
+        <span class="material-icons-outlined toast-icon">check_circle</span>
+        <span id="toast-msg">Done!</span>
+    </div>
+
+    <script>
+    // ============================================================
+    //   PAYMENT GATE
+    // ============================================================
+
+    const UNLOCK_KEY = 'sb_resume_unlocked';
+    const PAYMENT_ID_KEY = 'sb_resume_payment_id';
+
+    // Check on load if already unlocked
+    document.addEventListener('DOMContentLoaded', function () {
+        {% if unlocked %}
+        // Admin or server bypassed
+        localStorage.setItem(UNLOCK_KEY, '1');
+        showEditor();
+        {% else %}
+        if (localStorage.getItem(UNLOCK_KEY) === '1') {
+            showEditor();
+        }
+        {% endif %}
+    });
+
+    async function onPayClick() {
+        const payBtn = document.getElementById('step-pay');
+        const loading = document.getElementById('step-loading');
+        const loadingMsg = document.getElementById('loading-msg');
+        const errEl = document.getElementById('pay-error');
+        const errMsg = document.getElementById('pay-error-msg');
+        
+        errEl.classList.add('hidden');
+        payBtn.classList.add('hidden');
+        loading.classList.remove('hidden');
+        loadingMsg.textContent = "Initializing payment...";
+
+        try {
+            // 1. Create Order
+            const res = await fetch('/api/resume/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+
+            if (data.status !== 'success') {
+                throw new Error(data.message || 'Failed to create order');
+            }
+
+            // 2. Open Razorpay Checkout
+            const options = {
+                key: data.key_id,
+                amount: data.amount,
+                currency: data.currency,
+                name: "StackBuild",
+                description: "Resume Builder Lifetime Access",
+                order_id: data.order_id,
+                handler: async function (response) {
+                    await verifyPayment(response);
+                },
+                modal: {
+                    ondismiss: function() {
+                        loading.classList.add('hidden');
+                        payBtn.classList.remove('hidden');
+                    }
+                },
+                theme: {
+                    color: "#8b5cf6"
+                }
+            };
+            
+            const rzp = new Razorpay(options);
+            
+            rzp.on('payment.failed', function (response) {
+                loading.classList.add('hidden');
+                payBtn.classList.remove('hidden');
+                errMsg.textContent = response.error.description || 'Payment failed';
+                errEl.classList.remove('hidden');
+            });
+            
+            rzp.open();
+            
+        } catch (e) {
+            loading.classList.add('hidden');
+            payBtn.classList.remove('hidden');
+            errMsg.textContent = e.message || 'Network error. Please try again.';
+            errEl.classList.remove('hidden');
+        }
+    }
+
+    function toggleAdmin(show) {
+        document.getElementById('admin-toggle-container').classList.toggle('hidden', show);
+        document.getElementById('step-pay').classList.toggle('hidden', show);
+        document.getElementById('step-admin').classList.toggle('hidden', !show);
+        if (show) {
+            document.getElementById('admin-pwd').focus();
+        }
+    }
+
+    async function submitAdminLogin() {
+        const pwd = document.getElementById('admin-pwd').value;
+        try {
+            const res = await fetch('/api/resume/admin-unlock', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pwd })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                localStorage.setItem(UNLOCK_KEY, '1');
+                showEditor();
+            } else {
+                alert(data.message || 'Incorrect admin password');
+            }
+        } catch (e) {
+            alert('Could not verify password. Please try again.');
+        }
+    }
+
+    async function verifyPayment(paymentData) {
+        const payBtn = document.getElementById('step-pay');
+        const loading = document.getElementById('step-loading');
+        const loadingMsg = document.getElementById('loading-msg');
+        const errEl = document.getElementById('pay-error');
+        const errMsg = document.getElementById('pay-error-msg');
+        
+        payBtn.classList.add('hidden');
+        loading.classList.remove('hidden');
+        loadingMsg.textContent = "Verifying payment...";
+
+        try {
+            const res = await fetch('/api/resume/verify-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    razorpay_payment_id: paymentData.razorpay_payment_id,
+                    razorpay_order_id: paymentData.razorpay_order_id,
+                    razorpay_signature: paymentData.razorpay_signature
+                })
+            });
+            const data = await res.json();
+
+            if (data.status === 'success') {
+                localStorage.setItem(UNLOCK_KEY, '1');
+                localStorage.setItem(PAYMENT_ID_KEY, paymentData.razorpay_payment_id);
+                showEditor();
+            } else {
+                loading.classList.add('hidden');
+                payBtn.classList.remove('hidden');
+                errMsg.textContent = data.message || 'Payment verification failed. Contact support.';
+                errEl.classList.remove('hidden');
+            }
+        } catch (e) {
+            loading.classList.add('hidden');
+            payBtn.classList.remove('hidden');
+            errMsg.textContent = 'Verification error. Please contact support with your payment details.';
+            errEl.classList.remove('hidden');
+        }
+    }
+
+    function showEditor() {
+        document.getElementById('payment-gate').classList.add('hidden');
+        document.getElementById('resume-editor').classList.remove('hidden');
+        initEditor();
+    }
+
+    // ============================================================
+    //   RESUME DATA MODEL
+    // ============================================================
+
+    const defaultResume = {
+        template: 'modern',
+        font: 'default',
+        name: '', title: '', email: '', location: '',
+        phone_display: '', phone_e164: '',
+        linkedin_url: '', github_url: '', website_url: '',
+        summary: '',
+        skills: [],
+        experience: [],
+        projects: [],
+        education: [],
+        languages: [],
+        headings: {
+            summary: 'Summary',
+            skills: 'Skills',
+            experience: 'Work Experience',
+            projects: 'Projects',
+            education: 'Education',
+            languages: 'Languages'
+        }
+    };
+
+    let resume = JSON.parse(JSON.stringify(defaultResume));
+
+    const STORAGE_KEY = 'sb_resume_data';
+
+    function saveToStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(resume));
+    }
+
+    function loadFromStorage() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                resume = { ...defaultResume, ...JSON.parse(stored) };
+                if (!resume.template) resume.template = 'modern';
+                if (!resume.font) resume.font = 'default';
+                if (!resume.headings) resume.headings = { ...defaultResume.headings };
+                if (!Array.isArray(resume.skills)) resume.skills = [];
+                if (!Array.isArray(resume.experience)) resume.experience = [];
+                if (!Array.isArray(resume.projects)) resume.projects = [];
+                if (!Array.isArray(resume.education)) resume.education = [];
+                if (!Array.isArray(resume.languages)) resume.languages = [];
+
+                const selector = document.getElementById('template-selector');
+                if (selector) selector.value = resume.template;
+
+                const fontSel = document.getElementById('font-selector');
+                if (fontSel) fontSel.value = resume.font;
+            }
+        } catch (e) { }
+        syncAllCustomDropdowns();
+    }
+
+    function changeTemplate(val) {
+        resume.template = val;
+        saveToStorage();
+        updatePreview();
+        syncAllCustomDropdowns();
+    }
+
+    // Bind change event to native select to trigger template update
+    document.addEventListener('DOMContentLoaded', () => {
+        const ts = document.getElementById('template-selector');
+        if (ts) {
+            ts.addEventListener('change', (e) => {
+                changeTemplate(e.target.value);
+            });
+        }
+        const fs = document.getElementById('font-selector');
+        if (fs) {
+            fs.addEventListener('change', (e) => {
+                changeFont(e.target.value);
+            });
+        }
+    });
+
+    function changeFont(val) {
+        resume.font = val;
+        saveToStorage();
+        updatePreview();
+        syncAllCustomDropdowns();
+    }
+
+    // ============================================================
+    //   EDITOR INIT
+    // ============================================================
+
+    let editorInited = false;
+
+    function initEditor() {
+        if (editorInited) return;
+        editorInited = true;
+        loadFromStorage();
+        renderAllFields();
+        renderDynamicSections();
+        renderHeadings();
+        updatePreview();
+        syncAllCustomDropdowns();
+        // Restore the last job description so re-optimize works across visits
+        const savedJd = localStorage.getItem('sb_resume_jd');
+        if (savedJd) syncJd(savedJd);
+    }
+
+    // ============================================================
+    //   TAB SWITCHING
+    // ============================================================
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(el => {
+            el.classList.add('hidden');
+            el.classList.remove('active');
+        });
+        document.querySelectorAll('.editor-tab').forEach(el => el.classList.remove('active'));
+        
+        const content = document.getElementById('tab-' + tab);
+        content.classList.remove('hidden');
+        content.classList.add('active');
+        
+        document.querySelector(`.editor-tab[data-tab="${tab}"]`).classList.add('active');
+    }
+
+    // ============================================================
+    //   FIELD UPDATES
+    // ============================================================
+
+    function updateField(field, value) {
+        resume[field] = value;
+        saveToStorage();
+        updatePreview();
+    }
+
+    function renderAllFields() {
+        const fields = ['name', 'title', 'email', 'location', 'phone_display', 'phone_e164',
+            'linkedin_url', 'github_url', 'website_url', 'summary'];
+        fields.forEach(f => {
+            const el = document.getElementById('f-' + f);
+            if (el) el.value = resume[f] || '';
+        });
+    }
+
+    // ============================================================
+    //   SKILLS
+    // ============================================================
+
+    function renderSkills() {
+        const list = document.getElementById('skills-list');
+        const empty = document.getElementById('skills-empty');
+        list.innerHTML = '';
+        if (resume.skills.length === 0) {
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+        resume.skills.forEach((group, i) => {
+            const card = document.createElement('div');
+            card.className = 'dynamic-card';
+            card.innerHTML = `
+                <div class="dynamic-card-header">
+                    <span class="dynamic-card-num">${i + 1}</span>
+                    <button class="btn-remove" onclick="removeSkillGroup(${i})" title="Remove">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Group Name</label>
+                        <input type="text" class="form-input" value="${esc(group.group)}" placeholder="e.g. Programming" oninput="updateSkillGroup(${i}, 'group', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Skills (comma-separated)</label>
+                        <input type="text" class="form-input" value="${esc((group.items || []).join(', '))}" placeholder="JavaScript, React, Node.js" oninput="updateSkillGroup(${i}, 'items', this.value)">
+                    </div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function addSkillGroup() {
+        try {
+            resume.skills.push({ group: '', items: [] });
+            renderSkills();
+            saveToStorage();
+            updatePreview();
+        } catch (e) { alert("Error in addSkillGroup: " + e); }
+    }
+
+    function removeSkillGroup(i) {
+        resume.skills.splice(i, 1);
+        renderSkills();
+        saveToStorage();
+        updatePreview();
+    }
+
+    function updateSkillGroup(i, field, value) {
+        if (field === 'items') {
+            resume.skills[i].items = value.split(',').map(s => s.trim()).filter(Boolean);
+        } else {
+            resume.skills[i][field] = value;
+        }
+        saveToStorage();
+        updatePreview();
+    }
+
+    // ============================================================
+    //   EXPERIENCE
+    // ============================================================
+
+    function renderExperience() {
+        const list = document.getElementById('experience-list');
+        const empty = document.getElementById('exp-empty');
+        list.innerHTML = '';
+        if (resume.experience.length === 0) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        resume.experience.forEach((exp, i) => {
+            const card = document.createElement('div');
+            card.className = 'dynamic-card';
+            card.innerHTML = `
+                <div class="dynamic-card-header">
+                    <span class="dynamic-card-num">${i + 1}</span>
+                    <button class="btn-remove" onclick="removeExperience(${i})"><span class="material-icons-outlined">close</span></button>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Company</label>
+                        <input type="text" class="form-input" value="${esc(exp.company||'')}" placeholder="Acme Corp" oninput="updateExp(${i},'company',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Role</label>
+                        <input type="text" class="form-input" value="${esc(exp.role||'')}" placeholder="Software Engineer" oninput="updateExp(${i},'role',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Start Date</label>
+                        <input type="text" class="form-input" value="${esc(exp.start||'')}" placeholder="Jan 2023" oninput="updateExp(${i},'start',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Date</label>
+                        <input type="text" class="form-input" value="${esc(exp.end||'')}" placeholder="Present" oninput="updateExp(${i},'end',this.value)">
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" value="${esc(exp.location||'')}" placeholder="Remote / Bengaluru" oninput="updateExp(${i},'location',this.value)">
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="form-label">Bullet Points (one per line)</label>
+                        <textarea class="form-textarea" rows="4" placeholder="Describe your responsibilities and achievements…" oninput="updateExp(${i},'bullets',this.value)">${esc((exp.bullets||[]).join('\n'))}</textarea>
+                    </div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function addExperience() {
+        try {
+            resume.experience.push({ company: '', role: '', start: '', end: '', location: '', bullets: [] });
+            renderExperience();
+            saveToStorage();
+            updatePreview();
+        } catch (e) { alert("Error in addExperience: " + e); }
+    }
+
+    function removeExperience(i) {
+        resume.experience.splice(i, 1);
+        renderExperience();
+        saveToStorage();
+        updatePreview();
+    }
+
+    function updateExp(i, field, value) {
+        if (field === 'bullets') {
+            resume.experience[i].bullets = value.split('\n').map(s => s.trim()).filter(Boolean);
+        } else {
+            resume.experience[i][field] = value;
+        }
+        saveToStorage();
+        updatePreview();
+    }
+
+    // ============================================================
+    //   PROJECTS
+    // ============================================================
+
+    function renderProjects() {
+        const list = document.getElementById('projects-list');
+        const empty = document.getElementById('proj-empty');
+        list.innerHTML = '';
+        if (resume.projects.length === 0) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        resume.projects.forEach((proj, i) => {
+            const card = document.createElement('div');
+            card.className = 'dynamic-card';
+            card.innerHTML = `
+                <div class="dynamic-card-header">
+                    <span class="dynamic-card-num">${i + 1}</span>
+                    <button class="btn-remove" onclick="removeProject(${i})"><span class="material-icons-outlined">close</span></button>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Project Name</label>
+                        <input type="text" class="form-input" value="${esc(proj.name||'')}" placeholder="My SaaS App" oninput="updateProj(${i},'name',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Technologies</label>
+                        <input type="text" class="form-input" value="${esc(proj.tech||'')}" placeholder="React, Node.js, PostgreSQL" oninput="updateProj(${i},'tech',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Project URL</label>
+                        <input type="url" class="form-input" value="${esc(proj.url||'')}" placeholder="https://github.com/…" oninput="updateProj(${i},'url',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date / Period</label>
+                        <input type="text" class="form-input" value="${esc(proj.date||'')}" placeholder="2024" oninput="updateProj(${i},'date',this.value)">
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="form-label">Description (one bullet per line)</label>
+                        <textarea class="form-textarea" rows="4" placeholder="Describe what you built and the impact…" oninput="updateProj(${i},'bullets',this.value)">${esc((proj.bullets||[]).join('\n'))}</textarea>
+                    </div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function addProject() {
+        try {
+            resume.projects.push({ name: '', tech: '', url: '', date: '', bullets: [] });
+            renderProjects();
+            saveToStorage();
+            updatePreview();
+        } catch (e) { alert("Error in addProject: " + e); }
+    }
+
+    function removeProject(i) {
+        resume.projects.splice(i, 1);
+        renderProjects();
+        saveToStorage();
+        updatePreview();
+    }
+
+    function updateProj(i, field, value) {
+        if (field === 'bullets') {
+            resume.projects[i].bullets = value.split('\n').map(s => s.trim()).filter(Boolean);
+        } else {
+            resume.projects[i][field] = value;
+        }
+        saveToStorage();
+        updatePreview();
+    }
+
+    // ============================================================
+    //   EDUCATION
+    // ============================================================
+
+    function renderEducation() {
+        const list = document.getElementById('education-list');
+        const empty = document.getElementById('edu-empty');
+        list.innerHTML = '';
+        if (resume.education.length === 0) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        resume.education.forEach((edu, i) => {
+            const card = document.createElement('div');
+            card.className = 'dynamic-card';
+            card.innerHTML = `
+                <div class="dynamic-card-header">
+                    <span class="dynamic-card-num">${i + 1}</span>
+                    <button class="btn-remove" onclick="removeEducation(${i})"><span class="material-icons-outlined">close</span></button>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Institution</label>
+                        <input type="text" class="form-input" value="${esc(edu.institution||'')}" placeholder="IIT Bombay" oninput="updateEdu(${i},'institution',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Degree / Program</label>
+                        <input type="text" class="form-input" value="${esc(edu.degree||'')}" placeholder="B.Tech Computer Science" oninput="updateEdu(${i},'degree',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Start Year</label>
+                        <input type="text" class="form-input" value="${esc(edu.start||'')}" placeholder="2020" oninput="updateEdu(${i},'start',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Year</label>
+                        <input type="text" class="form-input" value="${esc(edu.end||'')}" placeholder="2024" oninput="updateEdu(${i},'end',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">GPA / Score</label>
+                        <input type="text" class="form-input" value="${esc(edu.gpa||'')}" placeholder="8.5 / 10" oninput="updateEdu(${i},'gpa',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" value="${esc(edu.location||'')}" placeholder="Mumbai, India" oninput="updateEdu(${i},'location',this.value)">
+                    </div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function addEducation() {
+        try {
+            resume.education.push({ institution: '', degree: '', start: '', end: '', gpa: '', location: '' });
+            renderEducation();
+            saveToStorage();
+            updatePreview();
+        } catch (e) { alert("Error in addEducation: " + e); }
+    }
+
+    function removeEducation(i) {
+        resume.education.splice(i, 1);
+        renderEducation();
+        saveToStorage();
+        updatePreview();
+    }
+
+    function updateEdu(i, field, value) {
+        resume.education[i][field] = value;
+        saveToStorage();
+        updatePreview();
+    }
+
+    // ============================================================
+    //   LANGUAGES
+    // ============================================================
+
+    function renderLanguages() {
+        const list = document.getElementById('languages-list');
+        const empty = document.getElementById('lang-empty');
+        list.innerHTML = '';
+        if (resume.languages.length === 0) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        resume.languages.forEach((lang, i) => {
+            const card = document.createElement('div');
+            card.className = 'dynamic-card';
+            card.innerHTML = `
+                <div class="dynamic-card-header">
+                    <span class="dynamic-card-num">${i + 1}</span>
+                    <button class="btn-remove" onclick="removeLanguage(${i})"><span class="material-icons-outlined">close</span></button>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Language</label>
+                        <input type="text" class="form-input" value="${esc(lang.name||'')}" placeholder="English" oninput="updateLang(${i},'name',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Proficiency</label>
+                        <select class="form-input form-select" oninput="updateLang(${i},'level',this.value)">
+                            ${['Native','Fluent','Professional','Conversational','Basic'].map(l =>
+                                `<option value="${l}" ${(lang.level||'') === l ? 'selected' : ''}>${l}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function addLanguage() {
+        try {
+            resume.languages.push({ name: '', level: 'Fluent' });
+            renderLanguages();
+            saveToStorage();
+            updatePreview();
+        } catch (e) { alert("Error in addLanguage: " + e); }
+    }
+
+    function removeLanguage(i) {
+        resume.languages.splice(i, 1);
+        renderLanguages();
+        saveToStorage();
+        updatePreview();
+    }
+
+    function updateLang(i, field, value) {
+        resume.languages[i][field] = value;
+        saveToStorage();
+        updatePreview();
+    }
+
+    // ============================================================
+    //   HEADINGS
+    // ============================================================
+
+    function renderHeadings() {
+        const grid = document.getElementById('headings-grid');
+        grid.innerHTML = '';
+        const keys = Object.keys(resume.headings);
+        keys.forEach(k => {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label class="form-label" style="text-transform:capitalize;">${k}</label>
+                <input type="text" class="form-input" value="${esc(resume.headings[k])}" placeholder="${k}" oninput="updateHeading('${k}', this.value)">
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    function updateHeading(key, value) {
+        resume.headings[key] = value;
+        saveToStorage();
+        updatePreview();
+    }
+
+    // ============================================================
+    //   RENDER ALL DYNAMIC SECTIONS
+    // ============================================================
+
+    function renderDynamicSections() {
+        renderSkills();
+        renderExperience();
+        renderProjects();
+        renderEducation();
+        renderLanguages();
+    }
+
+    // ============================================================
+    //   PREVIEW GENERATION
+    // ============================================================
+
+    let previewDebounce = null;
+
+    function updatePreview() {
+        clearTimeout(previewDebounce);
+        previewDebounce = setTimeout(() => {
+            const html = generateResumeHtml(resume);
+            const frame = document.getElementById('preview-frame');
+            if (frame) {
+                frame.onload = fitPreview;
+                frame.srcdoc = html;
+            }
+        }, 120);
+    }
+
+    // Scale the fixed A4 page to the preview width and show a live page count
+    function fitPreview() {
+        const frame = document.getElementById('preview-frame');
+        try {
+            const doc = frame.contentDocument;
+            const page = doc && doc.querySelector('.page');
+            if (!page) return;
+            const scale = Math.min(1, (frame.clientWidth - 4) / 794);
+            page.style.transform = 'scale(' + scale + ')';
+            page.style.transformOrigin = 'top center';
+            doc.body.style.height = (page.offsetHeight * scale + 16) + 'px';
+            doc.documentElement.style.overflowX = 'hidden';
+
+            const pages = Math.max(1, Math.ceil((page.offsetHeight - 4) / 1123));
+            const badge = document.getElementById('page-badge');
+            if (badge) {
+                if (pages === 1) {
+                    badge.textContent = 'A4 · 1 page ✓';
+                    badge.style.cssText = 'background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.4);';
+                } else {
+                    badge.textContent = 'A4 · ' + pages + ' pages — trim to 1!';
+                    badge.style.cssText = 'background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.5);';
+                }
+            }
+        } catch (e) { }
+    }
+
+    window.addEventListener('resize', () => { clearTimeout(previewDebounce); previewDebounce = setTimeout(fitPreview, 150); });
+
+    function generateResumeHtml(r) {
+        const h = r.headings || defaultResume.headings;
+        const template = r.template || 'classic';
+        const font = r.font || 'default';
+        const links = [];
+        if (r.linkedin_url) links.push(`<a href="${esc(r.linkedin_url)}">${esc(r.linkedin_url.replace(/^https?:\/\/(www\.)?/,''))}</a>`);
+        if (r.github_url) links.push(`<a href="${esc(r.github_url)}">${esc(r.github_url.replace(/^https?:\/\/(www\.)?/,''))}</a>`);
+        if (r.website_url) links.push(`<a href="${esc(r.website_url)}">${esc(r.website_url.replace(/^https?:\/\/(www\.)?/,''))}</a>`);
+
+        let fontCss = '';
+        if (font === 'inter') {
+            fontCss = "font-family: 'Inter', sans-serif !important;";
+        } else if (font === 'arial') {
+            fontCss = "font-family: 'Arial', 'Helvetica', sans-serif !important;";
+        } else if (font === 'lora') {
+            fontCss = "font-family: 'Lora', serif !important;";
+        } else if (font === 'garamond') {
+            fontCss = "font-family: 'EB Garamond', 'Garamond', serif !important;";
+        } else if (font === 'georgia') {
+            fontCss = "font-family: 'Georgia', serif !important;";
+        } else if (font === 'times') {
+            fontCss = "font-family: 'Times New Roman', 'Times', serif !important;";
+        }
+
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Lora:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html, body { margin:0; padding:0; background:#e8e8e8; }
+  ${fontCss ? `body { ${fontCss} }` : ''}
+  .page {
+    width: 794px; min-height: 1123px; margin: 0 auto; background: #fff;
+    padding: 42px 48px; box-sizing: border-box;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  @media screen {
+    .page { background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 1121px, rgba(244,63,94,0.7) 1121px, rgba(244,63,94,0.7) 1123px); }
+  }
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body { background: #fff; }
+    .page { width: 210mm; min-height: auto; margin: 0; padding: 11mm 13mm; box-shadow: none; background-image: none !important; transform: none !important; }
+  }
+  a { text-decoration: none; }
+
+  /* Template CSS Configurations */
+  ${template === 'classic' ? `
+    body { font-family: 'Lora', 'Georgia', 'Times New Roman', serif; font-size: 10pt; color: #111; line-height: 1.45; }
+    h1 { font-size: 21pt; font-weight: 700; text-align: center; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .subtitle { font-size: 10.5pt; text-align: center; font-style: italic; color: #444; margin-bottom: 8px; }
+    .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; font-size: 9pt; color: #444; margin-bottom: 8px; }
+    .contact-row a { color: #444; }
+    .divider { border: none; border-top: 1px solid #111; margin: 8px 0 12px; }
+    section { margin-bottom: 12px; }
+    .section-title { font-size: 10.5pt; font-weight: 700; text-transform: uppercase; text-align: center; letter-spacing: 0.1em; border-bottom: 1px solid #111; padding-bottom: 2px; margin-bottom: 8px; }
+    .exp-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .exp-company { font-weight: 700; font-size: 10pt; }
+    .exp-role { font-style: italic; color: #222; }
+    .exp-date { font-size: 9.5pt; color: #333; white-space: nowrap; }
+    .exp-location { font-size: 9.5pt; color: #444; font-style: italic; }
+    ul.bullets { padding-left: 18px; margin-top: 3px; list-style-type: disc; }
+    ul.bullets li { margin-bottom: 2px; font-size: 9.5pt; }
+    .skills-row { margin-bottom: 4px; font-size: 9.5pt; }
+    .skills-group-name { font-weight: 700; display: inline; }
+    .skills-items { display: inline; }
+    .proj-name { font-weight: 700; }
+    .proj-tech { font-style: italic; color: #444; font-size: 9.5pt; }
+    .edu-row { display: flex; justify-content: space-between; }
+    .edu-inst { font-weight: 700; }
+    .edu-deg { font-style: italic; color: #222; }
+    .edu-date { font-size: 9.5pt; color: #333; }
+    .lang-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 9.5pt; }
+    .lang-item { font-weight: 600; }
+    .lang-level { color: #555; font-style: italic; font-size: 9pt; }
+  ` : template === 'classic_left' ? `
+    body { font-family: 'Lora', 'Georgia', 'Times New Roman', serif; font-size: 10pt; color: #111; line-height: 1.45; }
+    h1 { font-size: 21pt; font-weight: 700; text-align: left; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .subtitle { font-size: 10.5pt; text-align: left; font-style: italic; color: #444; margin-bottom: 8px; }
+    .contact-row { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 4px 12px; font-size: 9pt; color: #444; margin-bottom: 8px; }
+    .contact-row a { color: #444; }
+    .divider { border: none; border-top: 1px solid #111; margin: 8px 0 12px; }
+    section { margin-bottom: 12px; }
+    .section-title { font-size: 10.5pt; font-weight: 700; text-transform: uppercase; text-align: left; letter-spacing: 0.1em; border-bottom: 1px solid #111; padding-bottom: 2px; margin-bottom: 8px; }
+    .exp-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .exp-company { font-weight: 700; font-size: 10pt; }
+    .exp-role { font-style: italic; color: #222; }
+    .exp-date { font-size: 9.5pt; color: #333; white-space: nowrap; }
+    .exp-location { font-size: 9.5pt; color: #444; font-style: italic; }
+    ul.bullets { padding-left: 18px; margin-top: 3px; list-style-type: disc; }
+    ul.bullets li { margin-bottom: 2px; font-size: 9.5pt; }
+    .skills-row { margin-bottom: 4px; font-size: 9.5pt; }
+    .skills-group-name { font-weight: 700; display: inline; }
+    .skills-items { display: inline; }
+    .proj-name { font-weight: 700; }
+    .proj-tech { font-style: italic; color: #444; font-size: 9.5pt; }
+    .edu-row { display: flex; justify-content: space-between; }
+    .edu-inst { font-weight: 700; }
+    .edu-deg { font-style: italic; color: #222; }
+    .edu-date { font-size: 9.5pt; color: #333; }
+    .lang-row { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 6px 20px; font-size: 9.5pt; }
+    .lang-item { font-weight: 600; }
+    .lang-level { color: #555; font-style: italic; font-size: 9pt; }
+  ` : template === 'modern' ? `
+    body { font-family: 'Inter', 'Arial', sans-serif; font-size: 9.5pt; color: #1f2937; line-height: 1.45; }
+    h1 { font-size: 22pt; font-weight: 800; color: #111827; letter-spacing: -0.5px; margin-bottom: 2px; }
+    .subtitle { font-size: 11pt; color: #6b7280; font-weight: 500; margin-bottom: 6px; }
+    .contact-row { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 9pt; color: #4b5563; margin-bottom: 10px; }
+    .contact-row a { color: #4b5563; }
+    .contact-row a:hover { color: #8b5cf6; text-decoration: underline; }
+    .divider { border: none; border-top: 2px solid #f3f4f6; margin: 10px 0; }
+    section { margin-bottom: 14px; }
+    .section-title { font-size: 10pt; font-weight: 700; text-transform: uppercase; color: #111827; letter-spacing: 0.05em; border-bottom: 2px solid #8b5cf6; padding-bottom: 2px; margin-bottom: 8px; }
+    .exp-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .exp-company { font-weight: 700; font-size: 10.5pt; color: #111827; }
+    .exp-role { font-weight: 500; color: #4b5563; }
+    .exp-date { font-size: 9pt; color: #6b7280; font-weight: 500; white-space: nowrap; }
+    .exp-location { font-size: 9pt; color: #6b7280; }
+    ul.bullets { padding-left: 14px; margin-top: 3px; list-style-type: square; }
+    ul.bullets li { margin-bottom: 2px; font-size: 9.5pt; color: #374151; }
+    .skills-row { margin-bottom: 5px; font-size: 9.5pt; }
+    .skills-group-name { font-weight: 700; color: #374151; display: inline; }
+    .skills-items { display: inline; color: #4b5563; }
+    .proj-name { font-weight: 700; color: #111827; }
+    .proj-tech { font-weight: 500; color: #6b7280; font-size: 9pt; }
+    .edu-row { display: flex; justify-content: space-between; }
+    .edu-inst { font-weight: 700; color: #111827; }
+    .edu-deg { font-weight: 500; color: #4b5563; }
+    .edu-date { font-size: 9pt; color: #6b7280; }
+    .lang-row { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 9.5pt; }
+    .lang-item { font-weight: 600; color: #374151; }
+    .lang-level { color: #6b7280; font-size: 9pt; }
+  ` : `
+    body { font-family: 'EB Garamond', 'Garamond', 'Georgia', serif; font-size: 11pt; color: #222; line-height: 1.35; }
+    h1 { font-size: 24pt; font-weight: 600; color: #111; text-align: left; margin-bottom: 2px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .subtitle { font-size: 11.5pt; text-align: left; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .contact-row { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 4px 18px; font-size: 9.5pt; color: #444; margin-bottom: 8px; border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 4px 0; }
+    .contact-row a { color: #444; }
+    .divider { display: none; }
+    section { margin-bottom: 14px; }
+    .section-title { font-size: 11pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #111; border-bottom: 1px double #333; padding-bottom: 3px; margin-bottom: 8px; }
+    .exp-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .exp-company { font-weight: 700; font-size: 11pt; }
+    .exp-role { font-style: italic; color: #333; }
+    .exp-date { font-size: 10pt; color: #444; white-space: nowrap; }
+    .exp-location { font-size: 10pt; color: #555; }
+    ul.bullets { padding-left: 16px; margin-top: 3px; list-style-type: circle; }
+    ul.bullets li { margin-bottom: 1px; font-size: 10pt; }
+    .skills-row { margin-bottom: 4px; font-size: 10pt; }
+    .skills-group-name { font-weight: 700; display: inline; }
+    .skills-items { display: inline; }
+    .proj-name { font-weight: 700; }
+    .proj-tech { font-style: italic; color: #555; font-size: 9.5pt; }
+    .edu-row { display: flex; justify-content: space-between; }
+    .edu-inst { font-weight: 700; }
+    .edu-deg { font-style: italic; color: #333; }
+    .edu-date { font-size: 10pt; color: #444; }
+    .lang-row { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 10pt; }
+    .lang-item { font-weight: 600; }
+    .lang-level { color: #666; font-style: italic; font-size: 9.5pt; }
+  `}
+  a { color: inherit; }
+  .proj-header { display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="page">
+  ${r.name ? `<h1>${esc(r.name)}</h1>` : ''}
+  ${r.title ? `<div class="subtitle">${esc(r.title)}</div>` : ''}
+  <div class="contact-row">
+    ${r.email ? `<span>${esc(r.email)}</span>` : ''}
+    ${r.phone_display ? `<a href="tel:${esc(r.phone_e164||r.phone_display)}">${esc(r.phone_display)}</a>` : ''}
+    ${r.location ? `<span>${esc(r.location)}</span>` : ''}
+    ${links.join('<span style="color:#bbb;">·</span>')}
+  </div>
+  ${template !== 'executive' ? `<hr class="divider">` : ''}
+
+  ${r.summary ? `
+  <section>
+    <div class="section-title">${esc(h.summary||'Summary')}</div>
+    <p>${esc(r.summary)}</p>
+  </section>` : ''}
+
+  ${r.skills && r.skills.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.skills||'Skills')}</div>
+    ${r.skills.map(g => `
+      <div class="skills-row">
+        <span class="skills-group-name">${esc(g.group)}: </span>
+        <span class="skills-items">${g.items.map(i => esc(i)).join(', ')}</span>
+      </div>
+    `).join('')}
+  </section>` : ''}
+
+  ${r.experience && r.experience.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.experience||'Work Experience')}</div>
+    ${r.experience.map(exp => {
+      if (template === 'classic' || template === 'classic_left' || template === 'executive') {
+        return `
+        <div style="margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:bold; font-size:10pt;">${esc(exp.company)}</span>
+            <span style="font-size:9.5pt; font-style:italic;">${esc(exp.location||'')}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-style:italic; font-size:9.5pt;">${esc(exp.role)}</span>
+            <span style="font-size:9.5pt;">${esc(exp.start||'')}${exp.end ? ` – ${esc(exp.end)}` : ''}</span>
+          </div>
+          ${exp.bullets && exp.bullets.length > 0 ? `
+            <ul class="bullets">
+              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+            </ul>` : ''}
+        </div>`;
+      } else {
+        return `
+        <div style="margin-bottom:10px;">
+          <div class="exp-header">
+            <div>
+              <span class="exp-company">${esc(exp.company)}</span>
+              ${exp.location ? `<span class="exp-location"> · ${esc(exp.location)}</span>` : ''}
+            </div>
+            <span class="exp-date">${esc(exp.start||'')}${exp.end ? ` – ${esc(exp.end)}` : ''}</span>
+          </div>
+          <div class="exp-role">${esc(exp.role)}</div>
+          ${exp.bullets && exp.bullets.length > 0 ? `
+            <ul class="bullets">
+              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+            </ul>` : ''}
+        </div>`;
+      }
+    }).join('')}
+  </section>` : ''}
+
+  ${r.projects && r.projects.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.projects||'Projects')}</div>
+    ${r.projects.map(proj => {
+      if (template === 'classic' || template === 'classic_left' || template === 'executive') {
+        return `
+        <div style="margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:bold; font-size:10pt;">${esc(proj.name)}</span>
+            <span style="font-size:9.5pt;">${esc(proj.date||'')}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-style:italic; font-size:9pt; color:#444;">${esc(proj.tech)}</span>
+            ${proj.url ? `<a href="${esc(proj.url)}" target="_blank" style="font-size:9pt; text-decoration:underline;">[Link]</a>` : ''}
+          </div>
+          ${proj.bullets && proj.bullets.length > 0 ? `
+            <ul class="bullets">
+              ${proj.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+            </ul>` : ''}
+        </div>`;
+      } else {
+        return `
+        <div style="margin-bottom:9px;">
+          <div class="proj-header">
+            <span class="proj-name">${esc(proj.name)}${proj.url ? ` <a href="${esc(proj.url)}" style="font-size:9pt;font-weight:400;font-style:italic;">[link]</a>` : ''}</span>
+            <span class="exp-date">${esc(proj.date||'')}</span>
+          </div>
+          ${proj.tech ? `<div class="proj-tech">${esc(proj.tech)}</div>` : ''}
+          ${proj.bullets && proj.bullets.length > 0 ? `
+            <ul class="bullets">
+              ${proj.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+            </ul>` : ''}
+        </div>`;
+      }
+    }).join('')}
+  </section>` : ''}
+
+  ${r.education && r.education.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.education||'Education')}</div>
+    ${r.education.map(edu => {
+      if (template === 'classic' || template === 'classic_left' || template === 'executive') {
+        return `
+        <div style="margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:bold; font-size:10pt;">${esc(edu.institution)}</span>
+            <span style="font-size:9.5pt; font-style:italic;">${esc(edu.location||'')}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-style:italic; font-size:9.5pt;">${esc(edu.degree)}${edu.gpa ? ` · GPA: ${esc(edu.gpa)}` : ''}</span>
+            <span style="font-size:9.5pt;">${esc(edu.start||'')}${edu.end ? ` – ${esc(edu.end)}` : ''}</span>
+          </div>
+        </div>`;
+      } else {
+        return `
+        <div class="edu-row" style="margin-bottom:6px;">
+          <div>
+            <div class="edu-inst">${esc(edu.institution)}</div>
+            <div class="edu-deg">${esc(edu.degree)}${edu.gpa ? ` · GPA: ${esc(edu.gpa)}` : ''}</div>
+            ${edu.location ? `<div class="exp-location">${esc(edu.location)}</div>` : ''}
+          </div>
+          <div class="edu-date">${esc(edu.start||'')}${edu.end ? ` – ${esc(edu.end)}` : ''}</div>
+        </div>`;
+      }
+    }).join('')}
+  </section>` : ''}
+
+  ${r.languages && r.languages.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.languages||'Languages')}</div>
+    <div class="lang-row">
+      ${r.languages.map(lang => `
+        <span class="lang-item">${esc(lang.name)} <span class="lang-level">(${esc(lang.level||'')})</span></span>
+      `).join('')}
+    </div>
+  </section>` : ''}
+
+</div>
+</body>
+</html>`;
+    }
+
+    // ============================================================
+    //   AI TAILOR
+    // ============================================================
+
+    function resumeToText(r) {
+        const lines = [];
+        if (r.name) lines.push(r.name);
+        if (r.title) lines.push(r.title);
+        const contact = [r.email, r.phone_display, r.location, r.linkedin_url, r.github_url, r.website_url].filter(Boolean).join(' | ');
+        if (contact) lines.push(contact);
+        if (r.summary) lines.push('', 'SUMMARY', r.summary);
+        if (r.skills && r.skills.length) {
+            lines.push('', 'SKILLS');
+            r.skills.forEach(g => lines.push(`${g.group}: ${(g.items || []).join(', ')}`));
+        }
+        if (r.experience && r.experience.length) {
+            lines.push('', 'WORK EXPERIENCE');
+            r.experience.forEach(e => {
+                lines.push(`${e.role || ''} — ${e.company || ''} (${e.start || ''} – ${e.end || ''}) ${e.location || ''}`.trim());
+                (e.bullets || []).forEach(b => lines.push(`- ${b}`));
+            });
+        }
+        if (r.projects && r.projects.length) {
+            lines.push('', 'PROJECTS');
+            r.projects.forEach(p => {
+                lines.push(`${p.name || ''} (${p.tech || ''}) ${p.date || ''}`.trim());
+                (p.bullets || []).forEach(b => lines.push(`- ${b}`));
+            });
+        }
+        if (r.education && r.education.length) {
+            lines.push('', 'EDUCATION');
+            r.education.forEach(e => lines.push(`${e.degree || ''}, ${e.institution || ''} (${e.start || ''} – ${e.end || ''})${e.gpa ? ' GPA: ' + e.gpa : ''}`));
+        }
+        if (r.languages && r.languages.length) {
+            lines.push('', 'LANGUAGES', r.languages.map(l => `${l.name} (${l.level})`).join(', '));
+        }
+        return lines.join('\n');
+    }
+
+    function useCurrentResume() {
+        const text = resumeToText(resume);
+        if (!text.trim()) {
+            showToast('Nothing in the builder yet — fill some fields or paste your resume.', true);
+            return;
+        }
+        document.getElementById('ai-old-resume').value = text;
+        showToast('Loaded your current builder data.');
+    }
+
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src;
+            s.onload = resolve;
+            s.onerror = () => reject(new Error('Failed to load ' + src));
+            document.head.appendChild(s);
+        });
+    }
+
+    async function handleResumeFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const ta = document.getElementById('ai-old-resume');
+        const name = file.name.toLowerCase();
+        try {
+            showToast('Reading ' + file.name + '…');
+            let text = '';
+            if (name.endsWith('.pdf')) {
+                if (!window.pdfjsLib) {
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+                    pdfjsLib.GlobalWorkerOptions.workerSrc =
+                        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                }
+                const buf = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+                const parts = [];
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const tc = await page.getTextContent();
+                    parts.push(tc.items.map(it => it.str).join(' '));
+                }
+                text = parts.join('\n');
+            } else if (name.endsWith('.docx')) {
+                if (!window.mammoth) {
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+                }
+                const buf = await file.arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer: buf });
+                text = result.value;
+            } else {
+                text = await file.text();
+            }
+            text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+            if (!text) throw new Error('No text found in the file — is it a scanned image?');
+            ta.value = text;
+            showToast('Resume text extracted from ' + file.name);
+        } catch (e) {
+            showToast(e.message || 'Could not read the file.', true);
+        }
+        event.target.value = '';
+    }
+
+    async function aiTailor() {
+        const oldResume = document.getElementById('ai-old-resume').value.trim();
+        const jd = document.getElementById('ai-jd').value.trim();
+        const optMode = document.getElementById('ai-opt-mode').value;
+        const customInst = document.getElementById('ai-custom-inst').value.trim();
+        const targetTmpl = resume.template || 'classic';
+        const errEl = document.getElementById('ai-error');
+        const errMsg = document.getElementById('ai-error-msg');
+        const btn = document.getElementById('ai-generate-btn');
+        const label = document.getElementById('ai-generate-label');
+
+        errEl.classList.add('hidden');
+        if (!oldResume || !jd) {
+            errMsg.textContent = 'Please fill in both your current resume and the job description.';
+            errEl.classList.remove('hidden');
+            return;
+        }
+
+        btn.disabled = true;
+        label.textContent = 'Tailoring your resume… (15–30s)';
+
+        try {
+            const res = await fetch('/api/resume/ai-tailor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    old_resume: oldResume, 
+                    job_description: jd,
+                    optimization_mode: optMode,
+                    custom_instructions: customInst,
+                    target_template: targetTmpl
+                })
+            });
+            const data = await res.json();
+            if (data.status !== 'success') throw new Error(data.message || 'AI tailoring failed.');
+            applyAiResult(data);
+            showToast('ATS resume generated! Review it in the preview →');
+        } catch (e) {
+            errMsg.textContent = e.message || 'Something went wrong. Please try again.';
+            errEl.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            label.textContent = 'Generate ATS Resume';
+        }
+    }
+
+
+
+    // Keep the two JD textareas (AI Tailor + Re-check tabs) and storage in sync
+    function syncJd(value) {
+        localStorage.setItem('sb_resume_jd', value);
+        const a = document.getElementById('ai-jd');
+        const b = document.getElementById('rc-jd');
+        if (a && a.value !== value) a.value = value;
+        if (b && b.value !== value) b.value = value;
+    }
+
+    async function reoptimizeResume() {
+        const jd = (document.getElementById('rc-jd').value || document.getElementById('ai-jd').value).trim();
+        const customInst = document.getElementById('rc-custom-inst').value.trim();
+        const targetTmpl = resume.template || 'classic';
+        const errEl = document.getElementById('rc-error');
+        const errMsg = document.getElementById('rc-error-msg');
+        const btn = document.getElementById('ai-reopt-btn');
+        const label = document.getElementById('ai-reopt-label');
+
+        errEl.classList.add('hidden');
+        if (!jd) {
+            errMsg.textContent = 'Paste the target job description first.';
+            errEl.classList.remove('hidden');
+            return;
+        }
+        if (!resumeToText(resume).trim()) {
+            errMsg.textContent = 'Your resume is empty — generate or fill it in first.';
+            errEl.classList.remove('hidden');
+            return;
+        }
+
+        btn.disabled = true;
+        label.textContent = 'Re-checking your resume… (15–30s)';
+
+        try {
+            const res = await fetch('/api/resume/ai-tailor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    mode: 'reoptimize', 
+                    resume_json: resume, 
+                    job_description: jd,
+                    custom_instructions: customInst,
+                    target_template: targetTmpl
+                })
+            });
+            const data = await res.json();
+            if (data.status !== 'success') throw new Error(data.message || 'Re-optimization failed.');
+            applyAiResult(data, 'rc');
+            showToast('Resume re-optimized — your information was kept as written.');
+        } catch (e) {
+            errMsg.textContent = e.message || 'Something went wrong. Please try again.';
+            errEl.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            label.textContent = 'Re-optimize & Score My Resume';
+        }
+    }
+
+    function applyAiResult(data, prefix = 'ai') {
+        // Load returned resume into the editor (same guards as JSON import)
+        resume = { ...defaultResume, ...data.resume };
+        if (!resume.headings) resume.headings = { ...defaultResume.headings };
+        ['skills', 'experience', 'projects', 'education', 'languages'].forEach(k => {
+            if (!Array.isArray(resume[k])) resume[k] = [];
+        });
+        saveToStorage();
+        renderAllFields();
+        renderDynamicSections();
+        renderHeadings();
+        updatePreview();
+
+        // ATS score
+        const scoreEl = document.getElementById(prefix + '-score');
+        if (typeof data.ats_score === 'number') {
+            const c = data.ats_score >= 80 ? '#4ade80' : data.ats_score >= 60 ? '#fbbf24' : '#fb7185';
+            scoreEl.innerHTML =
+                '<span style="font-size:2.4rem;font-weight:800;color:' + c + ';">' + data.ats_score + '</span>' +
+                '<span style="opacity:0.65;font-size:1.05rem;margin-left:6px;">/ 100 ATS keyword match</span>';
+            scoreEl.classList.remove('hidden');
+        } else {
+            scoreEl.classList.add('hidden');
+        }
+
+        // Matched keywords
+        const kwWrap = document.getElementById(prefix + '-keywords');
+        kwWrap.innerHTML = '';
+        (data.keywords || []).forEach(k => {
+            const chip = document.createElement('span');
+            chip.className = 'ai-keyword-chip';
+            chip.textContent = k;
+            kwWrap.appendChild(chip);
+        });
+
+        // Missing keywords
+        const missWrap = document.getElementById(prefix + '-missing-wrap');
+        const missEl = document.getElementById(prefix + '-missing');
+        missEl.innerHTML = '';
+        const missing = data.missing_keywords || [];
+        if (missing.length) {
+            missing.forEach(k => {
+                const chip = document.createElement('span');
+                chip.className = 'ai-keyword-chip missing';
+                chip.textContent = k;
+                missEl.appendChild(chip);
+            });
+            missWrap.classList.remove('hidden');
+        } else {
+            missWrap.classList.add('hidden');
+        }
+
+        // Tips
+        const tips = document.getElementById(prefix + '-tips');
+        tips.innerHTML = '';
+        (data.ats_tips || []).forEach(t => {
+            const li = document.createElement('li');
+            li.textContent = t;
+            tips.appendChild(li);
+        });
+        document.getElementById(prefix + '-results').classList.remove('hidden');
+    }
+
+    // ============================================================
+    //   IMPORT / EXPORT
+    // ============================================================
+
+    function importJson() {
+        document.getElementById('json-file-input').click();
+    }
+
+    function handleJsonImport(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function () {
+            try {
+                const data = JSON.parse(reader.result);
+                resume = { ...defaultResume, ...data };
+                if (!resume.headings) resume.headings = { ...defaultResume.headings };
+                saveToStorage();
+                renderAllFields();
+                renderDynamicSections();
+                renderHeadings();
+                updatePreview();
+                showToast('Resume imported successfully!');
+            } catch (e) {
+                showToast('Invalid JSON file.', true);
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+    }
+
+    function exportJson() {
+        const blob = new Blob([JSON.stringify(resume, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${(resume.name || 'resume').toLowerCase().replace(/\s+/g, '-')}-resume.json`;
+        a.click();
+        showToast('JSON exported!');
+    }
+
+    function loadExample() {
+        resume = {
+            name: 'Rohan Sharma', title: 'Full Stack Developer',
+            email: 'rohan@example.com', location: 'Bengaluru, India',
+            phone_display: '+91 98765 43210', phone_e164: '+919876543210',
+            linkedin_url: 'https://linkedin.com/in/rohan-sharma',
+            github_url: 'https://github.com/rohan-sharma',
+            website_url: 'https://rohansharma.dev',
+            summary: 'Passionate full-stack developer with 3+ years of experience building scalable SaaS applications. Proficient in React, Node.js, and PostgreSQL. Quick learner with a knack for clean, maintainable code.',
+            skills: [
+                { group: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
+                { group: 'Backend', items: ['Node.js', 'Python', 'Flask', 'REST APIs'] },
+                { group: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis'] },
+                { group: 'DevOps', items: ['Docker', 'AWS', 'CI/CD', 'Git'] }
+            ],
+            experience: [
+                {
+                    company: 'TechStartup Pvt Ltd', role: 'Software Engineer',
+                    start: 'Jan 2023', end: 'Present', location: 'Bengaluru, India',
+                    bullets: ['Led development of a multi-tenant SaaS dashboard used by 5,000+ users', 'Reduced API response time by 40% through query optimisation and Redis caching', 'Mentored 2 junior developers and conducted weekly code reviews']
+                },
+                {
+                    company: 'Freelance', role: 'Web Developer',
+                    start: 'Jun 2021', end: 'Dec 2022', location: 'Remote',
+                    bullets: ['Built 15+ client websites using React and Next.js', 'Integrated payment gateways (Razorpay, Stripe) for e-commerce clients']
+                }
+            ],
+            projects: [
+                {
+                    name: 'Stack Resume Builder', tech: 'HTML, CSS, JavaScript, Flask',
+                    url: 'https://stackeducation.in/stackbuild/resume', date: '2024',
+                    bullets: ['Built an ATS-optimised resume builder with live preview and PDF export', 'Integrated Razorpay payment gate for monetisation']
+                }
+            ],
+            education: [
+                { institution: 'Visvesvaraya Technological University', degree: 'B.E. Computer Science', start: '2018', end: '2022', gpa: '8.7 / 10', location: 'Bengaluru, India' }
+            ],
+            languages: [{ name: 'English', level: 'Fluent' }, { name: 'Hindi', level: 'Native' }, { name: 'Kannada', level: 'Conversational' }],
+            headings: { summary: 'Summary', skills: 'Skills', experience: 'Work Experience', projects: 'Projects', education: 'Education', languages: 'Languages' }
+        };
+        saveToStorage();
+        renderAllFields();
+        renderDynamicSections();
+        renderHeadings();
+        updatePreview();
+        showToast('Example loaded!');
+    }
+
+    // ============================================================
+    //   PDF EXPORT
+    // ============================================================
+
+    function exportPdf() {
+        const html = generateResumeHtml(resume);
+        const printWindow = window.open('', '_blank', 'width=800,height=1000');
+        if (!printWindow) {
+            showToast('Popup blocked — please allow popups to export PDF.', true);
+            return;
+        }
+        printWindow.document.write(html);
+        printWindow.document.close();
+        printWindow.onload = function () {
+            printWindow.print();
+        };
+        showToast('Opening print dialog for PDF…');
+    }
+
+    // ============================================================
+    //   CLEAR ALL
+    // ============================================================
+
+    function confirmClear() {
+        document.getElementById('clear-modal').classList.remove('hidden');
+    }
+
+    function closeClearModal() {
+        document.getElementById('clear-modal').classList.add('hidden');
+    }
+
+    function clearAll() {
+        resume = JSON.parse(JSON.stringify(defaultResume));
+        saveToStorage();
+        renderAllFields();
+        renderDynamicSections();
+        renderHeadings();
+        updatePreview();
+        closeClearModal();
+        showToast('All data cleared.');
+    }
+
+    // ============================================================
+    //   TOAST
+    // ============================================================
+
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        const toastIcon = toast.querySelector('.toast-icon');
+        toastMsg.textContent = msg;
+        toastIcon.textContent = isError ? 'error' : 'check_circle';
+        toast.style.borderColor = isError ? 'rgba(244,63,94,0.4)' : 'rgba(139,92,246,0.4)';
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    // ============================================================
+    //   MOBILE EDITOR MENU
+    // ============================================================
+
+    function toggleEditorMenu() {
+        const toolbar = document.getElementById('editor-mobile-toolbar');
+        toolbar.classList.toggle('hidden');
+    }
+
+    // Navbar removed — no scroll/hamburger listeners needed
+
+    // ============================================================
+    //   CUSTOM DROPDOWN HANDLERS
+    // ============================================================
+
+    function toggleCustomDropdown(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        
+        // Close other dropdowns first
+        document.querySelectorAll('.custom-dropdown').forEach(item => {
+            if (item.id !== id) item.classList.remove('open');
+        });
+        
+        el.classList.toggle('open');
+    }
+
+    function selectCustomOption(dropdownId, selectId, value, labelText) {
+        const dropdown = document.getElementById(dropdownId);
+        if (!dropdown) return;
+        
+        // Update trigger text
+        dropdown.querySelector('.trigger-text').textContent = labelText;
+        
+        // Update active class on options
+        dropdown.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+            opt.classList.toggle('active', opt.getAttribute('data-value') === value);
+        });
+        
+        // Close dropdown
+        dropdown.classList.remove('open');
+        
+        // Update hidden select and trigger change
+        const realSelect = document.getElementById(selectId);
+        if (realSelect) {
+            realSelect.value = value;
+            realSelect.dispatchEvent(new Event('change'));
+        }
+    }
+
+    function syncAllCustomDropdowns() {
+        const pairs = [
+            { dropdownId: 'custom-template-selector', selectId: 'template-selector' },
+            { dropdownId: 'custom-font-selector', selectId: 'font-selector' },
+            { dropdownId: 'custom-ai-opt-mode', selectId: 'ai-opt-mode' }
+        ];
+        
+        pairs.forEach(pair => {
+            const dropdown = document.getElementById(pair.dropdownId);
+            const select = document.getElementById(pair.selectId);
+            if (dropdown && select) {
+                const activeOption = select.options[select.selectedIndex];
+                if (activeOption) {
+                    dropdown.querySelector('.trigger-text').textContent = activeOption.textContent;
+                    dropdown.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+                        opt.classList.toggle('active', opt.getAttribute('data-value') === select.value);
+                    });
+                }
+            }
+        });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-dropdown')) {
+            document.querySelectorAll('.custom-dropdown.open').forEach(el => el.classList.remove('open'));
+        }
+    });
+
+    // ============================================================
+    //   UTILITY
+    // ============================================================
+
+    function esc(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    </script>
+
+</body>
+</html>

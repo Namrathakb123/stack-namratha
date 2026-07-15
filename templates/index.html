@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+{% block title %}stackeducation - The Builder-First Ecosystem (Home){% endblock %}
+
+{% block content %}
+<!-- Home-page-only light theme (matches the hero illustration) -->
+<style>
+    body {
+        background-color: #f8fbfd;
+    }
+
+    body>.orb {
+        display: none;
+    }
+
+    #navbar {
+        background: rgba(255, 253, 246, 0.88);
+        border-bottom: 1px solid rgba(22, 50, 76, 0.08);
+    }
+
+    #navbar a {
+        color: #16324c;
+    }
+
+    #navbar a:hover {
+        color: #0d9488;
+    }
+
+    #navbar button {
+        color: #16324c;
+    }
+
+    #mobile-menu {
+        background: rgba(255, 253, 246, 0.97);
+        border-bottom: 1px solid rgba(22, 50, 76, 0.08);
+    }
+
+    #mobile-menu a {
+        color: #16324c;
+    }
+
+    #mobile-menu a:hover {
+        color: #0d9488;
+    }
+
+    /* Bridge-gradient timeline (teal -> amber -> orange, like the arch) */
+    .bridge-line {
+        background: linear-gradient(to bottom, #0d9488, #f59e0b, #f97316) !important;
+    }
+</style>
+
+<!-- Hero: bridging academia and industry -->
+<section
+    class="relative pt-20 overflow-hidden bg-[linear-gradient(115deg,#fdf3d9_0%,#f5f6e9_45%,#d9eef8_100%)]">
+    <!-- Soft sky glow -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-[-15%] right-[-10%] w-[600px] h-[600px] bg-sky-300/30 rounded-full blur-[130px]"></div>
+        <div class="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-amber-200/40 rounded-full blur-[130px]">
+        </div>
+    </div>
+
+    <div class="relative w-full">
+        <!-- Full illustration, edge to edge, never cropped -->
+        <img src="{{ url_for('static', filename='hero-bridge.jpg') }}"
+            alt="Bridging the gap between academia and industry — a builder crossing a rainbow bridge from a university campus to a city skyline"
+            width="1536" height="874" fetchpriority="high" class="w-full h-auto block">
+
+        <!-- Copy overlaid on the open sky area of the illustration (lg+); stacks below on smaller screens -->
+        <div class="lg:absolute lg:inset-0">
+            <div class="h-full px-6 sm:px-8 lg:px-[6%] pt-12 pb-16 lg:pt-[4.5%] lg:pb-0">
+                <div class="lg:max-w-[42%] text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-[3.3vw] font-black text-[#16324c] leading-[1.1] tracking-tight mb-6 lg:mb-[1.2vw] font-display">
+                        Bridging the gap between
+                        <span class="text-teal-600">academia</span> and
+                        <span class="text-orange-500">industry</span>
+                    </h1>
+                    <p
+                        class="text-lg lg:text-[1.15vw] text-slate-600 leading-relaxed mb-8 lg:mb-[1.8vw] max-w-xl mx-auto lg:mx-0">
+                        stackeducation is the bridge — where learning turns into experience, and experience turns
+                        into real products for real companies.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button onclick="scrollToSection('ecosystem')"
+                            class="group bg-teal-600 text-white h-14 lg:h-[3.2vw] px-8 rounded-full font-bold text-base lg:text-[1vw] hover:bg-teal-700 hover:scale-105 transition-all shadow-lg shadow-teal-600/25 flex items-center justify-center gap-2">
+                            Cross the Bridge
+                            <span class="material-symbols-outlined">arrow_downward</span>
+                        </button>
+                        <a href="https://discord.gg/zPtP3Qyy" target="_blank" rel="noopener noreferrer"
+                            class="bg-white/70 border border-[#16324c]/15 text-[#16324c] h-14 lg:h-[3.2vw] px-8 rounded-full font-bold text-base lg:text-[1vw] hover:bg-white hover:border-[#16324c]/30 transition-all backdrop-blur-sm flex items-center justify-center">
+                            Join Community
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Two Cliffs, One Bridge -->
+<section class="py-24 bg-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h3 class="text-4xl lg:text-5xl font-bold text-[#16324c] tracking-tight mb-4 font-display">Two cliffs, one
+                bridge</h3>
+            <p class="text-slate-500 max-w-2xl mx-auto">
+                Degrees end on one side. Jobs demand the other. We build the arch in between.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            <!-- Academia cliff -->
+            <div class="rounded-3xl border border-teal-600/15 bg-teal-600/5 p-8 text-center" data-aos="fade-up">
+                <div
+                    class="mx-auto h-14 w-14 rounded-2xl bg-teal-600/10 text-teal-700 flex items-center justify-center mb-5">
+                    <span class="material-symbols-outlined text-3xl">school</span>
+                </div>
+                <h4 class="text-2xl font-bold text-[#16324c] mb-3">Academia</h4>
+                <p class="text-slate-600">Theory, fundamentals and degrees. A strong start — but the classroom stops at
+                    the edge of the cliff.</p>
+            </div>
+
+            <!-- The bridge -->
+            <div class="rounded-3xl p-[2px] bg-gradient-to-r from-teal-500 via-amber-400 to-orange-500 shadow-xl shadow-amber-500/10"
+                data-aos="fade-up" data-aos-delay="150">
+                <div class="rounded-[calc(1.5rem-2px)] bg-white h-full p-8 text-center">
+                    <div
+                        class="mx-auto h-14 w-14 rounded-2xl bg-gradient-to-tr from-teal-600/10 via-amber-500/10 to-orange-500/10 text-amber-600 flex items-center justify-center mb-5">
+                        <span class="material-symbols-outlined text-3xl">conversion_path</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-[#16324c] mb-3">stackeducation</h4>
+                    <p class="text-slate-600">The bridge across the gap. Learn the right skills, gain real experience,
+                        and ship real products — plank by plank.</p>
+                </div>
+            </div>
+
+            <!-- Industry cliff -->
+            <div class="rounded-3xl border border-orange-500/15 bg-orange-500/5 p-8 text-center" data-aos="fade-up"
+                data-aos-delay="300">
+                <div
+                    class="mx-auto h-14 w-14 rounded-2xl bg-orange-500/10 text-orange-600 flex items-center justify-center mb-5">
+                    <span class="material-symbols-outlined text-3xl">apartment</span>
+                </div>
+                <h4 class="text-2xl font-bold text-[#16324c] mb-3">Industry</h4>
+                <p class="text-slate-600">Real products, real teams, real careers. The far cliff — reachable only by
+                    those who build their way across.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ecosystem Roadmap Section -->
+<section class="py-32 bg-[#f8fbfd] relative overflow-hidden" id="ecosystem">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="text-center mb-24" data-aos="fade-up">
+            <h3 class="text-4xl lg:text-5xl font-bold text-[#16324c] tracking-tight mb-4 font-display">The Stack
+                Ecosystem</h3>
+            <p class="text-slate-500 max-w-2xl mx-auto">
+                Three arcs of the same bridge — a connected journey from learning to building.
+            </p>
+        </div>
+
+        <div class="relative max-w-4xl mx-auto">
+            <!-- Vertical Line -->
+            <div class="roadmap-line bridge-line absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2">
+            </div>
+
+            <!-- Step 1: StackUp (teal — the academia side) -->
+            <div class="relative mb-24 lg:mb-32 flex flex-col md:flex-row items-center gap-8 md:gap-0"
+                data-aos="fade-up">
+                <div class="w-full md:w-1/2 md:pr-16 md:text-right pl-20 md:pl-0 text-left relative">
+                    <!-- Mobile Node -->
+                    <div
+                        class="absolute left-0 top-0 md:hidden w-16 h-16 rounded-full bg-white border-2 border-teal-600 flex items-center justify-center text-teal-600 z-10 shadow-md">
+                        <span class="material-symbols-outlined">school</span>
+                    </div>
+
+                    <div
+                        class="inline-block px-4 py-1 rounded-full bg-teal-600/10 text-teal-700 text-sm font-bold mb-4 border border-teal-600/20">
+                        Step 1: Learn</div>
+                    <h4 class="text-3xl font-bold text-[#16324c] mb-4">StackUp</h4>
+                    <p class="text-slate-600 mb-6">Start by learning the right skills with structured, practical courses
+                        designed for the industry.</p>
+                    <a href="/stackup"
+                        class="text-teal-600 hover:text-[#16324c] transition-colors font-medium inline-flex items-center gap-1 md:flex-row-reverse">
+                        View Available Courses <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <!-- Desktop Node -->
+                <div
+                    class="absolute left-1/2 top-0 transform -translate-x-1/2 w-4 h-4 rounded-full bg-teal-600 shadow-[0_0_20px_rgba(13,148,136,0.8)] z-10 hidden md:block">
+                </div>
+                <div class="w-full md:w-1/2"></div> <!-- Spacer -->
+            </div>
+
+            <!-- Step 2: StackLabs (amber — crossing the bridge) -->
+            <div class="relative mb-24 lg:mb-32 flex flex-col md:flex-row items-center gap-8 md:gap-0"
+                data-aos="fade-up">
+                <div class="w-full md:w-1/2"></div> <!-- Spacer -->
+                <!-- Desktop Node -->
+                <div
+                    class="absolute left-1/2 top-0 transform -translate-x-1/2 w-4 h-4 rounded-full bg-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.8)] z-10 hidden md:block">
+                </div>
+
+                <div class="w-full md:w-1/2 md:pl-16 relative pl-20 md:pl-0 text-left">
+                    <!-- Mobile Node -->
+                    <div
+                        class="absolute left-0 top-0 md:hidden w-16 h-16 rounded-full bg-white border-2 border-amber-500 flex items-center justify-center text-amber-500 z-10 shadow-md">
+                        <span class="material-symbols-outlined">science</span>
+                    </div>
+
+                    <div
+                        class="inline-block px-4 py-1 rounded-full bg-amber-500/10 text-amber-600 text-sm font-bold mb-4 border border-amber-500/20">
+                        Step 2: Experience</div>
+                    <h4 class="text-3xl font-bold text-[#16324c] mb-4">StackLabs</h4>
+                    <p class="text-slate-600 mb-6">Apply what you learn through real internship experience. Work in
+                        agile teams and build real projects.</p>
+                    <a href="/stacklabs"
+                        class="text-amber-600 hover:text-[#16324c] transition-colors font-medium inline-flex items-center gap-1">
+                        View Internship Programs <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 3: StackBuild (orange — the industry side) -->
+            <div class="relative mb-24 lg:mb-32 flex flex-col md:flex-row items-center gap-8 md:gap-0"
+                data-aos="fade-up">
+                <div class="w-full md:w-1/2 md:pr-16 md:text-right pl-20 md:pl-0 text-left relative">
+                    <!-- Mobile Node -->
+                    <div
+                        class="absolute left-0 top-0 md:hidden w-16 h-16 rounded-full bg-white border-2 border-orange-500 flex items-center justify-center text-orange-500 z-10 shadow-md">
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                    </div>
+
+                    <div
+                        class="inline-block px-4 py-1 rounded-full bg-orange-500/10 text-orange-600 text-sm font-bold mb-4 border border-orange-500/20">
+                        Step 3: Build</div>
+                    <h4 class="text-3xl font-bold text-[#16324c] mb-4">StackBuild</h4>
+                    <p class="text-slate-600 mb-6">Build real software products for real companies. Transform from a
+                        learner to a professional builder.</p>
+                    <a href="/stackbuild"
+                        class="text-orange-600 hover:text-[#16324c] transition-colors font-medium inline-flex items-center gap-1 md:flex-row-reverse">
+                        Build with Us <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <!-- Desktop Node -->
+                <div
+                    class="absolute left-1/2 top-0 transform -translate-x-1/2 w-4 h-4 rounded-full bg-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.8)] z-10 hidden md:block">
+                </div>
+                <div class="w-full md:w-1/2"></div> <!-- Spacer -->
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Community Section -->
+<section class="py-32 bg-white relative overflow-hidden" id="community">
+    <!-- Soft ambient tint -->
+    <div class="absolute inset-0 opacity-60 pointer-events-none">
+        <div class="absolute top-[20%] left-[5%] w-[400px] h-[400px] bg-amber-200/40 rounded-full blur-[110px]"></div>
+        <div class="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] bg-sky-200/50 rounded-full blur-[110px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <h3 class="text-4xl lg:text-5xl font-bold text-[#16324c] tracking-tight mb-6 font-display">
+                    StackCommunity</h3>
+                <p class="text-xl text-slate-600 mb-8 leading-relaxed">
+                    Nobody crosses the bridge alone. Join a thriving community of learners, builders, and mentors —
+                    collaborate on projects, attend events, and grow together.
+                </p>
+                <div class="space-y-4 mb-10">
+                    <div class="flex items-center gap-4 text-slate-700">
+                        <span class="material-symbols-outlined text-teal-600">group</span>
+                        <span>Peer Learning &amp; Collaboration</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-700">
+                        <span class="material-symbols-outlined text-amber-500">forum</span>
+                        <span>Tech Disputes &amp; Discussions</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-700">
+                        <span class="material-symbols-outlined text-orange-500">event</span>
+                        <span>Hackathons &amp; Events</span>
+                    </div>
+                </div>
+                <a href="https://discord.gg/zPtP3Qyy" target="_blank" rel="noopener noreferrer"
+                    class="bg-[#16324c] text-white h-14 px-10 rounded-full font-bold text-lg hover:bg-[#1e4568] transition-all shadow-lg shadow-[#16324c]/20 inline-flex items-center justify-center">
+                    Join StackCommunity
+                </a>
+            </div>
+
+            <div class="relative" data-aos="fade-left">
+                <!-- Visual representation of community -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div
+                        class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:border-teal-500/50 hover:shadow-md transition-all">
+                        <div
+                            class="h-10 w-10 bg-sky-500/10 rounded-full flex items-center justify-center text-sky-600 mb-4">
+                            <span class="material-symbols-outlined">code</span>
+                        </div>
+                        <div class="font-bold text-[#16324c]">Builders</div>
+                        <div class="text-xs text-slate-500">Shipping products</div>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:border-teal-500/50 hover:shadow-md transition-all">
+                        <div
+                            class="h-10 w-10 bg-teal-600/10 rounded-full flex items-center justify-center text-teal-600 mb-4">
+                            <span class="material-symbols-outlined">school</span>
+                        </div>
+                        <div class="font-bold text-[#16324c]">Learners</div>
+                        <div class="text-xs text-slate-500">Mastering skills</div>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:border-teal-500/50 hover:shadow-md transition-all">
+                        <div
+                            class="h-10 w-10 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-600 mb-4">
+                            <span class="material-symbols-outlined">work</span>
+                        </div>
+                        <div class="font-bold text-[#16324c]">Interns</div>
+                        <div class="text-xs text-slate-500">Gaining experience</div>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:border-teal-500/50 hover:shadow-md transition-all">
+                        <div
+                            class="h-10 w-10 bg-orange-500/10 rounded-full flex items-center justify-center text-orange-500 mb-4">
+                            <span class="material-symbols-outlined">stars</span>
+                        </div>
+                        <div class="font-bold text-[#16324c]">Mentors</div>
+                        <div class="text-xs text-slate-500">Guiding the way</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
