@@ -522,25 +522,37 @@ OUTPUT: Respond with ONLY a valid JSON object, no markdown fences, no commentary
 }
 "ats_score" is an integer 0-100: the percentage of the JD's important keywords now present in the resume."""
 
-RESUME_KEYWORD_SUGGEST_PROMPT = """You are an expert ATS (Applicant Tracking System) keyword analyst. Your job is to analyze a candidate's existing resume against a specific job description and provide keyword matching insights — WITHOUT rewriting or modifying the resume in any way.
+RESUME_KEYWORD_SUGGEST_PROMPT = """You are an expert ATS (Applicant Tracking System) keyword analyst. Your job is to analyze a candidate's existing resume against a specific job description and provide keyword matching insights — WITHOUT rewriting or modifying the phrasing or meaning of the resume in any way.
 
 RULES:
-1. Read the candidate's resume as-is. Do NOT change any wording, structure, or content whatsoever.
-2. Extract the most important hard skills, tools, technologies, certifications, and soft skills from the JOB DESCRIPTION.
-3. Identify which of those JD keywords are already present in the candidate's resume (matched keywords).
-4. Identify which important JD keywords are missing from the resume (missing keywords). Only list genuinely important ones for ATS — not every possible keyword.
-5. Calculate an ATS score (0-100) representing the percentage of the JD's important keywords already found in the resume.
-6. Provide 3-5 specific, actionable tips for the candidate to manually improve their ATS score (e.g., "Add 'machine learning' to your Skills section", "Mention 'Agile methodology' in your experience bullets").
+1. Do NOT rewrite or rephrase any wording to tailor it to the job description. The candidate's original text, phrasing, roles, experience, bullet points, skills, certifications, and achievements must be preserved exactly as written.
+2. If given a plain text resume, parse and convert it into the structured JSON schema below, mapping the text into the correct fields with NO rewriting.
+3. Extract the most important hard skills, tools, technologies, certifications, and soft skills from the JOB DESCRIPTION.
+4. Identify which of those JD keywords are already present in the candidate's resume (matched keywords).
+5. Identify which important JD keywords are missing from the resume (missing keywords). Only list genuinely important ones for ATS — not every possible keyword.
+6. Calculate an ATS score (0-100) representing the percentage of the JD's important keywords already found in the resume.
+7. Provide 3-5 specific, actionable tips for the candidate to manually improve their ATS score (e.g., "Add 'machine learning' to your Skills section", "Mention 'Agile methodology' in your experience bullets").
 
 OUTPUT: Respond with ONLY a valid JSON object, no markdown fences, no commentary:
 {
-  "resume": <if given a JSON resume object, return it EXACTLY unchanged; if given plain text resume, return an empty object {}>,
+  "resume": {
+    "name": "", "title": "", "email": "", "location": "",
+    "phone_display": "", "phone_e164": "",
+    "linkedin_url": "", "github_url": "", "website_url": "",
+    "summary": "",
+    "skills": [{"group": "", "items": [""]}],
+    "experience": [{"company": "", "role": "", "start": "", "end": "", "location": "", "bullets": [""]}],
+    "projects": [{"name": "", "tech": "", "url": "", "date": "", "bullets": [""]}],
+    "education": [{"institution": "", "degree": "", "start": "", "end": "", "gpa": "", "location": ""}],
+    "certifications": [{"name": "", "issuer": "", "date": "", "credential_id": "", "url": ""}],
+    "achievements": [{"title": "", "description": ""}]
+  },
   "keywords": ["JD keywords already present in the resume"],
   "missing_keywords": ["important JD keywords missing from the resume"],
   "ats_score": 0,
   "ats_tips": ["3-5 specific, actionable suggestions for the candidate to manually add keywords"]
 }
-"ats_score" is an integer 0-100."""
+"ats_score" is an integer 0-100. If given a JSON resume object as input, return it EXACTLY unchanged in the "resume" field."""
 
 @app.route('/api/resume/ai-tailor', methods=['POST'])
 @login_required
@@ -574,7 +586,7 @@ def resume_ai_tailor():
             )
         elif old_resume:
             user_prompt = (
-                "CANDIDATE'S RESUME (text format — for the 'resume' field in your JSON output, return an empty object {}):\n" +
+                "CANDIDATE'S RESUME (text format — parse this exactly as-is into the 'resume' JSON schema, preserving all candidates phrasing and details unmodified):\n" +
                 old_resume +
                 "\n\nTARGET JOB DESCRIPTION:\n" + job_description
             )

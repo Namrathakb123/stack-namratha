@@ -2187,7 +2187,7 @@
                 });
                 const data = await res.json();
                 if (data.status !== 'success') throw new Error(data.message || 'AI analysis failed.');
-                applyAiResult(data, 'ai', aiMode !== 'suggest');
+                applyAiResult(data, 'ai', true);
                 showToast(aiMode === 'suggest'
                     ? 'Keyword analysis complete! See suggestions below ↓'
                     : 'ATS resume generated! Review it in the preview →');
@@ -2247,7 +2247,7 @@
                 });
                 const data = await res.json();
                 if (data.status !== 'success') throw new Error(data.message || 'Analysis failed.');
-                applyAiResult(data, 'rc', aiMode !== 'suggest');
+                applyAiResult(data, 'rc', true);
                 showToast(aiMode === 'suggest'
                     ? 'Keyword analysis complete! See suggestions below ↓'
                     : 'Resume re-optimized — your information was kept as written.');
