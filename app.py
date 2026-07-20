@@ -473,10 +473,12 @@ RULES:
 6. Organize skills into clear groups (e.g. Languages, Frameworks, Tools, Cloud) with JD keywords listed first inside each group.
 7. Where the JD uses an acronym, include both the acronym and its expansion once (e.g. "CI/CD (Continuous Integration/Continuous Delivery)") so both forms match in ATS scans.
 8. Order experience bullets by relevance to the JD - most relevant achievements first.
-9. Use standard section headings only (ATS-safe): Summary, Skills, Work Experience, Projects, Education, Languages.
+9. Use standard section headings only (ATS-safe): Summary, Skills, Work Experience, Projects, Education, Certifications, Achievements.
 10. Keep everything plain text - no tables, symbols, graphics, or unusual formatting.
 11. ONE-PAGE RULE (critical): the final resume MUST fit a single A4 page at 10.5pt. Budget strictly: summary max 3 sentences (~45 words); at most 5 skill groups with max 8 items each; 3-4 bullets for the most recent or most JD-relevant role and only 2 for older roles; at most 2 projects with max 2 bullets each; one line per education entry. If the source resume has more content than fits, keep only what is most relevant to this exact JD and drop the rest - never exceed the budget.
-12. Quality bar: every bullet must follow "strong action verb + what was done + tools/JD keywords + quantified outcome". Ban filler phrases like "responsible for", "worked on", "team player", "hardworking". Write confident, specific, senior-sounding lines - this resume must read like it was written by a top professional resume writer.
+12. Quality bar: every bullet must follow "strong action verb + what was done + tools/JD keywords + quantified outcome". Ban filler phrases like "responsible for", "worked on", "team player", "hardworking".
+13. For certifications: extract any certifications mentioned in the source resume. If none are present, return an empty array.
+14. For achievements: extract any notable awards, recognitions, or accomplishments from the source resume. If none are present, return an empty array.
 
 OUTPUT: Respond with ONLY a valid JSON object, no markdown fences, no commentary, in exactly this schema:
 {
@@ -489,8 +491,8 @@ OUTPUT: Respond with ONLY a valid JSON object, no markdown fences, no commentary
     "experience": [{"company": "", "role": "", "start": "", "end": "", "location": "", "bullets": [""]}],
     "projects": [{"name": "", "tech": "", "url": "", "date": "", "bullets": [""]}],
     "education": [{"institution": "", "degree": "", "start": "", "end": "", "gpa": "", "location": ""}],
-    "languages": [{"name": "", "level": ""}],
-    "headings": {"summary": "Summary", "skills": "Skills", "experience": "Work Experience", "projects": "Projects", "education": "Education", "languages": "Languages"}
+    "certifications": [{"name": "", "issuer": "", "date": "", "credential_id": "", "url": ""}],
+    "achievements": [{"title": "", "description": ""}]
   },
   "keywords": ["the JD keywords you incorporated"],
   "missing_keywords": ["important JD keywords still absent because the candidate has no evidence for them - be honest"],
@@ -503,7 +505,7 @@ Copy contact details (name, email, phone, links) from the candidate's resume as-
 RESUME_REOPTIMIZE_SYSTEM_PROMPT = """You are an elite ATS resume optimizer. The candidate has already written and edited their resume themselves. Your job is ONLY to polish it for ATS keyword matching against a job description - you must NOT change their information.
 
 STRICT PRESERVATION RULES:
-1. Keep every job, project, education entry, company name, role title, date, metric and factual claim EXACTLY as provided. Never add, remove or merge entries. Never invent anything.
+1. Keep every job, project, education entry, certification, achievement, company name, role title, date, metric and factual claim EXACTLY as provided. Never add, remove or merge entries. Never invent anything.
 2. You may rephrase the summary and bullet wording ONLY to: (a) insert the JD's exact keywords where the existing content already supports them, (b) strengthen action verbs, (c) fix grammar and tense (past tense for past roles, present for current), (d) remove filler phrases. The meaning and facts of each line must stay identical.
 3. You may reorder bullets within a role and items within a skill group by relevance to the JD - nothing else moves.
 4. You may add a JD keyword to the skills section ONLY if it is clearly evidenced elsewhere in the resume.
@@ -512,13 +514,33 @@ STRICT PRESERVATION RULES:
 
 OUTPUT: Respond with ONLY a valid JSON object, no markdown fences, no commentary, in exactly this schema:
 {
-  "resume": { same schema and same entries as the input resume, with polished wording },
+  "resume": { same schema and same entries as the input resume, with polished wording. Schema: name, title, email, location, phone_display, phone_e164, linkedin_url, github_url, website_url, summary, skills, experience, projects, education, certifications, achievements },
   "keywords": ["JD keywords now present in the resume"],
   "missing_keywords": ["important JD keywords still absent because the candidate has no evidence for them - be honest"],
   "ats_score": 0,
   "ats_tips": ["3-5 short, specific, actionable suggestions"]
 }
 "ats_score" is an integer 0-100: the percentage of the JD's important keywords now present in the resume."""
+
+RESUME_KEYWORD_SUGGEST_PROMPT = """You are an expert ATS (Applicant Tracking System) keyword analyst. Your job is to analyze a candidate's existing resume against a specific job description and provide keyword matching insights — WITHOUT rewriting or modifying the resume in any way.
+
+RULES:
+1. Read the candidate's resume as-is. Do NOT change any wording, structure, or content whatsoever.
+2. Extract the most important hard skills, tools, technologies, certifications, and soft skills from the JOB DESCRIPTION.
+3. Identify which of those JD keywords are already present in the candidate's resume (matched keywords).
+4. Identify which important JD keywords are missing from the resume (missing keywords). Only list genuinely important ones for ATS — not every possible keyword.
+5. Calculate an ATS score (0-100) representing the percentage of the JD's important keywords already found in the resume.
+6. Provide 3-5 specific, actionable tips for the candidate to manually improve their ATS score (e.g., "Add 'machine learning' to your Skills section", "Mention 'Agile methodology' in your experience bullets").
+
+OUTPUT: Respond with ONLY a valid JSON object, no markdown fences, no commentary:
+{
+  "resume": <if given a JSON resume object, return it EXACTLY unchanged; if given plain text resume, return an empty object {}>,
+  "keywords": ["JD keywords already present in the resume"],
+  "missing_keywords": ["important JD keywords missing from the resume"],
+  "ats_score": 0,
+  "ats_tips": ["3-5 specific, actionable suggestions for the candidate to manually add keywords"]
+}
+"ats_score" is an integer 0-100."""
 
 @app.route('/api/resume/ai-tailor', methods=['POST'])
 @login_required
@@ -532,19 +554,39 @@ def resume_ai_tailor():
     data = request.json or {}
     mode = data.get('mode', 'tailor')
     job_description = (data.get('job_description') or '').strip()[:8000]
-
-    opt_mode = data.get('optimization_mode', 'rewrite')
-    custom_inst = (data.get('custom_instructions') or '').strip()[:2000]
     target_tmpl = (data.get('target_template') or '').strip()[:50]
 
-    if mode == 'reoptimize':
+    if mode == 'suggest_only':
+        # Keyword analysis only — never rewrites the resume
+        resume_json_in = data.get('resume_json')
+        old_resume = (data.get('old_resume') or '').strip()[:12000]
+
+        if not job_description:
+            return jsonify({'status': 'error', 'message': 'Please provide the job description.'}), 400
+
+        system_prompt = RESUME_KEYWORD_SUGGEST_PROMPT
+
+        if isinstance(resume_json_in, dict):
+            user_prompt = (
+                "CANDIDATE'S RESUME JSON (return this EXACTLY as-is in the 'resume' field — completely unmodified):\n" +
+                json.dumps(resume_json_in)[:14000] +
+                "\n\nTARGET JOB DESCRIPTION:\n" + job_description
+            )
+        elif old_resume:
+            user_prompt = (
+                "CANDIDATE'S RESUME (text format — for the 'resume' field in your JSON output, return an empty object {}):\n" +
+                old_resume +
+                "\n\nTARGET JOB DESCRIPTION:\n" + job_description
+            )
+        else:
+            return jsonify({'status': 'error', 'message': 'Please provide your resume and the job description.'}), 400
+
+    elif mode == 'reoptimize':
         resume_json_in = data.get('resume_json')
         if not isinstance(resume_json_in, dict) or not job_description:
             return jsonify({'status': 'error', 'message': 'Please provide the job description (your resume data is taken from the builder).'}), 400
-        
+
         system_prompt = RESUME_REOPTIMIZE_SYSTEM_PROMPT
-        if custom_inst:
-            system_prompt += f"\n\nCUSTOM USER INSTRUCTION: You MUST prioritize this instruction from the user: '{custom_inst}'"
         if target_tmpl:
             system_prompt += f"\n\nTEMPLATE DESIGN TARGET: Tailor the layout and content length to look best in the '{target_tmpl}' template style."
 
@@ -554,15 +596,12 @@ def resume_ai_tailor():
             "\n\nTARGET JOB DESCRIPTION:\n" + job_description
         )
     else:
+        # Default: full AI tailor (rewrite)
         old_resume = (data.get('old_resume') or '').strip()[:12000]
         if not old_resume or not job_description:
             return jsonify({'status': 'error', 'message': 'Please provide both your current resume and the job description.'}), 400
-        
+
         system_prompt = RESUME_TAILOR_SYSTEM_PROMPT
-        if opt_mode == 'preserve':
-            system_prompt += "\n\nSTRICT PHRASING PRESERVATION RULE: Preserve the original phrasing, sentences, and structure of the candidate's uploaded resume as closely as possible. Do not perform creative rewrites or change bullet counts; only inject the target keywords naturally."
-        if custom_inst:
-            system_prompt += f"\n\nCUSTOM USER INSTRUCTION: You MUST prioritize this instruction from the user: '{custom_inst}'"
         if target_tmpl:
             system_prompt += f"\n\nTEMPLATE DESIGN TARGET: Tailor the layout and content length to look best in the '{target_tmpl}' template style."
 

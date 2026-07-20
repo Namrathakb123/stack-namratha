@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StackBuild Resume — ATS Resume Builder</title>
-    <meta name="description" content="Build a professional ATS-friendly resume with StackBuild's Resume Builder. Clean, export-ready, designed to get past applicant tracking systems.">
+    <meta name="description"
+        content="Build a professional ATS-friendly resume with StackBuild's Resume Builder. Clean, export-ready, designed to get past applicant tracking systems.">
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
     <!-- Favicon -->
@@ -45,9 +48,15 @@
         }
 
         @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         .spinner-icon {
             display: inline-block;
             vertical-align: middle;
@@ -72,7 +81,8 @@
             background-position: right 8px center;
         }
 
-        .editor-selector:hover, .editor-selector:focus {
+        .editor-selector:hover,
+        .editor-selector:focus {
             border-color: var(--purple-light);
             background: rgba(139, 92, 246, 0.1);
             box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
@@ -176,6 +186,61 @@
             color: var(--purple-light);
             font-weight: 600;
         }
+
+        /* AI Mode Toggle */
+        .ai-mode-toggle {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .ai-mode-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            background: rgba(139, 92, 246, 0.04);
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all var(--fast) var(--ease);
+            text-align: left;
+            font-family: var(--font), sans-serif;
+            font-size: 0.82rem;
+            line-height: 1.3;
+        }
+
+        .ai-mode-btn:hover {
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.1);
+            color: #fff;
+        }
+
+        .ai-mode-btn.active {
+            border-color: var(--purple-light);
+            background: rgba(139, 92, 246, 0.18);
+            color: #fff;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+
+        .ai-mode-btn .mode-icon {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            flex-shrink: 0;
+        }
+
+        .ai-mode-btn .mode-title {
+            font-weight: 600;
+            font-size: 0.82rem;
+        }
+
+        .ai-mode-btn .mode-sub {
+            font-size: 0.72rem;
+            opacity: 0.65;
+            margin-top: 1px;
+        }
     </style>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
@@ -204,17 +269,20 @@
                     <span>in Minutes</span>
                 </h1>
                 <p class="gate-subtitle">
-                    Professional, ATS-friendly resumes that get you noticed. Live preview, PDF export, 
+                    Professional, ATS-friendly resumes that get you noticed. Live preview, PDF export,
                     and a clean editor — built by StackBuild.
                 </p>
 
                 <!-- Feature Pills -->
                 <div class="gate-pills">
-                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>ATS-First Format</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>ATS-First
+                        Format</span>
                     <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>Live Preview</span>
                     <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>PDF Export</span>
-                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>Import / Export JSON</span>
-                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>All Sections Covered</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>Import / Export
+                        JSON</span>
+                    <span class="gate-pill"><span class="material-icons-outlined">check_circle</span>All Sections
+                        Covered</span>
                 </div>
             </div>
 
@@ -267,24 +335,29 @@
                         <span id="pay-error-msg"></span>
                     </div>
                     <p class="gate-powered">
-                        <span class="material-icons-outlined" style="font-size:0.9rem;vertical-align:middle;opacity:0.5;">lock</span>
+                        <span class="material-icons-outlined"
+                            style="font-size:0.9rem;vertical-align:middle;opacity:0.5;">lock</span>
                         Secured by Razorpay · 100% Safe
                     </p>
                 </div>
-                
+
                 <!-- Admin Access Toggle -->
                 <div id="admin-toggle-container" style="text-align: center; margin-top: 16px;">
-                    <a href="#" onclick="toggleAdmin(true); return false;" style="color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: underline; transition: color 0.2s;">Admin Access</a>
+                    <a href="#" onclick="toggleAdmin(true); return false;"
+                        style="color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: underline; transition: color 0.2s;">Admin
+                        Access</a>
                 </div>
 
                 <!-- Admin Login Step -->
                 <div id="step-admin" class="gate-step hidden" style="margin-top: 16px;">
                     <div style="display: flex; gap: 8px;">
-                        <input type="password" id="admin-pwd" class="form-input" placeholder="Admin Password" style="flex: 1;" onkeydown="if(event.key === 'Enter') submitAdminLogin()">
+                        <input type="password" id="admin-pwd" class="form-input" placeholder="Admin Password"
+                            style="flex: 1;" onkeydown="if(event.key === 'Enter') submitAdminLogin()">
                         <button class="btn btn-purple" onclick="submitAdminLogin()">Login</button>
                     </div>
                     <div style="text-align: center; margin-top: 12px;">
-                        <a href="#" onclick="toggleAdmin(false); return false;" style="color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: underline;">Cancel</a>
+                        <a href="#" onclick="toggleAdmin(false); return false;"
+                            style="color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: underline;">Cancel</a>
                     </div>
                 </div>
 
@@ -339,27 +412,35 @@
             </div>
             <!-- Mobile toolbar -->
             <div class="editor-mobile-toolbar hidden" id="editor-mobile-toolbar">
-                <button class="editor-btn" onclick="importJson()"><span class="material-icons-outlined">upload_file</span> Import JSON</button>
-                <button class="editor-btn" onclick="exportJson()"><span class="material-icons-outlined">download</span> Export JSON</button>
-                <button class="editor-btn" onclick="loadExample()"><span class="material-icons-outlined">auto_awesome</span> Load Example</button>
-                <button class="editor-btn editor-btn-pdf" onclick="exportPdf()"><span class="material-icons-outlined">picture_as_pdf</span> Export PDF</button>
-                <button class="editor-btn editor-btn-danger" onclick="confirmClear()"><span class="material-icons-outlined">delete_sweep</span> Clear All</button>
+                <button class="editor-btn" onclick="importJson()"><span
+                        class="material-icons-outlined">upload_file</span> Import JSON</button>
+                <button class="editor-btn" onclick="exportJson()"><span class="material-icons-outlined">download</span>
+                    Export JSON</button>
+                <button class="editor-btn" onclick="loadExample()"><span
+                        class="material-icons-outlined">auto_awesome</span> Load Example</button>
+                <button class="editor-btn editor-btn-pdf" onclick="exportPdf()"><span
+                        class="material-icons-outlined">picture_as_pdf</span> Export PDF</button>
+                <button class="editor-btn editor-btn-danger" onclick="confirmClear()"><span
+                        class="material-icons-outlined">delete_sweep</span> Clear All</button>
             </div>
         </header>
 
         <!-- Tabs -->
         <div class="editor-tabs-bar">
             <div class="editor-tabs" id="editor-tabs">
-                <button class="editor-tab editor-tab-ai" data-tab="ai" onclick="switchTab('ai')">✨ AI Tailor</button>
-                <button class="editor-tab editor-tab-ai" data-tab="recheck" onclick="switchTab('recheck')">✔ Re-check &amp; Re-optimize</button>
+                <button class="editor-tab editor-tab-ai" data-tab="ai" onclick="switchTab('ai')">AI Tailor</button>
+                <button class="editor-tab editor-tab-ai" data-tab="recheck" onclick="switchTab('recheck')">Re-check
+                    &amp; Re-optimize</button>
                 <button class="editor-tab active" data-tab="personal" onclick="switchTab('personal')">Personal</button>
                 <button class="editor-tab" data-tab="summary" onclick="switchTab('summary')">Summary</button>
-                <button class="editor-tab" data-tab="skills" onclick="switchTab('skills')">Skills</button>
                 <button class="editor-tab" data-tab="experience" onclick="switchTab('experience')">Experience</button>
-                <button class="editor-tab" data-tab="projects" onclick="switchTab('projects')">Projects</button>
                 <button class="editor-tab" data-tab="education" onclick="switchTab('education')">Education</button>
-                <button class="editor-tab" data-tab="languages" onclick="switchTab('languages')">Languages</button>
-                <button class="editor-tab" data-tab="headings" onclick="switchTab('headings')">Headings</button>
+                <button class="editor-tab" data-tab="skills" onclick="switchTab('skills')">Skills</button>
+                <button class="editor-tab" data-tab="projects" onclick="switchTab('projects')">Projects</button>
+                <button class="editor-tab" data-tab="certifications"
+                    onclick="switchTab('certifications')">Certifications</button>
+                <button class="editor-tab" data-tab="achievements"
+                    onclick="switchTab('achievements')">Achievements</button>
             </div>
         </div>
 
@@ -374,9 +455,11 @@
                         <h3 class="form-section-title">✨ AI Tailor — ATS Resume from a Job Description</h3>
                         <p class="form-hint" style="margin-bottom:16px;">
                             Paste your existing resume and the job description you're applying for.
-                            AI rewrites your resume to be ATS-friendly and keyword-matched for that exact job —
-                            your real experience is kept, nothing is invented. The result loads straight into the
-                            editor so you can fine-tune every field.
+                            Choose <strong style="color:#c4b5fd;">Suggest Keywords Only</strong> to get ATS tips while
+                            keeping your exact format —
+                            or <strong style="color:#c4b5fd;">Full AI Rewrite</strong> to let AI rewrite your entire
+                            resume for maximum ATS match.
+                            Your real experience is always preserved; nothing is invented.
                         </p>
 
                         <div class="form-group">
@@ -385,7 +468,8 @@
                                 placeholder="Paste your existing resume text here — or upload your old resume file below…"></textarea>
                             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
                                 <button class="btn-add" onclick="document.getElementById('resume-file-input').click()">
-                                    <span class="material-icons-outlined">upload_file</span> Upload old resume (PDF / DOCX / TXT)
+                                    <span class="material-icons-outlined">upload_file</span> Upload old resume (PDF /
+                                    DOCX / TXT)
                                 </button>
                                 <button class="btn-add" onclick="useCurrentResume()">
                                     <span class="material-icons-outlined">sync</span> Use data already in the builder
@@ -402,27 +486,23 @@
                                 oninput="syncJd(this.value)"></textarea>
                         </div>
 
-                        <div class="form-grid-2" style="margin-top:16px; overflow:visible !important;">
-                            <div class="form-group" style="display:flex; flex-direction:column; position:relative; overflow:visible !important;">
-                                <label class="form-label">Optimization Mode</label>
-                                <select id="ai-opt-mode" style="display:none !important;">
-                                    <option value="rewrite" selected>Full Smart Rewrite (Best Match)</option>
-                                    <option value="preserve">Strict Wording Preservation</option>
-                                </select>
-                                <div class="custom-dropdown" id="custom-ai-opt-mode" style="width:100%;">
-                                    <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown('custom-ai-opt-mode')" style="height:38px; font-size:0.82rem; padding:6px 12px;">
-                                        <span class="trigger-text">Full Smart Rewrite (Best Match)</span>
-                                        <span class="material-icons-outlined trigger-arrow">expand_more</span>
+                        <div class="form-group" style="margin-top:16px;">
+                            <label class="form-label">How should AI help?</label>
+                            <div class="ai-mode-toggle" id="ai-mode-toggle-ai">
+                                <button class="ai-mode-btn active" onclick="setAiMode('ai', 'suggest', this)">
+                                    <span class="material-icons-outlined mode-icon">search</span>
+                                    <div>
+                                        <div class="mode-title">Suggest Keywords Only</div>
+                                        <div class="mode-sub">Keep my format intact</div>
                                     </div>
-                                    <div class="custom-dropdown-options" style="width:100%; right:0; left:0;">
-                                        <div class="custom-dropdown-option active" data-value="rewrite" onclick="selectCustomOption('custom-ai-opt-mode', 'ai-opt-mode', 'rewrite', 'Full Smart Rewrite (Best Match)')">Full Smart Rewrite (Best Match)</div>
-                                        <div class="custom-dropdown-option" data-value="preserve" onclick="selectCustomOption('custom-ai-opt-mode', 'ai-opt-mode', 'preserve', 'Strict Wording Preservation')">Strict Wording Preservation</div>
+                                </button>
+                                <button class="ai-mode-btn" onclick="setAiMode('ai', 'rewrite', this)">
+                                    <span class="material-icons-outlined mode-icon">auto_awesome</span>
+                                    <div>
+                                        <div class="mode-title">Full AI Rewrite</div>
+                                        <div class="mode-sub">Rewrite my entire resume</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group" style="display:flex; flex-direction:column;">
-                                <label class="form-label">Custom Focus / Guidelines (Optional)</label>
-                                <input type="text" id="ai-custom-inst" class="form-input" placeholder="e.g. 'Emphasize cloud', 'Keep bullets short'" style="height:38px; font-size: 0.82rem; padding: 6px 12px; font-family: var(--font), sans-serif;">
+                                </button>
                             </div>
                         </div>
 
@@ -431,9 +511,10 @@
                             <span id="ai-error-msg"></span>
                         </div>
 
-                        <button id="ai-generate-btn" class="btn btn-purple btn-glow" style="margin-top:12px;" onclick="aiTailor()">
-                            <span class="material-icons-outlined">auto_awesome</span>
-                            <span id="ai-generate-label">Generate ATS Resume</span>
+                        <button id="ai-generate-btn" class="btn btn-purple btn-glow" style="margin-top:12px;"
+                            onclick="aiTailor()">
+                            <span class="material-icons-outlined">search</span>
+                            <span id="ai-generate-label">Analyze My Resume</span>
                         </button>
 
                         <div id="ai-results" class="hidden" style="margin-top:24px;">
@@ -442,7 +523,8 @@
                             <div id="ai-keywords" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
                             <div id="ai-missing-wrap" class="hidden">
                                 <h3 class="form-section-title">Keywords Still Missing</h3>
-                                <div id="ai-missing" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
+                                <div id="ai-missing" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;">
+                                </div>
                             </div>
                             <h3 class="form-section-title">ATS Tips for You</h3>
                             <ul id="ai-tips" style="padding-left:18px;line-height:1.8;opacity:0.85;"></ul>
@@ -462,19 +544,23 @@
                         <div class="gate-features-list" style="margin-bottom:20px;">
                             <div class="gate-feature-item">
                                 <span class="material-icons-outlined gate-feature-icon">lock_person</span>
-                                <span><strong>Your information is never changed</strong> — every company, role, date and metric stays exactly as you wrote it</span>
+                                <span><strong>Your information is never changed</strong> — every company, role, date and
+                                    metric stays exactly as you wrote it</span>
                             </div>
                             <div class="gate-feature-item">
                                 <span class="material-icons-outlined gate-feature-icon">manage_search</span>
-                                <span><strong>Keyword re-matching</strong> — the job description's exact terms are woven into your existing wording</span>
+                                <span><strong>Keyword re-matching</strong> — the job description's exact terms are woven
+                                    into your existing wording</span>
                             </div>
                             <div class="gate-feature-item">
                                 <span class="material-icons-outlined gate-feature-icon">speed</span>
-                                <span><strong>Fresh ATS score out of 100</strong> — see instantly how well your edited resume matches</span>
+                                <span><strong>Fresh ATS score out of 100</strong> — see instantly how well your edited
+                                    resume matches</span>
                             </div>
                             <div class="gate-feature-item">
                                 <span class="material-icons-outlined gate-feature-icon">report</span>
-                                <span><strong>Honest gap report</strong> — keywords you're still missing are flagged, never faked into your resume</span>
+                                <span><strong>Honest gap report</strong> — keywords you're still missing are flagged,
+                                    never faked into your resume</span>
                             </div>
                         </div>
 
@@ -485,9 +571,24 @@
                                 oninput="syncJd(this.value)"></textarea>
                         </div>
 
-                        <div class="form-group" style="margin-top:12px;">
-                            <label class="form-label">Custom Focus / Guidelines (Optional)</label>
-                            <input type="text" id="rc-custom-inst" class="form-input" placeholder="e.g. 'Focus on leadership', 'Make it highly technical'" style="font-size: 0.85rem; padding: 6px 10px;">
+                        <div class="form-group" style="margin-top:16px;">
+                            <label class="form-label">How should AI help?</label>
+                            <div class="ai-mode-toggle" id="ai-mode-toggle-rc">
+                                <button class="ai-mode-btn active" onclick="setAiMode('rc', 'suggest', this)">
+                                    <span class="material-icons-outlined mode-icon">search</span>
+                                    <div>
+                                        <div class="mode-title">Suggest Keywords Only</div>
+                                        <div class="mode-sub">Keep my format intact</div>
+                                    </div>
+                                </button>
+                                <button class="ai-mode-btn" onclick="setAiMode('rc', 'rewrite', this)">
+                                    <span class="material-icons-outlined mode-icon">auto_awesome</span>
+                                    <div>
+                                        <div class="mode-title">Full AI Rewrite</div>
+                                        <div class="mode-sub">Re-optimize my resume</div>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
 
                         <div id="rc-error" class="verify-error hidden" style="margin:12px 0;">
@@ -495,9 +596,10 @@
                             <span id="rc-error-msg"></span>
                         </div>
 
-                        <button id="ai-reopt-btn" class="btn btn-purple btn-glow" style="margin-top:12px;" onclick="reoptimizeResume()">
-                            <span class="material-icons-outlined">fact_check</span>
-                            <span id="ai-reopt-label">Re-optimize &amp; Score My Resume</span>
+                        <button id="ai-reopt-btn" class="btn btn-purple btn-glow" style="margin-top:12px;"
+                            onclick="reoptimizeResume()">
+                            <span class="material-icons-outlined">search</span>
+                            <span id="ai-reopt-label">Analyze Keywords</span>
                         </button>
 
                         <div id="rc-results" class="hidden" style="margin-top:24px;">
@@ -506,7 +608,8 @@
                             <div id="rc-keywords" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
                             <div id="rc-missing-wrap" class="hidden">
                                 <h3 class="form-section-title">Keywords Still Missing</h3>
-                                <div id="rc-missing" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;"></div>
+                                <div id="rc-missing" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;">
+                                </div>
                             </div>
                             <h3 class="form-section-title">ATS Tips for You</h3>
                             <ul id="rc-tips" style="padding-left:18px;line-height:1.8;opacity:0.85;"></ul>
@@ -521,42 +624,52 @@
                         <div class="form-grid-2">
                             <div class="form-group">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" class="form-input" id="f-name" placeholder="John Doe" oninput="updateField('name', this.value)">
+                                <input type="text" class="form-input" id="f-name" placeholder="John Doe"
+                                    oninput="updateField('name', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Title / Headline</label>
-                                <input type="text" class="form-input" id="f-title" placeholder="Full Stack Developer" oninput="updateField('title', this.value)">
+                                <input type="text" class="form-input" id="f-title" placeholder="Full Stack Developer"
+                                    oninput="updateField('title', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-input" id="f-email" placeholder="john@example.com" oninput="updateField('email', this.value)">
+                                <input type="email" class="form-input" id="f-email" placeholder="john@example.com"
+                                    oninput="updateField('email', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Location</label>
-                                <input type="text" class="form-input" id="f-location" placeholder="Remote / City, Country" oninput="updateField('location', this.value)">
+                                <input type="text" class="form-input" id="f-location"
+                                    placeholder="Remote / City, Country" oninput="updateField('location', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone (Display)</label>
-                                <input type="text" class="form-input" id="f-phone_display" placeholder="+91 98765 43210" oninput="updateField('phone_display', this.value)">
+                                <input type="text" class="form-input" id="f-phone_display" placeholder="+91 98765 43210"
+                                    oninput="updateField('phone_display', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone (E.164)</label>
-                                <input type="text" class="form-input" id="f-phone_e164" placeholder="+919876543210" oninput="updateField('phone_e164', this.value)">
+                                <input type="text" class="form-input" id="f-phone_e164" placeholder="+919876543210"
+                                    oninput="updateField('phone_e164', this.value)">
                             </div>
                         </div>
                         <h3 class="form-section-title" style="margin-top:24px;">Online Profiles</h3>
                         <div class="form-grid-3">
                             <div class="form-group">
                                 <label class="form-label">LinkedIn URL</label>
-                                <input type="url" class="form-input" id="f-linkedin_url" placeholder="https://linkedin.com/in/…" oninput="updateField('linkedin_url', this.value)">
+                                <input type="url" class="form-input" id="f-linkedin_url"
+                                    placeholder="https://linkedin.com/in/…"
+                                    oninput="updateField('linkedin_url', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">GitHub URL</label>
-                                <input type="url" class="form-input" id="f-github_url" placeholder="https://github.com/…" oninput="updateField('github_url', this.value)">
+                                <input type="url" class="form-input" id="f-github_url"
+                                    placeholder="https://github.com/…" oninput="updateField('github_url', this.value)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Website URL</label>
-                                <input type="url" class="form-input" id="f-website_url" placeholder="https://yoursite.com" oninput="updateField('website_url', this.value)">
+                                <input type="url" class="form-input" id="f-website_url"
+                                    placeholder="https://yoursite.com" oninput="updateField('website_url', this.value)">
                             </div>
                         </div>
                     </div>
@@ -566,22 +679,10 @@
                 <div class="tab-content hidden" id="tab-summary">
                     <div class="form-section">
                         <h3 class="form-section-title">Professional Summary</h3>
-                        <textarea class="form-textarea" id="f-summary" rows="7" placeholder="A brief summary of your professional background, key skills, and career goals…" oninput="updateField('summary', this.value)"></textarea>
+                        <textarea class="form-textarea" id="f-summary" rows="7"
+                            placeholder="A brief summary of your professional background, key skills, and career goals…"
+                            oninput="updateField('summary', this.value)"></textarea>
                         <p class="form-hint">Keep it 3–5 sentences. Highlight your top skills and value proposition.</p>
-                    </div>
-                </div>
-
-                <!-- SKILLS TAB -->
-                <div class="tab-content hidden" id="tab-skills">
-                    <div class="form-section">
-                        <div class="form-section-header">
-                            <h3 class="form-section-title">Skills</h3>
-                            <button class="btn-add" onclick="addSkillGroup()">
-                                <span class="material-icons-outlined">add</span> Add Group
-                            </button>
-                        </div>
-                        <div id="skills-list" class="dynamic-list"></div>
-                        <p class="form-hint empty-hint" id="skills-empty">No skill groups yet. Click "Add Group" to get started.</p>
                     </div>
                 </div>
 
@@ -599,20 +700,6 @@
                     </div>
                 </div>
 
-                <!-- PROJECTS TAB -->
-                <div class="tab-content hidden" id="tab-projects">
-                    <div class="form-section">
-                        <div class="form-section-header">
-                            <h3 class="form-section-title">Projects</h3>
-                            <button class="btn-add" onclick="addProject()">
-                                <span class="material-icons-outlined">add</span> Add Project
-                            </button>
-                        </div>
-                        <div id="projects-list" class="dynamic-list"></div>
-                        <p class="form-hint empty-hint" id="proj-empty">No projects added yet.</p>
-                    </div>
-                </div>
-
                 <!-- EDUCATION TAB -->
                 <div class="tab-content hidden" id="tab-education">
                     <div class="form-section">
@@ -627,28 +714,60 @@
                     </div>
                 </div>
 
-                <!-- LANGUAGES TAB -->
-                <div class="tab-content hidden" id="tab-languages">
+                <!-- SKILLS TAB -->
+                <div class="tab-content hidden" id="tab-skills">
                     <div class="form-section">
                         <div class="form-section-header">
-                            <h3 class="form-section-title">Languages</h3>
-                            <button class="btn-add" onclick="addLanguage()">
-                                <span class="material-icons-outlined">add</span> Add Language
+                            <h3 class="form-section-title">Skills</h3>
+                            <button class="btn-add" onclick="addSkillGroup()">
+                                <span class="material-icons-outlined">add</span> Add Group
                             </button>
                         </div>
-                        <div id="languages-list" class="dynamic-list"></div>
-                        <p class="form-hint empty-hint" id="lang-empty">No languages added yet.</p>
+                        <div id="skills-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="skills-empty">No skill groups yet. Click "Add Group" to get
+                            started.</p>
                     </div>
                 </div>
 
-                <!-- HEADINGS TAB -->
-                <div class="tab-content hidden" id="tab-headings">
+                <!-- PROJECTS TAB -->
+                <div class="tab-content hidden" id="tab-projects">
                     <div class="form-section">
-                        <h3 class="form-section-title">Customize Section Labels</h3>
-                        <p class="form-hint" style="margin-bottom:16px;">Rename any section heading in your resume to fit your language or style.</p>
-                        <div class="form-grid-2" id="headings-grid">
-                            <!-- filled by JS -->
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Projects</h3>
+                            <button class="btn-add" onclick="addProject()">
+                                <span class="material-icons-outlined">add</span> Add Project
+                            </button>
                         </div>
+                        <div id="projects-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="proj-empty">No projects added yet.</p>
+                    </div>
+                </div>
+
+                <!-- CERTIFICATIONS TAB -->
+                <div class="tab-content hidden" id="tab-certifications">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Certifications</h3>
+                            <button class="btn-add" onclick="addCertification()">
+                                <span class="material-icons-outlined">add</span> Add Certification
+                            </button>
+                        </div>
+                        <div id="certifications-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="cert-empty">No certifications added yet.</p>
+                    </div>
+                </div>
+
+                <!-- ACHIEVEMENTS TAB -->
+                <div class="tab-content hidden" id="tab-achievements">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h3 class="form-section-title">Achievements</h3>
+                            <button class="btn-add" onclick="addAchievement()">
+                                <span class="material-icons-outlined">add</span> Add Achievement
+                            </button>
+                        </div>
+                        <div id="achievements-list" class="dynamic-list"></div>
+                        <p class="form-hint empty-hint" id="ach-empty">No achievements added yet.</p>
                     </div>
                 </div>
 
@@ -656,36 +775,54 @@
 
             <!-- Right: Preview Panel -->
             <div class="editor-preview-panel" id="editor-preview-panel">
-                <div class="preview-header" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-bottom:1px solid var(--border); background:rgba(5,5,8,0.8); flex-shrink:0; overflow:visible !important;">
+                <div class="preview-header"
+                    style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-bottom:1px solid var(--border); background:rgba(5,5,8,0.8); flex-shrink:0; overflow:visible !important;">
                     <div style="display:flex; align-items:center; gap:6px; flex-shrink:0; white-space:nowrap;">
                         <span class="material-icons-outlined" style="font-size:0.9rem;opacity:0.5;">visibility</span>
-                        <span style="font-family:var(--mono), monospace; font-size:0.75rem; font-weight:600; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;">Preview</span>
+                        <span
+                            style="font-family:var(--mono), monospace; font-size:0.75rem; font-weight:600; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;">Preview</span>
                     </div>
-                    <div style="display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:nowrap; overflow:visible !important;">
-                        <div style="display:flex; align-items:center; gap:4px; flex-shrink:0; white-space:nowrap; position:relative; overflow:visible !important;">
-                            <span style="font-family: var(--mono), monospace; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; white-space:nowrap;">Layout:</span>
-                            <select id="template-selector" onchange="changeTemplate(this.value)" style="display:none !important;">
+                    <div
+                        style="display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:nowrap; overflow:visible !important;">
+                        <div
+                            style="display:flex; align-items:center; gap:4px; flex-shrink:0; white-space:nowrap; position:relative; overflow:visible !important;">
+                            <span
+                                style="font-family: var(--mono), monospace; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; white-space:nowrap;">Layout:</span>
+                            <select id="template-selector" onchange="changeTemplate(this.value)"
+                                style="display:none !important;">
                                 <option value="classic">Classic</option>
                                 <option value="classic_left">Classic Left</option>
                                 <option value="modern" selected>Modern</option>
                                 <option value="executive">Executive</option>
                             </select>
                             <div class="custom-dropdown" id="custom-template-selector">
-                                <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown('custom-template-selector')">
+                                <div class="custom-dropdown-trigger"
+                                    onclick="toggleCustomDropdown('custom-template-selector')">
                                     <span class="trigger-text">Modern</span>
                                     <span class="material-icons-outlined trigger-arrow">expand_more</span>
                                 </div>
                                 <div class="custom-dropdown-options">
-                                    <div class="custom-dropdown-option" data-value="classic" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic', 'Classic')">Classic</div>
-                                    <div class="custom-dropdown-option" data-value="classic_left" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic_left', 'Classic Left')">Classic Left</div>
-                                    <div class="custom-dropdown-option active" data-value="modern" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'modern', 'Modern')">Modern</div>
-                                    <div class="custom-dropdown-option" data-value="executive" onclick="selectCustomOption('custom-template-selector', 'template-selector', 'executive', 'Executive')">Executive</div>
+                                    <div class="custom-dropdown-option" data-value="classic"
+                                        onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic', 'Classic')">
+                                        Classic</div>
+                                    <div class="custom-dropdown-option" data-value="classic_left"
+                                        onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic_left', 'Classic Left')">
+                                        Classic Left</div>
+                                    <div class="custom-dropdown-option active" data-value="modern"
+                                        onclick="selectCustomOption('custom-template-selector', 'template-selector', 'modern', 'Modern')">
+                                        Modern</div>
+                                    <div class="custom-dropdown-option" data-value="executive"
+                                        onclick="selectCustomOption('custom-template-selector', 'template-selector', 'executive', 'Executive')">
+                                        Executive</div>
                                 </div>
                             </div>
                         </div>
-                        <div style="display:flex; align-items:center; gap:4px; flex-shrink:0; white-space:nowrap; position:relative; overflow:visible !important;">
-                            <span style="font-family: var(--mono), monospace; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; white-space:nowrap;">Font:</span>
-                            <select id="font-selector" onchange="changeFont(this.value)" style="display:none !important;">
+                        <div
+                            style="display:flex; align-items:center; gap:4px; flex-shrink:0; white-space:nowrap; position:relative; overflow:visible !important;">
+                            <span
+                                style="font-family: var(--mono), monospace; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; white-space:nowrap;">Font:</span>
+                            <select id="font-selector" onchange="changeFont(this.value)"
+                                style="display:none !important;">
                                 <option value="default" selected>Default</option>
                                 <option value="inter">Inter</option>
                                 <option value="arial">Arial</option>
@@ -695,25 +832,43 @@
                                 <option value="times">Times New Roman</option>
                             </select>
                             <div class="custom-dropdown" id="custom-font-selector">
-                                <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown('custom-font-selector')">
+                                <div class="custom-dropdown-trigger"
+                                    onclick="toggleCustomDropdown('custom-font-selector')">
                                     <span class="trigger-text">Default</span>
                                     <span class="material-icons-outlined trigger-arrow">expand_more</span>
                                 </div>
-                                <div class="custom-dropdown-options" style="max-height:220px; overflow-y:auto; scrollbar-width:thin;">
-                                    <div class="custom-dropdown-option active" data-value="default" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'default', 'Default')">Default</div>
-                                    <div class="custom-dropdown-option" data-value="inter" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'inter', 'Inter')">Inter</div>
-                                    <div class="custom-dropdown-option" data-value="arial" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'arial', 'Arial')">Arial</div>
-                                    <div class="custom-dropdown-option" data-value="lora" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'lora', 'Lora')">Lora</div>
-                                    <div class="custom-dropdown-option" data-value="garamond" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'garamond', 'Garamond')">Garamond</div>
-                                    <div class="custom-dropdown-option" data-value="georgia" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'georgia', 'Georgia')">Georgia</div>
-                                    <div class="custom-dropdown-option" data-value="times" onclick="selectCustomOption('custom-font-selector', 'font-selector', 'times', 'Times New Roman')">Times New Roman</div>
+                                <div class="custom-dropdown-options"
+                                    style="max-height:220px; overflow-y:auto; scrollbar-width:thin;">
+                                    <div class="custom-dropdown-option active" data-value="default"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'default', 'Default')">
+                                        Default</div>
+                                    <div class="custom-dropdown-option" data-value="inter"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'inter', 'Inter')">
+                                        Inter</div>
+                                    <div class="custom-dropdown-option" data-value="arial"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'arial', 'Arial')">
+                                        Arial</div>
+                                    <div class="custom-dropdown-option" data-value="lora"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'lora', 'Lora')">
+                                        Lora</div>
+                                    <div class="custom-dropdown-option" data-value="garamond"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'garamond', 'Garamond')">
+                                        Garamond</div>
+                                    <div class="custom-dropdown-option" data-value="georgia"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'georgia', 'Georgia')">
+                                        Georgia</div>
+                                    <div class="custom-dropdown-option" data-value="times"
+                                        onclick="selectCustomOption('custom-font-selector', 'font-selector', 'times', 'Times New Roman')">
+                                        Times New Roman</div>
                                 </div>
                             </div>
                         </div>
-                        <span class="preview-badge" id="page-badge" style="margin-left:0; flex-shrink:0; white-space:nowrap; padding: 2px 6px; font-size: 0.65rem;">A4</span>
+                        <span class="preview-badge" id="page-badge"
+                            style="margin-left:0; flex-shrink:0; white-space:nowrap; padding: 2px 6px; font-size: 0.65rem;">A4</span>
                     </div>
                 </div>
-                <iframe id="preview-frame" title="Resume Preview" sandbox="allow-same-origin" class="preview-iframe"></iframe>
+                <iframe id="preview-frame" title="Resume Preview" sandbox="allow-same-origin"
+                    class="preview-iframe"></iframe>
             </div>
         </div>
     </section>
@@ -741,329 +896,321 @@
     </div>
 
     <script>
-    // ============================================================
-    //   PAYMENT GATE
-    // ============================================================
+        // ============================================================
+        //   PAYMENT GATE
+        // ============================================================
 
-    const UNLOCK_KEY = 'sb_resume_unlocked';
-    const PAYMENT_ID_KEY = 'sb_resume_payment_id';
+        const UNLOCK_KEY = 'sb_resume_unlocked';
+        const PAYMENT_ID_KEY = 'sb_resume_payment_id';
 
-    // Check on load if already unlocked
-    document.addEventListener('DOMContentLoaded', function () {
-        {% if unlocked %}
-        // Admin or server bypassed
-        localStorage.setItem(UNLOCK_KEY, '1');
-        showEditor();
-        {% else %}
-        if (localStorage.getItem(UNLOCK_KEY) === '1') {
+        // Check on load if already unlocked
+        document.addEventListener('DOMContentLoaded', function () {
+            {% if unlocked %}
+            // Admin or server bypassed
+            localStorage.setItem(UNLOCK_KEY, '1');
             showEditor();
-        }
-        {% endif %}
-    });
-
-    async function onPayClick() {
-        const payBtn = document.getElementById('step-pay');
-        const loading = document.getElementById('step-loading');
-        const loadingMsg = document.getElementById('loading-msg');
-        const errEl = document.getElementById('pay-error');
-        const errMsg = document.getElementById('pay-error-msg');
-        
-        errEl.classList.add('hidden');
-        payBtn.classList.add('hidden');
-        loading.classList.remove('hidden');
-        loadingMsg.textContent = "Initializing payment...";
-
-        try {
-            // 1. Create Order
-            const res = await fetch('/api/resume/create-order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const data = await res.json();
-
-            if (data.status !== 'success') {
-                throw new Error(data.message || 'Failed to create order');
+            {% else %}
+            if (localStorage.getItem(UNLOCK_KEY) === '1') {
+                showEditor();
             }
+            {% endif %}
+        });
 
-            // 2. Open Razorpay Checkout
-            const options = {
-                key: data.key_id,
-                amount: data.amount,
-                currency: data.currency,
-                name: "StackBuild",
-                description: "Resume Builder Lifetime Access",
-                order_id: data.order_id,
-                handler: async function (response) {
-                    await verifyPayment(response);
-                },
-                modal: {
-                    ondismiss: function() {
-                        loading.classList.add('hidden');
-                        payBtn.classList.remove('hidden');
-                    }
-                },
-                theme: {
-                    color: "#8b5cf6"
+        async function onPayClick() {
+            const payBtn = document.getElementById('step-pay');
+            const loading = document.getElementById('step-loading');
+            const loadingMsg = document.getElementById('loading-msg');
+            const errEl = document.getElementById('pay-error');
+            const errMsg = document.getElementById('pay-error-msg');
+
+            errEl.classList.add('hidden');
+            payBtn.classList.add('hidden');
+            loading.classList.remove('hidden');
+            loadingMsg.textContent = "Initializing payment...";
+
+            try {
+                // 1. Create Order
+                const res = await fetch('/api/resume/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+
+                if (data.status !== 'success') {
+                    throw new Error(data.message || 'Failed to create order');
                 }
-            };
-            
-            const rzp = new Razorpay(options);
-            
-            rzp.on('payment.failed', function (response) {
+
+                // 2. Open Razorpay Checkout
+                const options = {
+                    key: data.key_id,
+                    amount: data.amount,
+                    currency: data.currency,
+                    name: "StackBuild",
+                    description: "Resume Builder Lifetime Access",
+                    order_id: data.order_id,
+                    handler: async function (response) {
+                        await verifyPayment(response);
+                    },
+                    modal: {
+                        ondismiss: function () {
+                            loading.classList.add('hidden');
+                            payBtn.classList.remove('hidden');
+                        }
+                    },
+                    theme: {
+                        color: "#8b5cf6"
+                    }
+                };
+
+                const rzp = new Razorpay(options);
+
+                rzp.on('payment.failed', function (response) {
+                    loading.classList.add('hidden');
+                    payBtn.classList.remove('hidden');
+                    errMsg.textContent = response.error.description || 'Payment failed';
+                    errEl.classList.remove('hidden');
+                });
+
+                rzp.open();
+
+            } catch (e) {
                 loading.classList.add('hidden');
                 payBtn.classList.remove('hidden');
-                errMsg.textContent = response.error.description || 'Payment failed';
+                errMsg.textContent = e.message || 'Network error. Please try again.';
                 errEl.classList.remove('hidden');
-            });
-            
-            rzp.open();
-            
-        } catch (e) {
-            loading.classList.add('hidden');
-            payBtn.classList.remove('hidden');
-            errMsg.textContent = e.message || 'Network error. Please try again.';
-            errEl.classList.remove('hidden');
-        }
-    }
-
-    function toggleAdmin(show) {
-        document.getElementById('admin-toggle-container').classList.toggle('hidden', show);
-        document.getElementById('step-pay').classList.toggle('hidden', show);
-        document.getElementById('step-admin').classList.toggle('hidden', !show);
-        if (show) {
-            document.getElementById('admin-pwd').focus();
-        }
-    }
-
-    async function submitAdminLogin() {
-        const pwd = document.getElementById('admin-pwd').value;
-        try {
-            const res = await fetch('/api/resume/admin-unlock', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password: pwd })
-            });
-            const data = await res.json();
-            if (data.status === 'success') {
-                localStorage.setItem(UNLOCK_KEY, '1');
-                showEditor();
-            } else {
-                alert(data.message || 'Incorrect admin password');
             }
-        } catch (e) {
-            alert('Could not verify password. Please try again.');
         }
-    }
 
-    async function verifyPayment(paymentData) {
-        const payBtn = document.getElementById('step-pay');
-        const loading = document.getElementById('step-loading');
-        const loadingMsg = document.getElementById('loading-msg');
-        const errEl = document.getElementById('pay-error');
-        const errMsg = document.getElementById('pay-error-msg');
-        
-        payBtn.classList.add('hidden');
-        loading.classList.remove('hidden');
-        loadingMsg.textContent = "Verifying payment...";
+        function toggleAdmin(show) {
+            document.getElementById('admin-toggle-container').classList.toggle('hidden', show);
+            document.getElementById('step-pay').classList.toggle('hidden', show);
+            document.getElementById('step-admin').classList.toggle('hidden', !show);
+            if (show) {
+                document.getElementById('admin-pwd').focus();
+            }
+        }
 
-        try {
-            const res = await fetch('/api/resume/verify-payment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    razorpay_payment_id: paymentData.razorpay_payment_id,
-                    razorpay_order_id: paymentData.razorpay_order_id,
-                    razorpay_signature: paymentData.razorpay_signature
-                })
-            });
-            const data = await res.json();
+        async function submitAdminLogin() {
+            const pwd = document.getElementById('admin-pwd').value;
+            try {
+                const res = await fetch('/api/resume/admin-unlock', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    localStorage.setItem(UNLOCK_KEY, '1');
+                    showEditor();
+                } else {
+                    alert(data.message || 'Incorrect admin password');
+                }
+            } catch (e) {
+                alert('Could not verify password. Please try again.');
+            }
+        }
 
-            if (data.status === 'success') {
-                localStorage.setItem(UNLOCK_KEY, '1');
-                localStorage.setItem(PAYMENT_ID_KEY, paymentData.razorpay_payment_id);
-                showEditor();
-            } else {
+        async function verifyPayment(paymentData) {
+            const payBtn = document.getElementById('step-pay');
+            const loading = document.getElementById('step-loading');
+            const loadingMsg = document.getElementById('loading-msg');
+            const errEl = document.getElementById('pay-error');
+            const errMsg = document.getElementById('pay-error-msg');
+
+            payBtn.classList.add('hidden');
+            loading.classList.remove('hidden');
+            loadingMsg.textContent = "Verifying payment...";
+
+            try {
+                const res = await fetch('/api/resume/verify-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        razorpay_payment_id: paymentData.razorpay_payment_id,
+                        razorpay_order_id: paymentData.razorpay_order_id,
+                        razorpay_signature: paymentData.razorpay_signature
+                    })
+                });
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    localStorage.setItem(UNLOCK_KEY, '1');
+                    localStorage.setItem(PAYMENT_ID_KEY, paymentData.razorpay_payment_id);
+                    showEditor();
+                } else {
+                    loading.classList.add('hidden');
+                    payBtn.classList.remove('hidden');
+                    errMsg.textContent = data.message || 'Payment verification failed. Contact support.';
+                    errEl.classList.remove('hidden');
+                }
+            } catch (e) {
                 loading.classList.add('hidden');
                 payBtn.classList.remove('hidden');
-                errMsg.textContent = data.message || 'Payment verification failed. Contact support.';
+                errMsg.textContent = 'Verification error. Please contact support with your payment details.';
                 errEl.classList.remove('hidden');
             }
-        } catch (e) {
-            loading.classList.add('hidden');
-            payBtn.classList.remove('hidden');
-            errMsg.textContent = 'Verification error. Please contact support with your payment details.';
-            errEl.classList.remove('hidden');
         }
-    }
 
-    function showEditor() {
-        document.getElementById('payment-gate').classList.add('hidden');
-        document.getElementById('resume-editor').classList.remove('hidden');
-        initEditor();
-    }
-
-    // ============================================================
-    //   RESUME DATA MODEL
-    // ============================================================
-
-    const defaultResume = {
-        template: 'modern',
-        font: 'default',
-        name: '', title: '', email: '', location: '',
-        phone_display: '', phone_e164: '',
-        linkedin_url: '', github_url: '', website_url: '',
-        summary: '',
-        skills: [],
-        experience: [],
-        projects: [],
-        education: [],
-        languages: [],
-        headings: {
-            summary: 'Summary',
-            skills: 'Skills',
-            experience: 'Work Experience',
-            projects: 'Projects',
-            education: 'Education',
-            languages: 'Languages'
+        function showEditor() {
+            document.getElementById('payment-gate').classList.add('hidden');
+            document.getElementById('resume-editor').classList.remove('hidden');
+            initEditor();
         }
-    };
 
-    let resume = JSON.parse(JSON.stringify(defaultResume));
+        // ============================================================
+        //   RESUME DATA MODEL
+        // ============================================================
 
-    const STORAGE_KEY = 'sb_resume_data';
+        const defaultResume = {
+            template: 'modern',
+            font: 'default',
+            name: '', title: '', email: '', location: '',
+            phone_display: '', phone_e164: '',
+            linkedin_url: '', github_url: '', website_url: '',
+            summary: '',
+            skills: [],
+            experience: [],
+            projects: [],
+            education: [],
+            certifications: [],
+            achievements: []
+        };
 
-    function saveToStorage() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(resume));
-    }
+        let resume = JSON.parse(JSON.stringify(defaultResume));
 
-    function loadFromStorage() {
-        try {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                resume = { ...defaultResume, ...JSON.parse(stored) };
-                if (!resume.template) resume.template = 'modern';
-                if (!resume.font) resume.font = 'default';
-                if (!resume.headings) resume.headings = { ...defaultResume.headings };
-                if (!Array.isArray(resume.skills)) resume.skills = [];
-                if (!Array.isArray(resume.experience)) resume.experience = [];
-                if (!Array.isArray(resume.projects)) resume.projects = [];
-                if (!Array.isArray(resume.education)) resume.education = [];
-                if (!Array.isArray(resume.languages)) resume.languages = [];
+        const STORAGE_KEY = 'sb_resume_data';
 
-                const selector = document.getElementById('template-selector');
-                if (selector) selector.value = resume.template;
+        function saveToStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(resume));
+        }
 
-                const fontSel = document.getElementById('font-selector');
-                if (fontSel) fontSel.value = resume.font;
+        function loadFromStorage() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    resume = { ...defaultResume, ...JSON.parse(stored) };
+                    if (!resume.template) resume.template = 'modern';
+                    if (!resume.font) resume.font = 'default';
+                    if (!Array.isArray(resume.skills)) resume.skills = [];
+                    if (!Array.isArray(resume.experience)) resume.experience = [];
+                    if (!Array.isArray(resume.projects)) resume.projects = [];
+                    if (!Array.isArray(resume.education)) resume.education = [];
+                    if (!Array.isArray(resume.certifications)) resume.certifications = [];
+                    if (!Array.isArray(resume.achievements)) resume.achievements = [];
+
+                    const selector = document.getElementById('template-selector');
+                    if (selector) selector.value = resume.template;
+
+                    const fontSel = document.getElementById('font-selector');
+                    if (fontSel) fontSel.value = resume.font;
+                }
+            } catch (e) { }
+            syncAllCustomDropdowns();
+        }
+
+        function changeTemplate(val) {
+            resume.template = val;
+            saveToStorage();
+            updatePreview();
+            syncAllCustomDropdowns();
+        }
+
+        // Bind change event to native select to trigger template update
+        document.addEventListener('DOMContentLoaded', () => {
+            const ts = document.getElementById('template-selector');
+            if (ts) {
+                ts.addEventListener('change', (e) => {
+                    changeTemplate(e.target.value);
+                });
             }
-        } catch (e) { }
-        syncAllCustomDropdowns();
-    }
+            const fs = document.getElementById('font-selector');
+            if (fs) {
+                fs.addEventListener('change', (e) => {
+                    changeFont(e.target.value);
+                });
+            }
+        });
 
-    function changeTemplate(val) {
-        resume.template = val;
-        saveToStorage();
-        updatePreview();
-        syncAllCustomDropdowns();
-    }
+        function changeFont(val) {
+            resume.font = val;
+            saveToStorage();
+            updatePreview();
+            syncAllCustomDropdowns();
+        }
 
-    // Bind change event to native select to trigger template update
-    document.addEventListener('DOMContentLoaded', () => {
-        const ts = document.getElementById('template-selector');
-        if (ts) {
-            ts.addEventListener('change', (e) => {
-                changeTemplate(e.target.value);
+        // ============================================================
+        //   EDITOR INIT
+        // ============================================================
+
+        let editorInited = false;
+
+        function initEditor() {
+            if (editorInited) return;
+            editorInited = true;
+            loadFromStorage();
+            renderAllFields();
+            renderDynamicSections();
+            updatePreview();
+            syncAllCustomDropdowns();
+            // Restore the last job description so re-optimize works across visits
+            const savedJd = localStorage.getItem('sb_resume_jd');
+            if (savedJd) syncJd(savedJd);
+        }
+
+        // ============================================================
+        //   TAB SWITCHING
+        // ============================================================
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.editor-tab').forEach(el => el.classList.remove('active'));
+
+            const content = document.getElementById('tab-' + tab);
+            content.classList.remove('hidden');
+            content.classList.add('active');
+
+            document.querySelector(`.editor-tab[data-tab="${tab}"]`).classList.add('active');
+        }
+
+        // ============================================================
+        //   FIELD UPDATES
+        // ============================================================
+
+        function updateField(field, value) {
+            resume[field] = value;
+            saveToStorage();
+            updatePreview();
+        }
+
+        function renderAllFields() {
+            const fields = ['name', 'title', 'email', 'location', 'phone_display', 'phone_e164',
+                'linkedin_url', 'github_url', 'website_url', 'summary'];
+            fields.forEach(f => {
+                const el = document.getElementById('f-' + f);
+                if (el) el.value = resume[f] || '';
             });
         }
-        const fs = document.getElementById('font-selector');
-        if (fs) {
-            fs.addEventListener('change', (e) => {
-                changeFont(e.target.value);
-            });
-        }
-    });
 
-    function changeFont(val) {
-        resume.font = val;
-        saveToStorage();
-        updatePreview();
-        syncAllCustomDropdowns();
-    }
+        // ============================================================
+        //   SKILLS
+        // ============================================================
 
-    // ============================================================
-    //   EDITOR INIT
-    // ============================================================
-
-    let editorInited = false;
-
-    function initEditor() {
-        if (editorInited) return;
-        editorInited = true;
-        loadFromStorage();
-        renderAllFields();
-        renderDynamicSections();
-        renderHeadings();
-        updatePreview();
-        syncAllCustomDropdowns();
-        // Restore the last job description so re-optimize works across visits
-        const savedJd = localStorage.getItem('sb_resume_jd');
-        if (savedJd) syncJd(savedJd);
-    }
-
-    // ============================================================
-    //   TAB SWITCHING
-    // ============================================================
-
-    function switchTab(tab) {
-        document.querySelectorAll('.tab-content').forEach(el => {
-            el.classList.add('hidden');
-            el.classList.remove('active');
-        });
-        document.querySelectorAll('.editor-tab').forEach(el => el.classList.remove('active'));
-        
-        const content = document.getElementById('tab-' + tab);
-        content.classList.remove('hidden');
-        content.classList.add('active');
-        
-        document.querySelector(`.editor-tab[data-tab="${tab}"]`).classList.add('active');
-    }
-
-    // ============================================================
-    //   FIELD UPDATES
-    // ============================================================
-
-    function updateField(field, value) {
-        resume[field] = value;
-        saveToStorage();
-        updatePreview();
-    }
-
-    function renderAllFields() {
-        const fields = ['name', 'title', 'email', 'location', 'phone_display', 'phone_e164',
-            'linkedin_url', 'github_url', 'website_url', 'summary'];
-        fields.forEach(f => {
-            const el = document.getElementById('f-' + f);
-            if (el) el.value = resume[f] || '';
-        });
-    }
-
-    // ============================================================
-    //   SKILLS
-    // ============================================================
-
-    function renderSkills() {
-        const list = document.getElementById('skills-list');
-        const empty = document.getElementById('skills-empty');
-        list.innerHTML = '';
-        if (resume.skills.length === 0) {
-            empty.style.display = 'block';
-            return;
-        }
-        empty.style.display = 'none';
-        resume.skills.forEach((group, i) => {
-            const card = document.createElement('div');
-            card.className = 'dynamic-card';
-            card.innerHTML = `
+        function renderSkills() {
+            const list = document.getElementById('skills-list');
+            const empty = document.getElementById('skills-empty');
+            list.innerHTML = '';
+            if (resume.skills.length === 0) {
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+            resume.skills.forEach((group, i) => {
+                const card = document.createElement('div');
+                card.className = 'dynamic-card';
+                card.innerHTML = `
                 <div class="dynamic-card-header">
                     <span class="dynamic-card-num">${i + 1}</span>
                     <button class="btn-remove" onclick="removeSkillGroup(${i})" title="Remove">
@@ -1081,50 +1228,50 @@
                     </div>
                 </div>
             `;
-            list.appendChild(card);
-        });
-    }
+                list.appendChild(card);
+            });
+        }
 
-    function addSkillGroup() {
-        try {
-            resume.skills.push({ group: '', items: [] });
+        function addSkillGroup() {
+            try {
+                resume.skills.push({ group: '', items: [] });
+                renderSkills();
+                saveToStorage();
+                updatePreview();
+            } catch (e) { alert("Error in addSkillGroup: " + e); }
+        }
+
+        function removeSkillGroup(i) {
+            resume.skills.splice(i, 1);
             renderSkills();
             saveToStorage();
             updatePreview();
-        } catch (e) { alert("Error in addSkillGroup: " + e); }
-    }
-
-    function removeSkillGroup(i) {
-        resume.skills.splice(i, 1);
-        renderSkills();
-        saveToStorage();
-        updatePreview();
-    }
-
-    function updateSkillGroup(i, field, value) {
-        if (field === 'items') {
-            resume.skills[i].items = value.split(',').map(s => s.trim()).filter(Boolean);
-        } else {
-            resume.skills[i][field] = value;
         }
-        saveToStorage();
-        updatePreview();
-    }
 
-    // ============================================================
-    //   EXPERIENCE
-    // ============================================================
+        function updateSkillGroup(i, field, value) {
+            if (field === 'items') {
+                resume.skills[i].items = value.split(',').map(s => s.trim()).filter(Boolean);
+            } else {
+                resume.skills[i][field] = value;
+            }
+            saveToStorage();
+            updatePreview();
+        }
 
-    function renderExperience() {
-        const list = document.getElementById('experience-list');
-        const empty = document.getElementById('exp-empty');
-        list.innerHTML = '';
-        if (resume.experience.length === 0) { empty.style.display = 'block'; return; }
-        empty.style.display = 'none';
-        resume.experience.forEach((exp, i) => {
-            const card = document.createElement('div');
-            card.className = 'dynamic-card';
-            card.innerHTML = `
+        // ============================================================
+        //   EXPERIENCE
+        // ============================================================
+
+        function renderExperience() {
+            const list = document.getElementById('experience-list');
+            const empty = document.getElementById('exp-empty');
+            list.innerHTML = '';
+            if (resume.experience.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            resume.experience.forEach((exp, i) => {
+                const card = document.createElement('div');
+                card.className = 'dynamic-card';
+                card.innerHTML = `
                 <div class="dynamic-card-header">
                     <span class="dynamic-card-num">${i + 1}</span>
                     <button class="btn-remove" onclick="removeExperience(${i})"><span class="material-icons-outlined">close</span></button>
@@ -1132,74 +1279,74 @@
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label class="form-label">Company</label>
-                        <input type="text" class="form-input" value="${esc(exp.company||'')}" placeholder="Acme Corp" oninput="updateExp(${i},'company',this.value)">
+                        <input type="text" class="form-input" value="${esc(exp.company || '')}" placeholder="Acme Corp" oninput="updateExp(${i},'company',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Role</label>
-                        <input type="text" class="form-input" value="${esc(exp.role||'')}" placeholder="Software Engineer" oninput="updateExp(${i},'role',this.value)">
+                        <input type="text" class="form-input" value="${esc(exp.role || '')}" placeholder="Software Engineer" oninput="updateExp(${i},'role',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Start Date</label>
-                        <input type="text" class="form-input" value="${esc(exp.start||'')}" placeholder="Jan 2023" oninput="updateExp(${i},'start',this.value)">
+                        <input type="text" class="form-input" value="${esc(exp.start || '')}" placeholder="Jan 2023" oninput="updateExp(${i},'start',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">End Date</label>
-                        <input type="text" class="form-input" value="${esc(exp.end||'')}" placeholder="Present" oninput="updateExp(${i},'end',this.value)">
+                        <input type="text" class="form-input" value="${esc(exp.end || '')}" placeholder="Present" oninput="updateExp(${i},'end',this.value)">
                     </div>
                     <div class="form-group" style="grid-column:1/-1">
                         <label class="form-label">Location</label>
-                        <input type="text" class="form-input" value="${esc(exp.location||'')}" placeholder="Remote / Bengaluru" oninput="updateExp(${i},'location',this.value)">
+                        <input type="text" class="form-input" value="${esc(exp.location || '')}" placeholder="Remote / Bengaluru" oninput="updateExp(${i},'location',this.value)">
                     </div>
                     <div class="form-group" style="grid-column:1/-1">
                         <label class="form-label">Bullet Points (one per line)</label>
-                        <textarea class="form-textarea" rows="4" placeholder="Describe your responsibilities and achievements…" oninput="updateExp(${i},'bullets',this.value)">${esc((exp.bullets||[]).join('\n'))}</textarea>
+                        <textarea class="form-textarea" rows="4" placeholder="Describe your responsibilities and achievements…" oninput="updateExp(${i},'bullets',this.value)">${esc((exp.bullets || []).join('\n'))}</textarea>
                     </div>
                 </div>
             `;
-            list.appendChild(card);
-        });
-    }
+                list.appendChild(card);
+            });
+        }
 
-    function addExperience() {
-        try {
-            resume.experience.push({ company: '', role: '', start: '', end: '', location: '', bullets: [] });
+        function addExperience() {
+            try {
+                resume.experience.push({ company: '', role: '', start: '', end: '', location: '', bullets: [] });
+                renderExperience();
+                saveToStorage();
+                updatePreview();
+            } catch (e) { alert("Error in addExperience: " + e); }
+        }
+
+        function removeExperience(i) {
+            resume.experience.splice(i, 1);
             renderExperience();
             saveToStorage();
             updatePreview();
-        } catch (e) { alert("Error in addExperience: " + e); }
-    }
-
-    function removeExperience(i) {
-        resume.experience.splice(i, 1);
-        renderExperience();
-        saveToStorage();
-        updatePreview();
-    }
-
-    function updateExp(i, field, value) {
-        if (field === 'bullets') {
-            resume.experience[i].bullets = value.split('\n').map(s => s.trim()).filter(Boolean);
-        } else {
-            resume.experience[i][field] = value;
         }
-        saveToStorage();
-        updatePreview();
-    }
 
-    // ============================================================
-    //   PROJECTS
-    // ============================================================
+        function updateExp(i, field, value) {
+            if (field === 'bullets') {
+                resume.experience[i].bullets = value.split('\n').map(s => s.trim()).filter(Boolean);
+            } else {
+                resume.experience[i][field] = value;
+            }
+            saveToStorage();
+            updatePreview();
+        }
 
-    function renderProjects() {
-        const list = document.getElementById('projects-list');
-        const empty = document.getElementById('proj-empty');
-        list.innerHTML = '';
-        if (resume.projects.length === 0) { empty.style.display = 'block'; return; }
-        empty.style.display = 'none';
-        resume.projects.forEach((proj, i) => {
-            const card = document.createElement('div');
-            card.className = 'dynamic-card';
-            card.innerHTML = `
+        // ============================================================
+        //   PROJECTS
+        // ============================================================
+
+        function renderProjects() {
+            const list = document.getElementById('projects-list');
+            const empty = document.getElementById('proj-empty');
+            list.innerHTML = '';
+            if (resume.projects.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            resume.projects.forEach((proj, i) => {
+                const card = document.createElement('div');
+                card.className = 'dynamic-card';
+                card.innerHTML = `
                 <div class="dynamic-card-header">
                     <span class="dynamic-card-num">${i + 1}</span>
                     <button class="btn-remove" onclick="removeProject(${i})"><span class="material-icons-outlined">close</span></button>
@@ -1207,70 +1354,70 @@
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label class="form-label">Project Name</label>
-                        <input type="text" class="form-input" value="${esc(proj.name||'')}" placeholder="My SaaS App" oninput="updateProj(${i},'name',this.value)">
+                        <input type="text" class="form-input" value="${esc(proj.name || '')}" placeholder="My SaaS App" oninput="updateProj(${i},'name',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Technologies</label>
-                        <input type="text" class="form-input" value="${esc(proj.tech||'')}" placeholder="React, Node.js, PostgreSQL" oninput="updateProj(${i},'tech',this.value)">
+                        <input type="text" class="form-input" value="${esc(proj.tech || '')}" placeholder="React, Node.js, PostgreSQL" oninput="updateProj(${i},'tech',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Project URL</label>
-                        <input type="url" class="form-input" value="${esc(proj.url||'')}" placeholder="https://github.com/…" oninput="updateProj(${i},'url',this.value)">
+                        <input type="url" class="form-input" value="${esc(proj.url || '')}" placeholder="https://github.com/…" oninput="updateProj(${i},'url',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Date / Period</label>
-                        <input type="text" class="form-input" value="${esc(proj.date||'')}" placeholder="2024" oninput="updateProj(${i},'date',this.value)">
+                        <input type="text" class="form-input" value="${esc(proj.date || '')}" placeholder="2024" oninput="updateProj(${i},'date',this.value)">
                     </div>
                     <div class="form-group" style="grid-column:1/-1">
                         <label class="form-label">Description (one bullet per line)</label>
-                        <textarea class="form-textarea" rows="4" placeholder="Describe what you built and the impact…" oninput="updateProj(${i},'bullets',this.value)">${esc((proj.bullets||[]).join('\n'))}</textarea>
+                        <textarea class="form-textarea" rows="4" placeholder="Describe what you built and the impact…" oninput="updateProj(${i},'bullets',this.value)">${esc((proj.bullets || []).join('\n'))}</textarea>
                     </div>
                 </div>
             `;
-            list.appendChild(card);
-        });
-    }
+                list.appendChild(card);
+            });
+        }
 
-    function addProject() {
-        try {
-            resume.projects.push({ name: '', tech: '', url: '', date: '', bullets: [] });
+        function addProject() {
+            try {
+                resume.projects.push({ name: '', tech: '', url: '', date: '', bullets: [] });
+                renderProjects();
+                saveToStorage();
+                updatePreview();
+            } catch (e) { alert("Error in addProject: " + e); }
+        }
+
+        function removeProject(i) {
+            resume.projects.splice(i, 1);
             renderProjects();
             saveToStorage();
             updatePreview();
-        } catch (e) { alert("Error in addProject: " + e); }
-    }
-
-    function removeProject(i) {
-        resume.projects.splice(i, 1);
-        renderProjects();
-        saveToStorage();
-        updatePreview();
-    }
-
-    function updateProj(i, field, value) {
-        if (field === 'bullets') {
-            resume.projects[i].bullets = value.split('\n').map(s => s.trim()).filter(Boolean);
-        } else {
-            resume.projects[i][field] = value;
         }
-        saveToStorage();
-        updatePreview();
-    }
 
-    // ============================================================
-    //   EDUCATION
-    // ============================================================
+        function updateProj(i, field, value) {
+            if (field === 'bullets') {
+                resume.projects[i].bullets = value.split('\n').map(s => s.trim()).filter(Boolean);
+            } else {
+                resume.projects[i][field] = value;
+            }
+            saveToStorage();
+            updatePreview();
+        }
 
-    function renderEducation() {
-        const list = document.getElementById('education-list');
-        const empty = document.getElementById('edu-empty');
-        list.innerHTML = '';
-        if (resume.education.length === 0) { empty.style.display = 'block'; return; }
-        empty.style.display = 'none';
-        resume.education.forEach((edu, i) => {
-            const card = document.createElement('div');
-            card.className = 'dynamic-card';
-            card.innerHTML = `
+        // ============================================================
+        //   EDUCATION
+        // ============================================================
+
+        function renderEducation() {
+            const list = document.getElementById('education-list');
+            const empty = document.getElementById('edu-empty');
+            list.innerHTML = '';
+            if (resume.education.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            resume.education.forEach((edu, i) => {
+                const card = document.createElement('div');
+                card.className = 'dynamic-card';
+                card.innerHTML = `
                 <div class="dynamic-card-header">
                     <span class="dynamic-card-num">${i + 1}</span>
                     <button class="btn-remove" onclick="removeEducation(${i})"><span class="material-icons-outlined">close</span></button>
@@ -1278,224 +1425,283 @@
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label class="form-label">Institution</label>
-                        <input type="text" class="form-input" value="${esc(edu.institution||'')}" placeholder="IIT Bombay" oninput="updateEdu(${i},'institution',this.value)">
+                        <input type="text" class="form-input" value="${esc(edu.institution || '')}" placeholder="IIT Bombay" oninput="updateEdu(${i},'institution',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Degree / Program</label>
-                        <input type="text" class="form-input" value="${esc(edu.degree||'')}" placeholder="B.Tech Computer Science" oninput="updateEdu(${i},'degree',this.value)">
+                        <input type="text" class="form-input" value="${esc(edu.degree || '')}" placeholder="B.Tech Computer Science" oninput="updateEdu(${i},'degree',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Start Year</label>
-                        <input type="text" class="form-input" value="${esc(edu.start||'')}" placeholder="2020" oninput="updateEdu(${i},'start',this.value)">
+                        <input type="text" class="form-input" value="${esc(edu.start || '')}" placeholder="2020" oninput="updateEdu(${i},'start',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">End Year</label>
-                        <input type="text" class="form-input" value="${esc(edu.end||'')}" placeholder="2024" oninput="updateEdu(${i},'end',this.value)">
+                        <input type="text" class="form-input" value="${esc(edu.end || '')}" placeholder="2024" oninput="updateEdu(${i},'end',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">GPA / Score</label>
-                        <input type="text" class="form-input" value="${esc(edu.gpa||'')}" placeholder="8.5 / 10" oninput="updateEdu(${i},'gpa',this.value)">
+                        <input type="text" class="form-input" value="${esc(edu.gpa || '')}" placeholder="8.5 / 10" oninput="updateEdu(${i},'gpa',this.value)">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Location</label>
-                        <input type="text" class="form-input" value="${esc(edu.location||'')}" placeholder="Mumbai, India" oninput="updateEdu(${i},'location',this.value)">
+                        <input type="text" class="form-input" value="${esc(edu.location || '')}" placeholder="Mumbai, India" oninput="updateEdu(${i},'location',this.value)">
                     </div>
                 </div>
             `;
-            list.appendChild(card);
-        });
-    }
+                list.appendChild(card);
+            });
+        }
 
-    function addEducation() {
-        try {
-            resume.education.push({ institution: '', degree: '', start: '', end: '', gpa: '', location: '' });
+        function addEducation() {
+            try {
+                resume.education.push({ institution: '', degree: '', start: '', end: '', gpa: '', location: '' });
+                renderEducation();
+                saveToStorage();
+                updatePreview();
+            } catch (e) { alert("Error in addEducation: " + e); }
+        }
+
+        function removeEducation(i) {
+            resume.education.splice(i, 1);
             renderEducation();
             saveToStorage();
             updatePreview();
-        } catch (e) { alert("Error in addEducation: " + e); }
-    }
+        }
 
-    function removeEducation(i) {
-        resume.education.splice(i, 1);
-        renderEducation();
-        saveToStorage();
-        updatePreview();
-    }
+        function updateEdu(i, field, value) {
+            resume.education[i][field] = value;
+            saveToStorage();
+            updatePreview();
+        }
 
-    function updateEdu(i, field, value) {
-        resume.education[i][field] = value;
-        saveToStorage();
-        updatePreview();
-    }
+        // ============================================================
+        //   CERTIFICATIONS
+        // ============================================================
 
-    // ============================================================
-    //   LANGUAGES
-    // ============================================================
-
-    function renderLanguages() {
-        const list = document.getElementById('languages-list');
-        const empty = document.getElementById('lang-empty');
-        list.innerHTML = '';
-        if (resume.languages.length === 0) { empty.style.display = 'block'; return; }
-        empty.style.display = 'none';
-        resume.languages.forEach((lang, i) => {
-            const card = document.createElement('div');
-            card.className = 'dynamic-card';
-            card.innerHTML = `
+        function renderCertifications() {
+            const list = document.getElementById('certifications-list');
+            const empty = document.getElementById('cert-empty');
+            list.innerHTML = '';
+            if (resume.certifications.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            resume.certifications.forEach((cert, i) => {
+                const card = document.createElement('div');
+                card.className = 'dynamic-card';
+                card.innerHTML = `
                 <div class="dynamic-card-header">
                     <span class="dynamic-card-num">${i + 1}</span>
-                    <button class="btn-remove" onclick="removeLanguage(${i})"><span class="material-icons-outlined">close</span></button>
+                    <button class="btn-remove" onclick="removeCertification(${i})"><span class="material-icons-outlined">close</span></button>
                 </div>
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label class="form-label">Language</label>
-                        <input type="text" class="form-input" value="${esc(lang.name||'')}" placeholder="English" oninput="updateLang(${i},'name',this.value)">
+                        <label class="form-label">Certification Name</label>
+                        <input type="text" class="form-input" value="${esc(cert.name || '')}" placeholder="AWS Certified Developer" oninput="updateCert(${i},'name',this.value)">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Proficiency</label>
-                        <select class="form-input form-select" oninput="updateLang(${i},'level',this.value)">
-                            ${['Native','Fluent','Professional','Conversational','Basic'].map(l =>
-                                `<option value="${l}" ${(lang.level||'') === l ? 'selected' : ''}>${l}</option>`
-                            ).join('')}
-                        </select>
+                        <label class="form-label">Issuing Organization</label>
+                        <input type="text" class="form-input" value="${esc(cert.issuer || '')}" placeholder="Amazon Web Services" oninput="updateCert(${i},'issuer',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="text" class="form-input" value="${esc(cert.date || '')}" placeholder="Jun 2023" oninput="updateCert(${i},'date',this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Credential ID (Optional)</label>
+                        <input type="text" class="form-input" value="${esc(cert.credential_id || '')}" placeholder="ABC-12345" oninput="updateCert(${i},'credential_id',this.value)">
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="form-label">URL (Optional)</label>
+                        <input type="url" class="form-input" value="${esc(cert.url || '')}" placeholder="https://credential.link" oninput="updateCert(${i},'url',this.value)">
                     </div>
                 </div>
             `;
-            list.appendChild(card);
-        });
-    }
-
-    function addLanguage() {
-        try {
-            resume.languages.push({ name: '', level: 'Fluent' });
-            renderLanguages();
-            saveToStorage();
-            updatePreview();
-        } catch (e) { alert("Error in addLanguage: " + e); }
-    }
-
-    function removeLanguage(i) {
-        resume.languages.splice(i, 1);
-        renderLanguages();
-        saveToStorage();
-        updatePreview();
-    }
-
-    function updateLang(i, field, value) {
-        resume.languages[i][field] = value;
-        saveToStorage();
-        updatePreview();
-    }
-
-    // ============================================================
-    //   HEADINGS
-    // ============================================================
-
-    function renderHeadings() {
-        const grid = document.getElementById('headings-grid');
-        grid.innerHTML = '';
-        const keys = Object.keys(resume.headings);
-        keys.forEach(k => {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <label class="form-label" style="text-transform:capitalize;">${k}</label>
-                <input type="text" class="form-input" value="${esc(resume.headings[k])}" placeholder="${k}" oninput="updateHeading('${k}', this.value)">
-            `;
-            grid.appendChild(div);
-        });
-    }
-
-    function updateHeading(key, value) {
-        resume.headings[key] = value;
-        saveToStorage();
-        updatePreview();
-    }
-
-    // ============================================================
-    //   RENDER ALL DYNAMIC SECTIONS
-    // ============================================================
-
-    function renderDynamicSections() {
-        renderSkills();
-        renderExperience();
-        renderProjects();
-        renderEducation();
-        renderLanguages();
-    }
-
-    // ============================================================
-    //   PREVIEW GENERATION
-    // ============================================================
-
-    let previewDebounce = null;
-
-    function updatePreview() {
-        clearTimeout(previewDebounce);
-        previewDebounce = setTimeout(() => {
-            const html = generateResumeHtml(resume);
-            const frame = document.getElementById('preview-frame');
-            if (frame) {
-                frame.onload = fitPreview;
-                frame.srcdoc = html;
-            }
-        }, 120);
-    }
-
-    // Scale the fixed A4 page to the preview width and show a live page count
-    function fitPreview() {
-        const frame = document.getElementById('preview-frame');
-        try {
-            const doc = frame.contentDocument;
-            const page = doc && doc.querySelector('.page');
-            if (!page) return;
-            const scale = Math.min(1, (frame.clientWidth - 4) / 794);
-            page.style.transform = 'scale(' + scale + ')';
-            page.style.transformOrigin = 'top center';
-            doc.body.style.height = (page.offsetHeight * scale + 16) + 'px';
-            doc.documentElement.style.overflowX = 'hidden';
-
-            const pages = Math.max(1, Math.ceil((page.offsetHeight - 4) / 1123));
-            const badge = document.getElementById('page-badge');
-            if (badge) {
-                if (pages === 1) {
-                    badge.textContent = 'A4 · 1 page ✓';
-                    badge.style.cssText = 'background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.4);';
-                } else {
-                    badge.textContent = 'A4 · ' + pages + ' pages — trim to 1!';
-                    badge.style.cssText = 'background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.5);';
-                }
-            }
-        } catch (e) { }
-    }
-
-    window.addEventListener('resize', () => { clearTimeout(previewDebounce); previewDebounce = setTimeout(fitPreview, 150); });
-
-    function generateResumeHtml(r) {
-        const h = r.headings || defaultResume.headings;
-        const template = r.template || 'classic';
-        const font = r.font || 'default';
-        const links = [];
-        if (r.linkedin_url) links.push(`<a href="${esc(r.linkedin_url)}">${esc(r.linkedin_url.replace(/^https?:\/\/(www\.)?/,''))}</a>`);
-        if (r.github_url) links.push(`<a href="${esc(r.github_url)}">${esc(r.github_url.replace(/^https?:\/\/(www\.)?/,''))}</a>`);
-        if (r.website_url) links.push(`<a href="${esc(r.website_url)}">${esc(r.website_url.replace(/^https?:\/\/(www\.)?/,''))}</a>`);
-
-        let fontCss = '';
-        if (font === 'inter') {
-            fontCss = "font-family: 'Inter', sans-serif !important;";
-        } else if (font === 'arial') {
-            fontCss = "font-family: 'Arial', 'Helvetica', sans-serif !important;";
-        } else if (font === 'lora') {
-            fontCss = "font-family: 'Lora', serif !important;";
-        } else if (font === 'garamond') {
-            fontCss = "font-family: 'EB Garamond', 'Garamond', serif !important;";
-        } else if (font === 'georgia') {
-            fontCss = "font-family: 'Georgia', serif !important;";
-        } else if (font === 'times') {
-            fontCss = "font-family: 'Times New Roman', 'Times', serif !important;";
+                list.appendChild(card);
+            });
         }
 
-        return `<!DOCTYPE html>
+        function addCertification() {
+            try {
+                resume.certifications.push({ name: '', issuer: '', date: '', credential_id: '', url: '' });
+                renderCertifications();
+                saveToStorage();
+                updatePreview();
+            } catch (e) { alert('Error in addCertification: ' + e); }
+        }
+
+        function removeCertification(i) {
+            resume.certifications.splice(i, 1);
+            renderCertifications();
+            saveToStorage();
+            updatePreview();
+        }
+
+        function updateCert(i, field, value) {
+            resume.certifications[i][field] = value;
+            saveToStorage();
+            updatePreview();
+        }
+
+        // ============================================================
+        //   ACHIEVEMENTS
+        // ============================================================
+
+        function renderAchievements() {
+            const list = document.getElementById('achievements-list');
+            const empty = document.getElementById('ach-empty');
+            list.innerHTML = '';
+            if (resume.achievements.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            resume.achievements.forEach((ach, i) => {
+                const card = document.createElement('div');
+                card.className = 'dynamic-card';
+                card.innerHTML = `
+                <div class="dynamic-card-header">
+                    <span class="dynamic-card-num">${i + 1}</span>
+                    <button class="btn-remove" onclick="removeAchievement(${i})"><span class="material-icons-outlined">close</span></button>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="form-label">Achievement Title</label>
+                        <input type="text" class="form-input" value="${esc(ach.title || '')}" placeholder="Winner — National Hackathon 2024" oninput="updateAch(${i},'title',this.value)">
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" rows="3" placeholder="Briefly describe the achievement and its impact…" oninput="updateAch(${i},'description',this.value)">${esc(ach.description || '')}</textarea>
+                    </div>
+                </div>
+            `;
+                list.appendChild(card);
+            });
+        }
+
+        function addAchievement() {
+            try {
+                resume.achievements.push({ title: '', description: '' });
+                renderAchievements();
+                saveToStorage();
+                updatePreview();
+            } catch (e) { alert('Error in addAchievement: ' + e); }
+        }
+
+        function removeAchievement(i) {
+            resume.achievements.splice(i, 1);
+            renderAchievements();
+            saveToStorage();
+            updatePreview();
+        }
+
+        function updateAch(i, field, value) {
+            resume.achievements[i][field] = value;
+            saveToStorage();
+            updatePreview();
+        }
+
+        // ============================================================
+        //   RENDER ALL DYNAMIC SECTIONS
+        // ============================================================
+
+        function renderDynamicSections() {
+            renderSkills();
+            renderExperience();
+            renderProjects();
+            renderEducation();
+            renderCertifications();
+            renderAchievements();
+        }
+
+        // ============================================================
+        //   PREVIEW GENERATION
+        // ============================================================
+
+        let previewDebounce = null;
+
+        function updatePreview() {
+            clearTimeout(previewDebounce);
+            previewDebounce = setTimeout(() => {
+                const html = generateResumeHtml(resume);
+                const frame = document.getElementById('preview-frame');
+                if (frame) {
+                    frame.onload = fitPreview;
+                    frame.srcdoc = html;
+                }
+            }, 120);
+        }
+
+        // Scale the fixed A4 page to the preview width and show a live page count
+        function fitPreview() {
+            const frame = document.getElementById('preview-frame');
+            try {
+                const doc = frame.contentDocument;
+                const page = doc && doc.querySelector('.page');
+                if (!page) return;
+
+                const frameWidth = frame.clientWidth;
+                const pageOriginalWidth = 794;
+                const scale = Math.min(1, (frameWidth - 8) / pageOriginalWidth);
+
+                page.style.transform = 'scale(' + scale + ')';
+                if (scale < 1) {
+                    const scaledWidth = pageOriginalWidth * scale;
+                    const marginLeft = Math.max(0, (frameWidth - scaledWidth) / 2);
+                    page.style.transformOrigin = 'top left';
+                    page.style.marginLeft = marginLeft + 'px';
+                    page.style.marginRight = '0';
+                } else {
+                    page.style.transformOrigin = 'top center';
+                    page.style.marginLeft = 'auto';
+                    page.style.marginRight = 'auto';
+                }
+
+                doc.body.style.width = frameWidth + 'px';
+                doc.body.style.overflowX = 'hidden';
+                doc.body.style.height = (page.offsetHeight * scale + 16) + 'px';
+                doc.documentElement.style.overflowX = 'hidden';
+
+                const pages = Math.max(1, Math.ceil((page.offsetHeight - 4) / 1123));
+                const badge = document.getElementById('page-badge');
+                if (badge) {
+                    if (pages === 1) {
+                        badge.textContent = 'A4 · 1 page ✓';
+                        badge.style.cssText = 'background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.4);';
+                    } else {
+                        badge.textContent = 'A4 · ' + pages + ' pages — trim to 1!';
+                        badge.style.cssText = 'background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.5);';
+                    }
+                }
+            } catch (e) { }
+        }
+
+        window.addEventListener('resize', () => { clearTimeout(previewDebounce); previewDebounce = setTimeout(fitPreview, 150); });
+
+        function generateResumeHtml(r) {
+            const h = r.headings || {
+                summary: 'Summary', skills: 'Skills', experience: 'Work Experience',
+                projects: 'Projects', education: 'Education'
+            };
+            const template = r.template || 'classic';
+            const font = r.font || 'default';
+            const links = [];
+            if (r.linkedin_url) links.push(`<a href="${esc(r.linkedin_url)}">${esc(r.linkedin_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
+            if (r.github_url) links.push(`<a href="${esc(r.github_url)}">${esc(r.github_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
+            if (r.website_url) links.push(`<a href="${esc(r.website_url)}">${esc(r.website_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
+
+            let fontCss = '';
+            if (font === 'inter') {
+                fontCss = "font-family: 'Inter', sans-serif !important;";
+            } else if (font === 'arial') {
+                fontCss = "font-family: 'Arial', 'Helvetica', sans-serif !important;";
+            } else if (font === 'lora') {
+                fontCss = "font-family: 'Lora', serif !important;";
+            } else if (font === 'garamond') {
+                fontCss = "font-family: 'EB Garamond', 'Garamond', serif !important;";
+            } else if (font === 'georgia') {
+                fontCss = "font-family: 'Georgia', serif !important;";
+            } else if (font === 'times') {
+                fontCss = "font-family: 'Times New Roman', 'Times', serif !important;";
+            }
+
+            return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1646,7 +1852,7 @@
   ${r.title ? `<div class="subtitle">${esc(r.title)}</div>` : ''}
   <div class="contact-row">
     ${r.email ? `<span>${esc(r.email)}</span>` : ''}
-    ${r.phone_display ? `<a href="tel:${esc(r.phone_e164||r.phone_display)}">${esc(r.phone_display)}</a>` : ''}
+    ${r.phone_display ? `<a href="tel:${esc(r.phone_e164 || r.phone_display)}">${esc(r.phone_display)}</a>` : ''}
     ${r.location ? `<span>${esc(r.location)}</span>` : ''}
     ${links.join('<span style="color:#bbb;">·</span>')}
   </div>
@@ -1654,13 +1860,83 @@
 
   ${r.summary ? `
   <section>
-    <div class="section-title">${esc(h.summary||'Summary')}</div>
+    <div class="section-title">${esc(h.summary || 'Summary')}</div>
     <p>${esc(r.summary)}</p>
+  </section>` : ''}
+
+  ${r.experience && r.experience.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.experience || 'Work Experience')}</div>
+    ${r.experience.map(exp => {
+                if (template === 'classic' || template === 'classic_left' || template === 'executive') {
+                    return `
+        <div style="margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:bold; font-size:10pt;">${esc(exp.company)}</span>
+            <span style="font-size:9.5pt; font-style:italic;">${esc(exp.location || '')}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-style:italic; font-size:9.5pt;">${esc(exp.role)}</span>
+            <span style="font-size:9.5pt;">${esc(exp.start || '')}${exp.end ? ` – ${esc(exp.end)}` : ''}</span>
+          </div>
+          ${exp.bullets && exp.bullets.length > 0 ? `
+            <ul class="bullets">
+              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+            </ul>` : ''}
+        </div>`;
+                } else {
+                    return `
+        <div style="margin-bottom:10px;">
+          <div class="exp-header">
+            <div>
+              <span class="exp-company">${esc(exp.company)}</span>
+              ${exp.location ? `<span class="exp-location"> · ${esc(exp.location)}</span>` : ''}
+            </div>
+            <span class="exp-date">${esc(exp.start || '')}${exp.end ? ` – ${esc(exp.end)}` : ''}</span>
+          </div>
+          <div class="exp-role">${esc(exp.role)}</div>
+          ${exp.bullets && exp.bullets.length > 0 ? `
+            <ul class="bullets">
+              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+            </ul>` : ''}
+        </div>`;
+                }
+            }).join('')}
+  </section>` : ''}
+
+  ${r.education && r.education.length > 0 ? `
+  <section>
+    <div class="section-title">${esc(h.education || 'Education')}</div>
+    ${r.education.map(edu => {
+                if (template === 'classic' || template === 'classic_left' || template === 'executive') {
+                    return `
+        <div style="margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:bold; font-size:10pt;">${esc(edu.institution)}</span>
+            <span style="font-size:9.5pt; font-style:italic;">${esc(edu.location || '')}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-style:italic; font-size:9.5pt;">${esc(edu.degree)}${edu.gpa ? ` · GPA: ${esc(edu.gpa)}` : ''}</span>
+            <span style="font-size:9.5pt;">${esc(edu.start || '')}${edu.end ? ` – ${esc(edu.end)}` : ''}</span>
+          </div>
+        </div>`;
+                } else {
+                    return `
+        <div class="edu-row" style="margin-bottom:6px;">
+          <div>
+            <div class="edu-inst">${esc(edu.institution)}</div>
+            <div class="edu-deg">${esc(edu.degree)}${edu.gpa ? ` · GPA: ${esc(edu.gpa)}` : ''}</div>
+            ${edu.location ? `<div class="exp-location">${esc(edu.location)}</div>` : ''}
+          </div>
+          <div class="edu-date">${esc(edu.start || '')}${edu.end ? ` – ${esc(edu.end)}` : ''}</div>
+        </div>`;
+                }
+            }).join('')}
   </section>` : ''}
 
   ${r.skills && r.skills.length > 0 ? `
   <section>
-    <div class="section-title">${esc(h.skills||'Skills')}</div>
+    <div class="section-title">${esc(h.skills || 'Skills')}</div>
     ${r.skills.map(g => `
       <div class="skills-row">
         <span class="skills-group-name">${esc(g.group)}: </span>
@@ -1669,56 +1945,16 @@
     `).join('')}
   </section>` : ''}
 
-  ${r.experience && r.experience.length > 0 ? `
-  <section>
-    <div class="section-title">${esc(h.experience||'Work Experience')}</div>
-    ${r.experience.map(exp => {
-      if (template === 'classic' || template === 'classic_left' || template === 'executive') {
-        return `
-        <div style="margin-bottom:8px;">
-          <div style="display:flex; justify-content:space-between; align-items:baseline;">
-            <span style="font-weight:bold; font-size:10pt;">${esc(exp.company)}</span>
-            <span style="font-size:9.5pt; font-style:italic;">${esc(exp.location||'')}</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline;">
-            <span style="font-style:italic; font-size:9.5pt;">${esc(exp.role)}</span>
-            <span style="font-size:9.5pt;">${esc(exp.start||'')}${exp.end ? ` – ${esc(exp.end)}` : ''}</span>
-          </div>
-          ${exp.bullets && exp.bullets.length > 0 ? `
-            <ul class="bullets">
-              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
-            </ul>` : ''}
-        </div>`;
-      } else {
-        return `
-        <div style="margin-bottom:10px;">
-          <div class="exp-header">
-            <div>
-              <span class="exp-company">${esc(exp.company)}</span>
-              ${exp.location ? `<span class="exp-location"> · ${esc(exp.location)}</span>` : ''}
-            </div>
-            <span class="exp-date">${esc(exp.start||'')}${exp.end ? ` – ${esc(exp.end)}` : ''}</span>
-          </div>
-          <div class="exp-role">${esc(exp.role)}</div>
-          ${exp.bullets && exp.bullets.length > 0 ? `
-            <ul class="bullets">
-              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
-            </ul>` : ''}
-        </div>`;
-      }
-    }).join('')}
-  </section>` : ''}
-
   ${r.projects && r.projects.length > 0 ? `
   <section>
-    <div class="section-title">${esc(h.projects||'Projects')}</div>
+    <div class="section-title">${esc(h.projects || 'Projects')}</div>
     ${r.projects.map(proj => {
-      if (template === 'classic' || template === 'classic_left' || template === 'executive') {
-        return `
+                if (template === 'classic' || template === 'classic_left' || template === 'executive') {
+                    return `
         <div style="margin-bottom:8px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline;">
             <span style="font-weight:bold; font-size:10pt;">${esc(proj.name)}</span>
-            <span style="font-size:9.5pt;">${esc(proj.date||'')}</span>
+            <span style="font-size:9.5pt;">${esc(proj.date || '')}</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:baseline;">
             <span style="font-style:italic; font-size:9pt; color:#444;">${esc(proj.tech)}</span>
@@ -1729,12 +1965,12 @@
               ${proj.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
             </ul>` : ''}
         </div>`;
-      } else {
-        return `
+                } else {
+                    return `
         <div style="margin-bottom:9px;">
           <div class="proj-header">
             <span class="proj-name">${esc(proj.name)}${proj.url ? ` <a href="${esc(proj.url)}" style="font-size:9pt;font-weight:400;font-style:italic;">[link]</a>` : ''}</span>
-            <span class="exp-date">${esc(proj.date||'')}</span>
+            <span class="exp-date">${esc(proj.date || '')}</span>
           </div>
           ${proj.tech ? `<div class="proj-tech">${esc(proj.tech)}</div>` : ''}
           ${proj.bullets && proj.bullets.length > 0 ? `
@@ -1742,559 +1978,584 @@
               ${proj.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
             </ul>` : ''}
         </div>`;
-      }
-    }).join('')}
+                }
+            }).join('')}
   </section>` : ''}
 
-  ${r.education && r.education.length > 0 ? `
+  ${r.certifications && r.certifications.length > 0 ? `
   <section>
-    <div class="section-title">${esc(h.education||'Education')}</div>
-    ${r.education.map(edu => {
-      if (template === 'classic' || template === 'classic_left' || template === 'executive') {
-        return `
-        <div style="margin-bottom:8px;">
-          <div style="display:flex; justify-content:space-between; align-items:baseline;">
-            <span style="font-weight:bold; font-size:10pt;">${esc(edu.institution)}</span>
-            <span style="font-size:9.5pt; font-style:italic;">${esc(edu.location||'')}</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline;">
-            <span style="font-style:italic; font-size:9.5pt;">${esc(edu.degree)}${edu.gpa ? ` · GPA: ${esc(edu.gpa)}` : ''}</span>
-            <span style="font-size:9.5pt;">${esc(edu.start||'')}${edu.end ? ` – ${esc(edu.end)}` : ''}</span>
-          </div>
-        </div>`;
-      } else {
-        return `
-        <div class="edu-row" style="margin-bottom:6px;">
-          <div>
-            <div class="edu-inst">${esc(edu.institution)}</div>
-            <div class="edu-deg">${esc(edu.degree)}${edu.gpa ? ` · GPA: ${esc(edu.gpa)}` : ''}</div>
-            ${edu.location ? `<div class="exp-location">${esc(edu.location)}</div>` : ''}
-          </div>
-          <div class="edu-date">${esc(edu.start||'')}${edu.end ? ` – ${esc(edu.end)}` : ''}</div>
-        </div>`;
-      }
-    }).join('')}
+    <div class="section-title">Certifications</div>
+    ${r.certifications.map(c => `
+      <div style="margin-bottom:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span style="font-weight:700;">${esc(c.name)}</span>
+          <span style="font-size:9pt;opacity:0.7;">${esc(c.date || '')}</span>
+        </div>
+        <div style="font-size:9pt;opacity:0.75;">${esc(c.issuer || '')}${c.credential_id ? ' &middot; ID: ' + esc(c.credential_id) : ''}${c.url ? ' &middot; <a href="' + esc(c.url) + '" style="color:inherit;">View</a>' : ''}</div>
+      </div>
+    `).join('')}
   </section>` : ''}
 
-  ${r.languages && r.languages.length > 0 ? `
+  ${r.achievements && r.achievements.length > 0 ? `
   <section>
-    <div class="section-title">${esc(h.languages||'Languages')}</div>
-    <div class="lang-row">
-      ${r.languages.map(lang => `
-        <span class="lang-item">${esc(lang.name)} <span class="lang-level">(${esc(lang.level||'')})</span></span>
-      `).join('')}
-    </div>
+    <div class="section-title">Achievements</div>
+    ${r.achievements.map(a => `
+      <div style="margin-bottom:6px;">
+        <div style="font-weight:700;font-size:9.5pt;">${esc(a.title || '')}</div>
+        ${a.description ? `<div style="font-size:9pt;opacity:0.8;margin-top:2px;">${esc(a.description)}</div>` : ''}
+      </div>
+    `).join('')}
   </section>` : ''}
 
 </div>
 </body>
 </html>`;
-    }
+        }
 
-    // ============================================================
-    //   AI TAILOR
-    // ============================================================
+        // ============================================================
+        //   AI MODE TOGGLE HELPERS
+        // ============================================================
 
-    function resumeToText(r) {
-        const lines = [];
-        if (r.name) lines.push(r.name);
-        if (r.title) lines.push(r.title);
-        const contact = [r.email, r.phone_display, r.location, r.linkedin_url, r.github_url, r.website_url].filter(Boolean).join(' | ');
-        if (contact) lines.push(contact);
-        if (r.summary) lines.push('', 'SUMMARY', r.summary);
-        if (r.skills && r.skills.length) {
-            lines.push('', 'SKILLS');
-            r.skills.forEach(g => lines.push(`${g.group}: ${(g.items || []).join(', ')}`));
-        }
-        if (r.experience && r.experience.length) {
-            lines.push('', 'WORK EXPERIENCE');
-            r.experience.forEach(e => {
-                lines.push(`${e.role || ''} — ${e.company || ''} (${e.start || ''} – ${e.end || ''}) ${e.location || ''}`.trim());
-                (e.bullets || []).forEach(b => lines.push(`- ${b}`));
-            });
-        }
-        if (r.projects && r.projects.length) {
-            lines.push('', 'PROJECTS');
-            r.projects.forEach(p => {
-                lines.push(`${p.name || ''} (${p.tech || ''}) ${p.date || ''}`.trim());
-                (p.bullets || []).forEach(b => lines.push(`- ${b}`));
-            });
-        }
-        if (r.education && r.education.length) {
-            lines.push('', 'EDUCATION');
-            r.education.forEach(e => lines.push(`${e.degree || ''}, ${e.institution || ''} (${e.start || ''} – ${e.end || ''})${e.gpa ? ' GPA: ' + e.gpa : ''}`));
-        }
-        if (r.languages && r.languages.length) {
-            lines.push('', 'LANGUAGES', r.languages.map(l => `${l.name} (${l.level})`).join(', '));
-        }
-        return lines.join('\n');
-    }
+        const aiModeState = { ai: 'suggest', rc: 'suggest' };
 
-    function useCurrentResume() {
-        const text = resumeToText(resume);
-        if (!text.trim()) {
-            showToast('Nothing in the builder yet — fill some fields or paste your resume.', true);
-            return;
-        }
-        document.getElementById('ai-old-resume').value = text;
-        showToast('Loaded your current builder data.');
-    }
-
-    function loadScript(src) {
-        return new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = src;
-            s.onload = resolve;
-            s.onerror = () => reject(new Error('Failed to load ' + src));
-            document.head.appendChild(s);
-        });
-    }
-
-    async function handleResumeFile(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const ta = document.getElementById('ai-old-resume');
-        const name = file.name.toLowerCase();
-        try {
-            showToast('Reading ' + file.name + '…');
-            let text = '';
-            if (name.endsWith('.pdf')) {
-                if (!window.pdfjsLib) {
-                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
-                    pdfjsLib.GlobalWorkerOptions.workerSrc =
-                        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-                }
-                const buf = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-                const parts = [];
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const tc = await page.getTextContent();
-                    parts.push(tc.items.map(it => it.str).join(' '));
-                }
-                text = parts.join('\n');
-            } else if (name.endsWith('.docx')) {
-                if (!window.mammoth) {
-                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
-                }
-                const buf = await file.arrayBuffer();
-                const result = await mammoth.extractRawText({ arrayBuffer: buf });
-                text = result.value;
-            } else {
-                text = await file.text();
+        function setAiMode(prefix, mode, btn) {
+            aiModeState[prefix] = mode;
+            // Update active button styling
+            const toggle = document.getElementById('ai-mode-toggle-' + prefix);
+            if (toggle) {
+                toggle.querySelectorAll('.ai-mode-btn').forEach(b => b.classList.remove('active'));
             }
-            text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-            if (!text) throw new Error('No text found in the file — is it a scanned image?');
-            ta.value = text;
-            showToast('Resume text extracted from ' + file.name);
-        } catch (e) {
-            showToast(e.message || 'Could not read the file.', true);
-        }
-        event.target.value = '';
-    }
+            if (btn) btn.classList.add('active');
 
-    async function aiTailor() {
-        const oldResume = document.getElementById('ai-old-resume').value.trim();
-        const jd = document.getElementById('ai-jd').value.trim();
-        const optMode = document.getElementById('ai-opt-mode').value;
-        const customInst = document.getElementById('ai-custom-inst').value.trim();
-        const targetTmpl = resume.template || 'classic';
-        const errEl = document.getElementById('ai-error');
-        const errMsg = document.getElementById('ai-error-msg');
-        const btn = document.getElementById('ai-generate-btn');
-        const label = document.getElementById('ai-generate-label');
-
-        errEl.classList.add('hidden');
-        if (!oldResume || !jd) {
-            errMsg.textContent = 'Please fill in both your current resume and the job description.';
-            errEl.classList.remove('hidden');
-            return;
+            // Update action button label & icon
+            if (prefix === 'ai') {
+                const lbl = document.getElementById('ai-generate-label');
+                const btn2 = document.getElementById('ai-generate-btn');
+                if (lbl) lbl.textContent = mode === 'suggest' ? 'Analyze My Resume' : 'Generate ATS Resume';
+                if (btn2) btn2.querySelector('.material-icons-outlined').textContent = mode === 'suggest' ? 'search' : 'auto_awesome';
+            } else if (prefix === 'rc') {
+                const lbl = document.getElementById('ai-reopt-label');
+                const btn2 = document.getElementById('ai-reopt-btn');
+                if (lbl) lbl.textContent = mode === 'suggest' ? 'Analyze Keywords' : 'Re-optimize & Score My Resume';
+                if (btn2) btn2.querySelector('.material-icons-outlined').textContent = mode === 'suggest' ? 'search' : 'fact_check';
+            }
         }
 
-        btn.disabled = true;
-        label.textContent = 'Tailoring your resume… (15–30s)';
+        function getAiMode(prefix) {
+            return aiModeState[prefix] || 'suggest';
+        }
 
-        try {
-            const res = await fetch('/api/resume/ai-tailor', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    old_resume: oldResume, 
-                    job_description: jd,
-                    optimization_mode: optMode,
-                    custom_instructions: customInst,
-                    target_template: targetTmpl
-                })
+        // ============================================================
+        //   AI TAILOR
+        // ============================================================
+
+        function resumeToText(r) {
+            const lines = [];
+            if (r.name) lines.push(r.name);
+            if (r.title) lines.push(r.title);
+            const contact = [r.email, r.phone_display, r.location, r.linkedin_url, r.github_url, r.website_url].filter(Boolean).join(' | ');
+            if (contact) lines.push(contact);
+            if (r.summary) lines.push('', 'SUMMARY', r.summary);
+            if (r.skills && r.skills.length) {
+                lines.push('', 'SKILLS');
+                r.skills.forEach(g => lines.push(`${g.group}: ${(g.items || []).join(', ')}`));
+            }
+            if (r.experience && r.experience.length) {
+                lines.push('', 'WORK EXPERIENCE');
+                r.experience.forEach(e => {
+                    lines.push(`${e.role || ''} — ${e.company || ''} (${e.start || ''} – ${e.end || ''}) ${e.location || ''}`.trim());
+                    (e.bullets || []).forEach(b => lines.push(`- ${b}`));
+                });
+            }
+            if (r.projects && r.projects.length) {
+                lines.push('', 'PROJECTS');
+                r.projects.forEach(p => {
+                    lines.push(`${p.name || ''} (${p.tech || ''}) ${p.date || ''}`.trim());
+                    (p.bullets || []).forEach(b => lines.push(`- ${b}`));
+                });
+            }
+            if (r.education && r.education.length) {
+                lines.push('', 'EDUCATION');
+                r.education.forEach(e => lines.push(`${e.degree || ''}, ${e.institution || ''} (${e.start || ''} – ${e.end || ''})${e.gpa ? ' GPA: ' + e.gpa : ''}`));
+            }
+            if (r.certifications && r.certifications.length) {
+                lines.push('', 'CERTIFICATIONS');
+                r.certifications.forEach(c => lines.push(`${c.name || ''}, ${c.issuer || ''} (${c.date || ''})${c.credential_id ? ' ID: ' + c.credential_id : ''}`));
+            }
+            if (r.achievements && r.achievements.length) {
+                lines.push('', 'ACHIEVEMENTS');
+                r.achievements.forEach(a => {
+                    lines.push(a.title || '');
+                    if (a.description) lines.push(a.description);
+                });
+            }
+            return lines.join('\n');
+        }
+
+        function useCurrentResume() {
+            const text = resumeToText(resume);
+            if (!text.trim()) {
+                showToast('Nothing in the builder yet — fill some fields or paste your resume.', true);
+                return;
+            }
+            document.getElementById('ai-old-resume').value = text;
+            showToast('Loaded your current builder data.');
+        }
+
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = resolve;
+                s.onerror = () => reject(new Error('Failed to load ' + src));
+                document.head.appendChild(s);
             });
-            const data = await res.json();
-            if (data.status !== 'success') throw new Error(data.message || 'AI tailoring failed.');
-            applyAiResult(data);
-            showToast('ATS resume generated! Review it in the preview →');
-        } catch (e) {
-            errMsg.textContent = e.message || 'Something went wrong. Please try again.';
-            errEl.classList.remove('hidden');
-        } finally {
-            btn.disabled = false;
-            label.textContent = 'Generate ATS Resume';
-        }
-    }
-
-
-
-    // Keep the two JD textareas (AI Tailor + Re-check tabs) and storage in sync
-    function syncJd(value) {
-        localStorage.setItem('sb_resume_jd', value);
-        const a = document.getElementById('ai-jd');
-        const b = document.getElementById('rc-jd');
-        if (a && a.value !== value) a.value = value;
-        if (b && b.value !== value) b.value = value;
-    }
-
-    async function reoptimizeResume() {
-        const jd = (document.getElementById('rc-jd').value || document.getElementById('ai-jd').value).trim();
-        const customInst = document.getElementById('rc-custom-inst').value.trim();
-        const targetTmpl = resume.template || 'classic';
-        const errEl = document.getElementById('rc-error');
-        const errMsg = document.getElementById('rc-error-msg');
-        const btn = document.getElementById('ai-reopt-btn');
-        const label = document.getElementById('ai-reopt-label');
-
-        errEl.classList.add('hidden');
-        if (!jd) {
-            errMsg.textContent = 'Paste the target job description first.';
-            errEl.classList.remove('hidden');
-            return;
-        }
-        if (!resumeToText(resume).trim()) {
-            errMsg.textContent = 'Your resume is empty — generate or fill it in first.';
-            errEl.classList.remove('hidden');
-            return;
         }
 
-        btn.disabled = true;
-        label.textContent = 'Re-checking your resume… (15–30s)';
-
-        try {
-            const res = await fetch('/api/resume/ai-tailor', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    mode: 'reoptimize', 
-                    resume_json: resume, 
-                    job_description: jd,
-                    custom_instructions: customInst,
-                    target_template: targetTmpl
-                })
-            });
-            const data = await res.json();
-            if (data.status !== 'success') throw new Error(data.message || 'Re-optimization failed.');
-            applyAiResult(data, 'rc');
-            showToast('Resume re-optimized — your information was kept as written.');
-        } catch (e) {
-            errMsg.textContent = e.message || 'Something went wrong. Please try again.';
-            errEl.classList.remove('hidden');
-        } finally {
-            btn.disabled = false;
-            label.textContent = 'Re-optimize & Score My Resume';
-        }
-    }
-
-    function applyAiResult(data, prefix = 'ai') {
-        // Load returned resume into the editor (same guards as JSON import)
-        resume = { ...defaultResume, ...data.resume };
-        if (!resume.headings) resume.headings = { ...defaultResume.headings };
-        ['skills', 'experience', 'projects', 'education', 'languages'].forEach(k => {
-            if (!Array.isArray(resume[k])) resume[k] = [];
-        });
-        saveToStorage();
-        renderAllFields();
-        renderDynamicSections();
-        renderHeadings();
-        updatePreview();
-
-        // ATS score
-        const scoreEl = document.getElementById(prefix + '-score');
-        if (typeof data.ats_score === 'number') {
-            const c = data.ats_score >= 80 ? '#4ade80' : data.ats_score >= 60 ? '#fbbf24' : '#fb7185';
-            scoreEl.innerHTML =
-                '<span style="font-size:2.4rem;font-weight:800;color:' + c + ';">' + data.ats_score + '</span>' +
-                '<span style="opacity:0.65;font-size:1.05rem;margin-left:6px;">/ 100 ATS keyword match</span>';
-            scoreEl.classList.remove('hidden');
-        } else {
-            scoreEl.classList.add('hidden');
-        }
-
-        // Matched keywords
-        const kwWrap = document.getElementById(prefix + '-keywords');
-        kwWrap.innerHTML = '';
-        (data.keywords || []).forEach(k => {
-            const chip = document.createElement('span');
-            chip.className = 'ai-keyword-chip';
-            chip.textContent = k;
-            kwWrap.appendChild(chip);
-        });
-
-        // Missing keywords
-        const missWrap = document.getElementById(prefix + '-missing-wrap');
-        const missEl = document.getElementById(prefix + '-missing');
-        missEl.innerHTML = '';
-        const missing = data.missing_keywords || [];
-        if (missing.length) {
-            missing.forEach(k => {
-                const chip = document.createElement('span');
-                chip.className = 'ai-keyword-chip missing';
-                chip.textContent = k;
-                missEl.appendChild(chip);
-            });
-            missWrap.classList.remove('hidden');
-        } else {
-            missWrap.classList.add('hidden');
-        }
-
-        // Tips
-        const tips = document.getElementById(prefix + '-tips');
-        tips.innerHTML = '';
-        (data.ats_tips || []).forEach(t => {
-            const li = document.createElement('li');
-            li.textContent = t;
-            tips.appendChild(li);
-        });
-        document.getElementById(prefix + '-results').classList.remove('hidden');
-    }
-
-    // ============================================================
-    //   IMPORT / EXPORT
-    // ============================================================
-
-    function importJson() {
-        document.getElementById('json-file-input').click();
-    }
-
-    function handleJsonImport(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function () {
+        async function handleResumeFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const ta = document.getElementById('ai-old-resume');
+            const name = file.name.toLowerCase();
             try {
-                const data = JSON.parse(reader.result);
-                resume = { ...defaultResume, ...data };
-                if (!resume.headings) resume.headings = { ...defaultResume.headings };
+                showToast('Reading ' + file.name + '…');
+                let text = '';
+                if (name.endsWith('.pdf')) {
+                    if (!window.pdfjsLib) {
+                        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+                        pdfjsLib.GlobalWorkerOptions.workerSrc =
+                            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                    }
+                    const buf = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+                    const parts = [];
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const tc = await page.getTextContent();
+                        parts.push(tc.items.map(it => it.str).join(' '));
+                    }
+                    text = parts.join('\n');
+                } else if (name.endsWith('.docx')) {
+                    if (!window.mammoth) {
+                        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+                    }
+                    const buf = await file.arrayBuffer();
+                    const result = await mammoth.extractRawText({ arrayBuffer: buf });
+                    text = result.value;
+                } else {
+                    text = await file.text();
+                }
+                text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+                if (!text) throw new Error('No text found in the file — is it a scanned image?');
+                ta.value = text;
+                showToast('Resume text extracted from ' + file.name);
+            } catch (e) {
+                showToast(e.message || 'Could not read the file.', true);
+            }
+            event.target.value = '';
+        }
+
+        async function aiTailor() {
+            const oldResume = document.getElementById('ai-old-resume').value.trim();
+            const jd = document.getElementById('ai-jd').value.trim();
+            const aiMode = getAiMode('ai');
+            const targetTmpl = resume.template || 'classic';
+            const errEl = document.getElementById('ai-error');
+            const errMsg = document.getElementById('ai-error-msg');
+            const btn = document.getElementById('ai-generate-btn');
+            const label = document.getElementById('ai-generate-label');
+
+            errEl.classList.add('hidden');
+            if (!oldResume || !jd) {
+                errMsg.textContent = 'Please fill in both your current resume and the job description.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            label.textContent = aiMode === 'suggest' ? 'Analyzing keywords… (10–20s)' : 'Tailoring your resume… (15–30s)';
+
+            try {
+                const payload = aiMode === 'suggest'
+                    ? { mode: 'suggest_only', old_resume: oldResume, job_description: jd }
+                    : { old_resume: oldResume, job_description: jd, target_template: targetTmpl };
+
+                const res = await fetch('/api/resume/ai-tailor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status !== 'success') throw new Error(data.message || 'AI analysis failed.');
+                applyAiResult(data, 'ai', aiMode !== 'suggest');
+                showToast(aiMode === 'suggest'
+                    ? 'Keyword analysis complete! See suggestions below ↓'
+                    : 'ATS resume generated! Review it in the preview →');
+            } catch (e) {
+                errMsg.textContent = e.message || 'Something went wrong. Please try again.';
+                errEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                label.textContent = aiMode === 'suggest' ? 'Analyze My Resume' : 'Generate ATS Resume';
+            }
+        }
+
+
+
+        // Keep the two JD textareas (AI Tailor + Re-check tabs) and storage in sync
+        function syncJd(value) {
+            localStorage.setItem('sb_resume_jd', value);
+            const a = document.getElementById('ai-jd');
+            const b = document.getElementById('rc-jd');
+            if (a && a.value !== value) a.value = value;
+            if (b && b.value !== value) b.value = value;
+        }
+
+        async function reoptimizeResume() {
+            const jd = (document.getElementById('rc-jd').value || document.getElementById('ai-jd').value).trim();
+            const aiMode = getAiMode('rc');
+            const targetTmpl = resume.template || 'classic';
+            const errEl = document.getElementById('rc-error');
+            const errMsg = document.getElementById('rc-error-msg');
+            const btn = document.getElementById('ai-reopt-btn');
+            const label = document.getElementById('ai-reopt-label');
+
+            errEl.classList.add('hidden');
+            if (!jd) {
+                errMsg.textContent = 'Paste the target job description first.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+            if (!resumeToText(resume).trim()) {
+                errMsg.textContent = 'Your resume is empty — generate or fill it in first.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            label.textContent = aiMode === 'suggest' ? 'Analyzing keywords… (10–20s)' : 'Re-checking your resume… (15–30s)';
+
+            try {
+                const payload = aiMode === 'suggest'
+                    ? { mode: 'suggest_only', resume_json: resume, job_description: jd }
+                    : { mode: 'reoptimize', resume_json: resume, job_description: jd, target_template: targetTmpl };
+
+                const res = await fetch('/api/resume/ai-tailor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status !== 'success') throw new Error(data.message || 'Analysis failed.');
+                applyAiResult(data, 'rc', aiMode !== 'suggest');
+                showToast(aiMode === 'suggest'
+                    ? 'Keyword analysis complete! See suggestions below ↓'
+                    : 'Resume re-optimized — your information was kept as written.');
+            } catch (e) {
+                errMsg.textContent = e.message || 'Something went wrong. Please try again.';
+                errEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                label.textContent = aiMode === 'suggest' ? 'Analyze Keywords' : 'Re-optimize & Score My Resume';
+            }
+        }
+
+        function applyAiResult(data, prefix = 'ai', applyToEditor = true) {
+            // Only load the AI resume into the editor when Full AI Rewrite is selected
+            if (applyToEditor && data.resume && Object.keys(data.resume).length > 0) {
+                resume = { ...defaultResume, ...data.resume };
+                ['skills', 'experience', 'projects', 'education', 'certifications', 'achievements'].forEach(k => {
+                    if (!Array.isArray(resume[k])) resume[k] = [];
+                });
                 saveToStorage();
                 renderAllFields();
                 renderDynamicSections();
-                renderHeadings();
                 updatePreview();
-                showToast('Resume imported successfully!');
-            } catch (e) {
-                showToast('Invalid JSON file.', true);
             }
-        };
-        reader.readAsText(file);
-        event.target.value = '';
-    }
 
-    function exportJson() {
-        const blob = new Blob([JSON.stringify(resume, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `${(resume.name || 'resume').toLowerCase().replace(/\s+/g, '-')}-resume.json`;
-        a.click();
-        showToast('JSON exported!');
-    }
+            // ATS score
+            const scoreEl = document.getElementById(prefix + '-score');
+            if (typeof data.ats_score === 'number') {
+                const c = data.ats_score >= 80 ? '#4ade80' : data.ats_score >= 60 ? '#fbbf24' : '#fb7185';
+                scoreEl.innerHTML =
+                    '<span style="font-size:2.4rem;font-weight:800;color:' + c + ';">' + data.ats_score + '</span>' +
+                    '<span style="opacity:0.65;font-size:1.05rem;margin-left:6px;">/ 100 ATS keyword match</span>';
+                scoreEl.classList.remove('hidden');
+            } else {
+                scoreEl.classList.add('hidden');
+            }
 
-    function loadExample() {
-        resume = {
-            name: 'Rohan Sharma', title: 'Full Stack Developer',
-            email: 'rohan@example.com', location: 'Bengaluru, India',
-            phone_display: '+91 98765 43210', phone_e164: '+919876543210',
-            linkedin_url: 'https://linkedin.com/in/rohan-sharma',
-            github_url: 'https://github.com/rohan-sharma',
-            website_url: 'https://rohansharma.dev',
-            summary: 'Passionate full-stack developer with 3+ years of experience building scalable SaaS applications. Proficient in React, Node.js, and PostgreSQL. Quick learner with a knack for clean, maintainable code.',
-            skills: [
-                { group: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
-                { group: 'Backend', items: ['Node.js', 'Python', 'Flask', 'REST APIs'] },
-                { group: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis'] },
-                { group: 'DevOps', items: ['Docker', 'AWS', 'CI/CD', 'Git'] }
-            ],
-            experience: [
-                {
-                    company: 'TechStartup Pvt Ltd', role: 'Software Engineer',
-                    start: 'Jan 2023', end: 'Present', location: 'Bengaluru, India',
-                    bullets: ['Led development of a multi-tenant SaaS dashboard used by 5,000+ users', 'Reduced API response time by 40% through query optimisation and Redis caching', 'Mentored 2 junior developers and conducted weekly code reviews']
-                },
-                {
-                    company: 'Freelance', role: 'Web Developer',
-                    start: 'Jun 2021', end: 'Dec 2022', location: 'Remote',
-                    bullets: ['Built 15+ client websites using React and Next.js', 'Integrated payment gateways (Razorpay, Stripe) for e-commerce clients']
-                }
-            ],
-            projects: [
-                {
-                    name: 'Stack Resume Builder', tech: 'HTML, CSS, JavaScript, Flask',
-                    url: 'https://stackeducation.in/stackbuild/resume', date: '2024',
-                    bullets: ['Built an ATS-optimised resume builder with live preview and PDF export', 'Integrated Razorpay payment gate for monetisation']
-                }
-            ],
-            education: [
-                { institution: 'Visvesvaraya Technological University', degree: 'B.E. Computer Science', start: '2018', end: '2022', gpa: '8.7 / 10', location: 'Bengaluru, India' }
-            ],
-            languages: [{ name: 'English', level: 'Fluent' }, { name: 'Hindi', level: 'Native' }, { name: 'Kannada', level: 'Conversational' }],
-            headings: { summary: 'Summary', skills: 'Skills', experience: 'Work Experience', projects: 'Projects', education: 'Education', languages: 'Languages' }
-        };
-        saveToStorage();
-        renderAllFields();
-        renderDynamicSections();
-        renderHeadings();
-        updatePreview();
-        showToast('Example loaded!');
-    }
+            // Matched keywords
+            const kwWrap = document.getElementById(prefix + '-keywords');
+            kwWrap.innerHTML = '';
+            (data.keywords || []).forEach(k => {
+                const chip = document.createElement('span');
+                chip.className = 'ai-keyword-chip';
+                chip.textContent = k;
+                kwWrap.appendChild(chip);
+            });
 
-    // ============================================================
-    //   PDF EXPORT
-    // ============================================================
+            // Missing keywords
+            const missWrap = document.getElementById(prefix + '-missing-wrap');
+            const missEl = document.getElementById(prefix + '-missing');
+            missEl.innerHTML = '';
+            const missing = data.missing_keywords || [];
+            if (missing.length) {
+                missing.forEach(k => {
+                    const chip = document.createElement('span');
+                    chip.className = 'ai-keyword-chip missing';
+                    chip.textContent = k;
+                    missEl.appendChild(chip);
+                });
+                missWrap.classList.remove('hidden');
+            } else {
+                missWrap.classList.add('hidden');
+            }
 
-    function exportPdf() {
-        const html = generateResumeHtml(resume);
-        const printWindow = window.open('', '_blank', 'width=800,height=1000');
-        if (!printWindow) {
-            showToast('Popup blocked — please allow popups to export PDF.', true);
-            return;
+            // Tips
+            const tips = document.getElementById(prefix + '-tips');
+            tips.innerHTML = '';
+            (data.ats_tips || []).forEach(t => {
+                const li = document.createElement('li');
+                li.textContent = t;
+                tips.appendChild(li);
+            });
+            document.getElementById(prefix + '-results').classList.remove('hidden');
         }
-        printWindow.document.write(html);
-        printWindow.document.close();
-        printWindow.onload = function () {
-            printWindow.print();
-        };
-        showToast('Opening print dialog for PDF…');
-    }
 
-    // ============================================================
-    //   CLEAR ALL
-    // ============================================================
+        // ============================================================
+        //   IMPORT / EXPORT
+        // ============================================================
 
-    function confirmClear() {
-        document.getElementById('clear-modal').classList.remove('hidden');
-    }
-
-    function closeClearModal() {
-        document.getElementById('clear-modal').classList.add('hidden');
-    }
-
-    function clearAll() {
-        resume = JSON.parse(JSON.stringify(defaultResume));
-        saveToStorage();
-        renderAllFields();
-        renderDynamicSections();
-        renderHeadings();
-        updatePreview();
-        closeClearModal();
-        showToast('All data cleared.');
-    }
-
-    // ============================================================
-    //   TOAST
-    // ============================================================
-
-    function showToast(msg, isError = false) {
-        const toast = document.getElementById('toast');
-        const toastMsg = document.getElementById('toast-msg');
-        const toastIcon = toast.querySelector('.toast-icon');
-        toastMsg.textContent = msg;
-        toastIcon.textContent = isError ? 'error' : 'check_circle';
-        toast.style.borderColor = isError ? 'rgba(244,63,94,0.4)' : 'rgba(139,92,246,0.4)';
-        toast.classList.remove('hidden');
-        setTimeout(() => toast.classList.add('hidden'), 3000);
-    }
-
-    // ============================================================
-    //   MOBILE EDITOR MENU
-    // ============================================================
-
-    function toggleEditorMenu() {
-        const toolbar = document.getElementById('editor-mobile-toolbar');
-        toolbar.classList.toggle('hidden');
-    }
-
-    // Navbar removed — no scroll/hamburger listeners needed
-
-    // ============================================================
-    //   CUSTOM DROPDOWN HANDLERS
-    // ============================================================
-
-    function toggleCustomDropdown(id) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        
-        // Close other dropdowns first
-        document.querySelectorAll('.custom-dropdown').forEach(item => {
-            if (item.id !== id) item.classList.remove('open');
-        });
-        
-        el.classList.toggle('open');
-    }
-
-    function selectCustomOption(dropdownId, selectId, value, labelText) {
-        const dropdown = document.getElementById(dropdownId);
-        if (!dropdown) return;
-        
-        // Update trigger text
-        dropdown.querySelector('.trigger-text').textContent = labelText;
-        
-        // Update active class on options
-        dropdown.querySelectorAll('.custom-dropdown-option').forEach(opt => {
-            opt.classList.toggle('active', opt.getAttribute('data-value') === value);
-        });
-        
-        // Close dropdown
-        dropdown.classList.remove('open');
-        
-        // Update hidden select and trigger change
-        const realSelect = document.getElementById(selectId);
-        if (realSelect) {
-            realSelect.value = value;
-            realSelect.dispatchEvent(new Event('change'));
+        function importJson() {
+            document.getElementById('json-file-input').click();
         }
-    }
 
-    function syncAllCustomDropdowns() {
-        const pairs = [
-            { dropdownId: 'custom-template-selector', selectId: 'template-selector' },
-            { dropdownId: 'custom-font-selector', selectId: 'font-selector' },
-            { dropdownId: 'custom-ai-opt-mode', selectId: 'ai-opt-mode' }
-        ];
-        
-        pairs.forEach(pair => {
-            const dropdown = document.getElementById(pair.dropdownId);
-            const select = document.getElementById(pair.selectId);
-            if (dropdown && select) {
-                const activeOption = select.options[select.selectedIndex];
-                if (activeOption) {
-                    dropdown.querySelector('.trigger-text').textContent = activeOption.textContent;
-                    dropdown.querySelectorAll('.custom-dropdown-option').forEach(opt => {
-                        opt.classList.toggle('active', opt.getAttribute('data-value') === select.value);
-                    });
+        function handleJsonImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function () {
+                try {
+                    const data = JSON.parse(reader.result);
+                    resume = { ...defaultResume, ...data };
+                    saveToStorage();
+                    renderAllFields();
+                    renderDynamicSections();
+                    updatePreview();
+                    showToast('Resume imported successfully!');
+                } catch (e) {
+                    showToast('Invalid JSON file.', true);
                 }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function exportJson() {
+            const blob = new Blob([JSON.stringify(resume, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${(resume.name || 'resume').toLowerCase().replace(/\s+/g, '-')}-resume.json`;
+            a.click();
+            showToast('JSON exported!');
+        }
+
+        function loadExample() {
+            resume = {
+                name: 'Rohan Sharma', title: 'Full Stack Developer',
+                email: 'rohan@example.com', location: 'Bengaluru, India',
+                phone_display: '+91 98765 43210', phone_e164: '+919876543210',
+                linkedin_url: 'https://linkedin.com/in/rohan-sharma',
+                github_url: 'https://github.com/rohan-sharma',
+                website_url: 'https://rohansharma.dev',
+                summary: 'Passionate full-stack developer with 3+ years of experience building scalable SaaS applications. Proficient in React, Node.js, and PostgreSQL. Quick learner with a knack for clean, maintainable code.',
+                skills: [
+                    { group: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
+                    { group: 'Backend', items: ['Node.js', 'Python', 'Flask', 'REST APIs'] },
+                    { group: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis'] },
+                    { group: 'DevOps', items: ['Docker', 'AWS', 'CI/CD', 'Git'] }
+                ],
+                experience: [
+                    {
+                        company: 'TechStartup Pvt Ltd', role: 'Software Engineer',
+                        start: 'Jan 2023', end: 'Present', location: 'Bengaluru, India',
+                        bullets: ['Led development of a multi-tenant SaaS dashboard used by 5,000+ users', 'Reduced API response time by 40% through query optimisation and Redis caching', 'Mentored 2 junior developers and conducted weekly code reviews']
+                    },
+                    {
+                        company: 'Freelance', role: 'Web Developer',
+                        start: 'Jun 2021', end: 'Dec 2022', location: 'Remote',
+                        bullets: ['Built 15+ client websites using React and Next.js', 'Integrated payment gateways (Razorpay, Stripe) for e-commerce clients']
+                    }
+                ],
+                projects: [
+                    {
+                        name: 'Stack Resume Builder', tech: 'HTML, CSS, JavaScript, Flask',
+                        url: 'https://stackeducation.in/stackbuild/resume', date: '2024',
+                        bullets: ['Built an ATS-optimised resume builder with live preview and PDF export', 'Integrated Razorpay payment gate for monetisation']
+                    }
+                ],
+                education: [
+                    { institution: 'Visvesvaraya Technological University', degree: 'B.E. Computer Science', start: '2018', end: '2022', gpa: '8.7 / 10', location: 'Bengaluru, India' }
+                ],
+                certifications: [
+                    { name: 'AWS Certified Solutions Architect', issuer: 'Amazon Web Services', date: '2023', credential_id: 'AWS-123', url: 'https://aws.amazon.com' }
+                ],
+                achievements: [
+                    { title: 'Winner — National Hackathon 2024', description: 'Won first place among 150 teams for developing a decentralized web application.' }
+                ]
+            };
+            saveToStorage();
+            renderAllFields();
+            renderDynamicSections();
+            updatePreview();
+            showToast('Example loaded!');
+        }
+
+        // ============================================================
+        //   PDF EXPORT
+        // ============================================================
+
+        function exportPdf() {
+            const html = generateResumeHtml(resume);
+            const printWindow = window.open('', '_blank', 'width=800,height=1000');
+            if (!printWindow) {
+                showToast('Popup blocked — please allow popups to export PDF.', true);
+                return;
+            }
+            printWindow.document.write(html);
+            printWindow.document.close();
+            printWindow.onload = function () {
+                printWindow.print();
+            };
+            showToast('Opening print dialog for PDF…');
+        }
+
+        // ============================================================
+        //   CLEAR ALL
+        // ============================================================
+
+        function confirmClear() {
+            document.getElementById('clear-modal').classList.remove('hidden');
+        }
+
+        function closeClearModal() {
+            document.getElementById('clear-modal').classList.add('hidden');
+        }
+
+        function clearAll() {
+            resume = JSON.parse(JSON.stringify(defaultResume));
+            saveToStorage();
+            renderAllFields();
+            renderDynamicSections();
+            updatePreview();
+            closeClearModal();
+            showToast('All data cleared.');
+        }
+
+        // ============================================================
+        //   TOAST
+        // ============================================================
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = toast.querySelector('.toast-icon');
+            toastMsg.textContent = msg;
+            toastIcon.textContent = isError ? 'error' : 'check_circle';
+            toast.style.borderColor = isError ? 'rgba(244,63,94,0.4)' : 'rgba(139,92,246,0.4)';
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        // ============================================================
+        //   MOBILE EDITOR MENU
+        // ============================================================
+
+        function toggleEditorMenu() {
+            const toolbar = document.getElementById('editor-mobile-toolbar');
+            toolbar.classList.toggle('hidden');
+        }
+
+        // Navbar removed — no scroll/hamburger listeners needed
+
+        // ============================================================
+        //   CUSTOM DROPDOWN HANDLERS
+        // ============================================================
+
+        function toggleCustomDropdown(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            // Close other dropdowns first
+            document.querySelectorAll('.custom-dropdown').forEach(item => {
+                if (item.id !== id) item.classList.remove('open');
+            });
+
+            el.classList.toggle('open');
+        }
+
+        function selectCustomOption(dropdownId, selectId, value, labelText) {
+            const dropdown = document.getElementById(dropdownId);
+            if (!dropdown) return;
+
+            // Update trigger text
+            dropdown.querySelector('.trigger-text').textContent = labelText;
+
+            // Update active class on options
+            dropdown.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+                opt.classList.toggle('active', opt.getAttribute('data-value') === value);
+            });
+
+            // Close dropdown
+            dropdown.classList.remove('open');
+
+            // Update hidden select and trigger change
+            const realSelect = document.getElementById(selectId);
+            if (realSelect) {
+                realSelect.value = value;
+                realSelect.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function syncAllCustomDropdowns() {
+            const pairs = [
+                { dropdownId: 'custom-template-selector', selectId: 'template-selector' },
+                { dropdownId: 'custom-font-selector', selectId: 'font-selector' }
+            ];
+
+            pairs.forEach(pair => {
+                const dropdown = document.getElementById(pair.dropdownId);
+                const select = document.getElementById(pair.selectId);
+                if (dropdown && select) {
+                    const activeOption = select.options[select.selectedIndex];
+                    if (activeOption) {
+                        dropdown.querySelector('.trigger-text').textContent = activeOption.textContent;
+                        dropdown.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+                            opt.classList.toggle('active', opt.getAttribute('data-value') === select.value);
+                        });
+                    }
+                }
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.custom-dropdown')) {
+                document.querySelectorAll('.custom-dropdown.open').forEach(el => el.classList.remove('open'));
             }
         });
-    }
 
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-dropdown')) {
-            document.querySelectorAll('.custom-dropdown.open').forEach(el => el.classList.remove('open'));
+        // ============================================================
+        //   UTILITY
+        // ============================================================
+
+        function esc(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
-    });
-
-    // ============================================================
-    //   UTILITY
-    // ============================================================
-
-    function esc(str) {
-        if (!str) return '';
-        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
     </script>
 
 </body>
+
 </html>
