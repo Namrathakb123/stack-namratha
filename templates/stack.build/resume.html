@@ -791,7 +791,6 @@
                             <select id="template-selector" onchange="changeTemplate(this.value)"
                                 style="display:none !important;">
                                 <option value="classic">Classic</option>
-                                <option value="classic_left">Classic Left</option>
                                 <option value="modern" selected>Modern</option>
                                 <option value="executive">Executive</option>
                             </select>
@@ -805,9 +804,6 @@
                                     <div class="custom-dropdown-option" data-value="classic"
                                         onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic', 'Classic')">
                                         Classic</div>
-                                    <div class="custom-dropdown-option" data-value="classic_left"
-                                        onclick="selectCustomOption('custom-template-selector', 'template-selector', 'classic_left', 'Classic Left')">
-                                        Classic Left</div>
                                     <div class="custom-dropdown-option active" data-value="modern"
                                         onclick="selectCustomOption('custom-template-selector', 'template-selector', 'modern', 'Modern')">
                                         Modern</div>
@@ -867,7 +863,7 @@
                             style="margin-left:0; flex-shrink:0; white-space:nowrap; padding: 2px 6px; font-size: 0.65rem;">A4</span>
                     </div>
                 </div>
-                <iframe id="preview-frame" title="Resume Preview" sandbox="allow-same-origin"
+                <iframe id="preview-frame" title="Resume Preview" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-scripts"
                     class="preview-iframe"></iframe>
             </div>
         </div>
@@ -1682,9 +1678,9 @@
             const template = r.template || 'classic';
             const font = r.font || 'default';
             const links = [];
-            if (r.linkedin_url) links.push(`<a href="${esc(r.linkedin_url)}">${esc(r.linkedin_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
-            if (r.github_url) links.push(`<a href="${esc(r.github_url)}">${esc(r.github_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
-            if (r.website_url) links.push(`<a href="${esc(r.website_url)}">${esc(r.website_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
+            if (r.linkedin_url) links.push(`<a href="${esc(r.linkedin_url)}" target="_blank">${esc(r.linkedin_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
+            if (r.github_url) links.push(`<a href="${esc(r.github_url)}" target="_blank">${esc(r.github_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
+            if (r.website_url) links.push(`<a href="${esc(r.website_url)}" target="_blank">${esc(r.website_url.replace(/^https?:\/\/(www\.)?/, ''))}</a>`);
 
             let fontCss = '';
             if (font === 'inter') {
@@ -1736,7 +1732,7 @@
     .contact-row a { color: #444; }
     .divider { border: none; border-top: 1px solid #111; margin: 8px 0 12px; }
     section { margin-bottom: 12px; }
-    .section-title { font-size: 10.5pt; font-weight: 700; text-transform: uppercase; text-align: center; letter-spacing: 0.1em; border-bottom: 1px solid #111; padding-bottom: 2px; margin-bottom: 8px; }
+    .section-title { font-size: 10.5pt; font-weight: 700; text-transform: uppercase; text-align: left; letter-spacing: 0.1em; border-bottom: 1px solid #111; padding-bottom: 2px; margin-bottom: 8px; }
     .exp-header { display: flex; justify-content: space-between; align-items: baseline; }
     .exp-company { font-weight: 700; font-size: 10pt; }
     .exp-role { font-style: italic; color: #222; }
@@ -1758,9 +1754,9 @@
     .lang-level { color: #555; font-style: italic; font-size: 9pt; }
   ` : template === 'classic_left' ? `
     body { font-family: 'Lora', 'Georgia', 'Times New Roman', serif; font-size: 10pt; color: #111; line-height: 1.45; }
-    h1 { font-size: 21pt; font-weight: 700; text-align: left; margin-bottom: 4px; letter-spacing: 0.5px; }
-    .subtitle { font-size: 10.5pt; text-align: left; font-style: italic; color: #444; margin-bottom: 8px; }
-    .contact-row { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 4px 12px; font-size: 9pt; color: #444; margin-bottom: 8px; }
+    h1 { font-size: 21pt; font-weight: 700; text-align: center; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .subtitle { font-size: 10.5pt; text-align: center; font-style: italic; color: #444; margin-bottom: 8px; }
+    .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; font-size: 9pt; color: #444; margin-bottom: 8px; }
     .contact-row a { color: #444; }
     .divider { border: none; border-top: 1px solid #111; margin: 8px 0 12px; }
     section { margin-bottom: 12px; }
@@ -1817,7 +1813,7 @@
     body { font-family: 'EB Garamond', 'Garamond', 'Georgia', serif; font-size: 11pt; color: #222; line-height: 1.35; }
     h1 { font-size: 24pt; font-weight: 600; color: #111; text-align: left; margin-bottom: 2px; letter-spacing: 0.5px; text-transform: uppercase; }
     .subtitle { font-size: 11.5pt; text-align: left; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-    .contact-row { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 4px 18px; font-size: 9.5pt; color: #444; margin-bottom: 8px; border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 4px 0; }
+    .contact-row { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 4px 18px; font-size: 9.5pt; color: #444; margin-bottom: 8px; padding: 0; }
     .contact-row a { color: #444; }
     .divider { display: none; }
     section { margin-bottom: 14px; }
@@ -1856,7 +1852,7 @@
     ${r.location ? `<span>${esc(r.location)}</span>` : ''}
     ${links.join('<span style="color:#bbb;">·</span>')}
   </div>
-  ${template !== 'executive' ? `<hr class="divider">` : ''}
+  ${template !== 'executive' && template !== 'classic' ? `<hr class="divider">` : ''}
 
   ${r.summary ? `
   <section>
@@ -1991,7 +1987,7 @@
           <span style="font-weight:700;">${esc(c.name)}</span>
           <span style="font-size:9pt;opacity:0.7;">${esc(c.date || '')}</span>
         </div>
-        <div style="font-size:9pt;opacity:0.75;">${esc(c.issuer || '')}${c.credential_id ? ' &middot; ID: ' + esc(c.credential_id) : ''}${c.url ? ' &middot; <a href="' + esc(c.url) + '" style="color:inherit;">View</a>' : ''}</div>
+        <div style="font-size:9pt;opacity:0.75;">${esc(c.issuer || '')}${c.credential_id ? ' &middot; ID: ' + esc(c.credential_id) : ''}${c.url ? ' &middot; <a href="' + esc(c.url) + '" target="_blank" style="color:inherit;">View</a>' : ''}</div>
       </div>
     `).join('')}
   </section>` : ''}
@@ -2129,12 +2125,26 @@
                     const buf = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
                     const parts = [];
+                    const linksFound = [];
                     for (let i = 1; i <= pdf.numPages; i++) {
                         const page = await pdf.getPage(i);
                         const tc = await page.getTextContent();
                         parts.push(tc.items.map(it => it.str).join(' '));
+                        
+                        try {
+                            const annots = await page.getAnnotations();
+                            annots.forEach(ann => {
+                                if (ann.subtype === 'Link' && ann.url) {
+                                    linksFound.push(ann.url);
+                                }
+                            });
+                        } catch (annotErr) {}
                     }
                     text = parts.join('\n');
+                    if (linksFound.length > 0) {
+                        const uniqueLinks = Array.from(new Set(linksFound));
+                        text += '\n\n[Links extracted from document:\n' + uniqueLinks.join('\n') + '\n]';
+                    }
                 } else if (name.endsWith('.docx')) {
                     if (!window.mammoth) {
                         await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
